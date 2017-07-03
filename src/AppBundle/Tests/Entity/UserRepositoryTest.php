@@ -50,10 +50,10 @@ class UserRepositoryTest extends WebTestCase
     }
 
     /**
-     * @param       $command
+     * @param       string $command
      * @param array $options
      *
-     * @return mixed
+     * @return null|integer
      */
     protected function runConsole($command, Array $options = [])
     {
