@@ -130,7 +130,7 @@ class Button
     /**
      * @return AbstractCommand
      */
-    public function getCommand(): AbstractCommand
+    public function getCommand()
     {
         return $this->command;
     }
