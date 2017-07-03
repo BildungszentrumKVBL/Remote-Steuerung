@@ -35,7 +35,7 @@ class LoadCommandsData extends AbstractFixture implements OrderedFixtureInterfac
      */
     public function load(ObjectManager $manager)
     {
-        $fixtures           = Yaml::parse(
+        $fixtures = Yaml::parse(
             file_get_contents(
                 $this->container->get('kernel')->locateResource('@AppBundle/Resources/data/fixtures/commands.yml')
             )

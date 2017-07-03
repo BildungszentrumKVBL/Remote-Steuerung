@@ -148,7 +148,7 @@ class CommandsHandler
      *
      * @param string $url
      *
-     * @return mixed
+     * @return string
      */
     private function doRequest(string $url)
     {
@@ -163,7 +163,7 @@ class CommandsHandler
     /**
      * Modifies the curl object by reference.
      *
-     * @param $curl
+     * @param resource $curl
      */
     private function modifyCurl(&$curl)
     {
