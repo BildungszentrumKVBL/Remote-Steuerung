@@ -19,7 +19,7 @@ class Log implements \JsonSerializable
     /**
      * Basic informational logs.
      */
-    const LEVEL_INFO    = 1;
+    const LEVEL_INFO = 1;
 
     /**
      * Logs that are tied to a command.
@@ -29,12 +29,12 @@ class Log implements \JsonSerializable
     /**
      * This level implies that the application logged something about itself.
      */
-    const LEVEL_SYSTEM  = 3;
+    const LEVEL_SYSTEM = 3;
 
     /**
      * General errorlogs.
      */
-    const LEVEL_ERROR   = 4;
+    const LEVEL_ERROR = 4;
 
     /**
      * This is the id that will be placed in the database after the persisting of this object.

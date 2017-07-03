@@ -88,7 +88,7 @@ class WebUntisHandler
      */
     public function login()
     {
-        $login  = [
+        $login = [
             'id'      => 4328942342,
             'method'  => 'authenticate',
             'params'  => [
@@ -166,7 +166,7 @@ class WebUntisHandler
             }
         }
         if ($roomId) {
-            $rooms   = $this->getRooms();
+            $rooms = $this->getRooms();
             $roomname = null;
             foreach ($rooms as $room) {
                 if ($room->id === $roomId) {
@@ -194,7 +194,7 @@ class WebUntisHandler
             return null;
         }
         $teacher = array_filter(
-            $teachers, function ($value) use ($username) {
+            $teachers, function($value) use ($username) {
             return ($value->name === $username && $value->active);
         }
         );
@@ -212,7 +212,7 @@ class WebUntisHandler
      */
     public function getTeachers()
     {
-        $request  = [
+        $request = [
             'id'      => 4328942341,
             'method'  => 'getTeachers',
             'params'  => [],
@@ -243,7 +243,7 @@ class WebUntisHandler
      */
     public function getTimetableForTeacher(int $id)
     {
-        $request  = [
+        $request = [
             'id'      => 4328942342,
             'method'  => 'getTimetable',
             'params'  => [
@@ -275,7 +275,7 @@ class WebUntisHandler
      */
     private function getRooms()
     {
-        $request  = [
+        $request = [
             'id'      => 4328942321,
             'method'  => 'getRooms',
             'params'  => [],
@@ -335,7 +335,7 @@ class WebUntisHandler
         $weekday   = (int) $datetime->format('w') + 1;
         $timeUnits = null;
         $schedule  = array_filter(
-            $this->getSchedules(), function ($value) use ($weekday, &$timeUnits) {
+            $this->getSchedules(), function($value) use ($weekday, &$timeUnits) {
             return ($value->day === $weekday);
         }
         );

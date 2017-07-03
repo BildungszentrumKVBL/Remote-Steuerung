@@ -200,7 +200,7 @@ class User extends BaseUser implements LdapUserInterface
     /**
      * Add LDAP-groups to the user.
      *
-     * @param array $ldapGroups
+     * @param string[] $ldapGroups
      *
      * @return $this
      */

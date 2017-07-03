@@ -88,7 +88,7 @@ class CreateAdminCommand extends ContainerAwareCommand
     {
         $emailQuestion = new Question('Bitte gib eine Email-Adresse an: ');
         $emailQuestion->setValidator(
-            function ($answer) {
+            function($answer) {
                 $violations = $this->getContainer()->get('validator')->validate($answer, [new Email()]);
 
                 if (count($violations) === 0) {
