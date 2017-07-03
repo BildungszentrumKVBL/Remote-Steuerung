@@ -1,0 +1,110 @@
+buttons:
+    # Zulu
+    - command: 'cmd_streamNotebook'
+      size: 'small'
+
+    - command: 'cmd_streamExternal'
+      size: 'small'
+
+    - command: 'cmd_freezeProjector'
+      size: 'small'
+
+    - command: 'cmd_blankProjector'
+      size: 'small'
+
+    - command: 'cmd_soundNotebook'
+      size: 'small'
+
+    - command: 'cmd_soundExternal'
+      size: 'small'
+
+    - command: 'cmd_quieter'
+      size: 'small'
+
+    - command: 'cmd_louder'
+      size: 'small'
+
+    - command: 'cmd_freezeVisualizer'
+      size: 'small'
+
+    - command: 'cmd_blankVisualizer'
+      size: 'small'
+
+    - command: 'cmd_shutdownVisualizer'
+      size: 'small'
+
+    - command: 'cmd_shutdownAll'
+      size: 'small'
+
+
+    # PowerPoint
+    - command: 'cmd_pp_blank'
+      size: 'big'
+
+    - command: 'cmd_pp_next'
+      size: 'small'
+
+    - command: 'cmd_pp_previous'
+      size: 'small'
+
+    - command: 'cmd_pp_first'
+      size: 'small'
+
+    - command: 'cmd_pp_last'
+      size: 'small'
+
+    - command: 'cmd_pp_slide_x'
+      size: 'big'
+
+    - command: 'cmd_pp_media'
+      size: 'small'
+
+    - command: 'cmd_pp_start'
+      size: 'small'
+
+    # Windows Media Player
+    - command: 'cmd_wmp_play'
+      size: 'big'
+
+    - command: 'cmd_wmp_previous'
+      size: 'small'
+
+    - command: 'cmd_wmp_next'
+      size: 'small'
+
+    - command: 'cmd_wmp_rewind'
+      size: 'small'
+
+    - command: 'cmd_wmp_forward'
+      size: 'small'
+
+    - command: 'cmd_wmp_mute'
+      size: 'small'
+
+    - command: 'cmd_wmp_fullscreen'
+      size: 'small'
+
+    # VLC
+    - command: 'cmd_vlc_play'
+      size: 'big'
+
+    - command: 'cmd_vlc_previous'
+      size: 'small'
+
+    - command: 'cmd_vlc_next'
+      size: 'small'
+
+    - command: 'cmd_vlc_rewind'
+      size: 'small'
+
+    - command: 'cmd_vlc_forward'
+      size: 'small'
+
+    - command: 'cmd_vlc_mute'
+      size: 'small'
+
+    - command: 'cmd_vlc_fullscreen'
+      size: 'small'
+
+    - command: 'cmd_vlc_time'
+      size: 'big'

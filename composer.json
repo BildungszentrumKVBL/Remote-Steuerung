@@ -1,0 +1,88 @@
+{
+    "name": "BildungszentrumKVBL/Remote-Steuerung",
+    "license": "CC-BY-NC-3.0",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Dominik Müller",
+            "email": "ashura@protonmail.ch",
+            "homepage": "https://aimei.ch/developers/Ashura",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "ashura@protonmail.ch",
+        "issues": "https://github.com/BildungszentrumKVBL/Remote-Steuerung/issues",
+        "wiki": "https://github.com/BildungszentrumKVBL/Remote-Steuerung/wiki",
+        "source": "https://github.com/BildungszentrumKVBL/Remote-Steuerung"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        },
+        "classmap": [
+            "app/AppKernel.php",
+            "app/AppCache.php"
+        ]
+    },
+    "require": {
+        "php": "~7.0",
+        "symfony/symfony": "2.8.*",
+        "doctrine/orm": "^2.5.6",
+        "doctrine/doctrine-bundle": "~1.6.7",
+        "symfony/swiftmailer-bundle": "~2.5.4",
+        "symfony/monolog-bundle": "~2.12",
+        "sensio/distribution-bundle": "~5.0",
+        "sensio/framework-extra-bundle": "^3.0.25",
+        "incenteev/composer-parameter-handler": "~2.1",
+        "symfony/assetic-bundle": "~2.8",
+        "doctrine/doctrine-fixtures-bundle": "~2.3",
+        "fr3d/ldap-bundle": "3.0",
+        "friendsofsymfony/user-bundle": "~2.0",
+        "friendsofsymfony/jsrouting-bundle": "~1.6",
+        "bcc/cron-manager-bundle": "~3.0",
+        "gos/web-socket-bundle": "^1.8",
+        "suncat/mobile-detect-bundle": "^1.0",
+        "fresh/firebase-cloud-messaging-bundle": "^0.1.0"
+    },
+    "require-dev": {
+        "sensio/generator-bundle": "~3.1",
+        "phpunit/phpunit": "^6.0",
+        "symfony/phpunit-bridge": "~2.7"
+    },
+    "prefer-stable": true,
+    "scripts": {
+        "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
+            "AppBundle\\Composer\\ScriptHandler::install"
+        ],
+        "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
+            "AppBundle\\Composer\\ScriptHandler::install"
+        ]
+    },
+    "config": {
+        "bin-dir": "bin",
+        "platform": {
+            "php": "7.0"
+        }
+    },
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-web-dir": "web",
+        "symfony-assets-install": "relative",
+        "incenteev-parameters": {
+            "file": "app/config/parameters.yml"
+        }
+    }
+}

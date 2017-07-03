@@ -1,0 +1,26 @@
+{
+  "name": "Remote-Steuerung 2.0",
+  "authors": [
+    "Dominik Müller <ashura@protonmail.ch>"
+  ],
+  "description": "Remote-Steuerung 2.0",
+  "main": "",
+  "moduleType": [],
+  "license": "CC-BY-NC-3.0",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/assets/vendor/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "bootstrap-material-design": "^0.5.10",
+    "bootstrap-sass": "^3.3.7",
+    "snackbarjs": "^1.1.0"
+  }
+}

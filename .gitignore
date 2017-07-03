@@ -1,0 +1,15 @@
+.idea/
+app/cache/*
+/app/bootstrap.php.cache
+/vendor/
+/app/config/application.yml
+/app/config/parameters.yml
+/bin/node_modules/*
+!/bin/node_modules/.gitkeep
+/app/logs/*
+/doc/html/
+/doc/latex/
+/doc/*.tmp
+.DS_Store
+Thumbs.db
+/.bu/*

@@ -1,0 +1,40 @@
+{% extends app.request.xmlHttpRequest
+? 'AppBundle::ajax-base.html.twig'
+: 'AppBundle::base.html.twig'%}
+
+{% block body %}
+    <div class="container">
+        <div class="panel panel-primary bootable boot-start status-api">
+            <div class="panel-heading">
+                <h3 class="panel-title">Gebäude auswählen</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" method="post" onsubmit="return false;">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="building_status" class="col-md-2 control-label">Gebäude</label>
+                            <div class="col-md-10">
+                                <select id="building_status" name="building" class="form-control select" required>
+                                    <option value=" ">Alle Gebäude</option>
+                                    {% for build in buildings %}
+                                        {% if building is defined and building == build %}
+                                            <option value="{{ build }}" selected>Gebäude {{ build }}</option>
+                                        {% else %}
+                                            <option value="{{ build }}">Gebäude {{ build }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button id="status_button" type="submit" name="senden" value="1" class="btn btn-primary form-submit pull-right">Anzeigen</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="status-container">
+
+        </div>
+    </div>
+{% endblock %}

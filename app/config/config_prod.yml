@@ -1,0 +1,43 @@
+imports:
+    - { resource: config.yml }
+
+#framework:
+#    validation:
+#        cache: validator.mapping.cache.apc
+#    serializer:
+#        cache: serializer.mapping.cache.apc
+
+#doctrine:
+#    orm:
+#        metadata_cache_driver: apc
+#        result_cache_driver: apc
+#        query_cache_driver: apc
+
+assetic:
+    use_controller: true
+
+monolog:
+    handlers:
+        main:
+            type:         stream
+            action_level: error
+            handler:      nested
+        nested:
+            type:  stream
+            path:  "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+        console:
+            type:  console
+        swift:
+            type: swift_mailer
+            from_email: "%application_sender_email%"
+            to_email: "%application_receiver_email%"
+            subject: 'Ein Fehler ist bei der Remote-Steuerung aufgetreten.'
+            level: error
+
+gos_web_socket:
+    server:
+        host: "%websocket_server%"
+    pushers:
+        wamp:
+            host: "%websocket_server%"

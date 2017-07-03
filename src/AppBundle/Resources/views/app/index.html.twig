@@ -1,0 +1,13 @@
+{% extends app.request.xmlHttpRequest
+? 'AppBundle::ajax-base.html.twig'
+: 'AppBundle::base.html.twig'%}
+
+{% block body %}
+    <div class="container">
+        <div class="well bootable boot-start">
+            <h1>Remote Steuerung kvBL</h1>
+            <p>Diese Applikation wurde für Sie durch das IT-Team von <span title="Bildungszentrum kvBL Liestal" data-toggle="tooltip">bzkvBL</span> zur Verfügung gestellt.</p>
+            <p>Wir hoffen dass Euch dies hilft den Unterricht effektiver zu gestalten.</p>
+        </div>
+    </div>
+{% endblock %}

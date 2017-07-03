@@ -1,0 +1,61 @@
+skinparam backgroundColor #FFF
+skinparam sequence {
+	ActorBackgroundColor #3F51B5
+	ActorBorderColor #3F51B5
+	ActorFontColor #000
+	ActorFontName Roboto
+	ActorFontSize 17
+
+	ArrowColor Black
+    ArrowThickness 2
+
+    GroupFontColor #000
+    GroupFontStyle plain
+    GroupFontName Roboto
+
+    GroupHeaderFontColor #fff
+    GroupBackgroundColor #3F51B5
+    GroupBorderColor #3F51B5
+    GroupHeaderFontName Roboto
+
+	LifeLineBorderColor #303F9F
+	LifeLineBackgroundColor #303F9F
+
+	ParticipantBorderColor #3F51B5
+	ParticipantBackgroundColor #3F51B5
+	ParticipantFontColor #FFF
+	ParticipantFontName Roboto
+	ParticipantFontSize 17
+
+	TitleFontSize 20
+	TitleFontName Roboto
+}
+
+skinparam usecase {
+	BackgroundColor #3F51B5
+	BorderColor #3F51B5
+
+	ActorBackgroundColor #3F51B5
+	ActorBorderColor #3F51B5
+	ActorFontColor #000
+	ActorFontName Roboto
+	ActorFontSize 17
+
+    ParticipantBorderColor #3F51B5
+    ParticipantBackgroundColor #3F51B5
+    ParticipantFontColor #FFF
+    ParticipantFontName Roboto
+    ParticipantFontSize 17
+}
+
+skinparam noteBorderColor #3F51B5
+skinparam noteBackgroundColor #9FA8DA
+skinparam noteFontColor #1A237E
+
+header
+
+<img:logo.png>
+
+endheader
+
+center footer Dieses Diagramm wurde im Rahmen der IPA von Dominik Müller 2017 erstellt.

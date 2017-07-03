@@ -1,0 +1,74 @@
+"use strict";
+
+console.log('WORKER: executing.');
+
+importScripts('https://www.gstatic.com/firebasejs/4.1.2/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/4.1.2/firebase-messaging.js');
+
+firebase.initializeApp({messagingSenderId: "{{ firebase_server_id }}"});
+const messaging = firebase.messaging();
+
+var version = '2.0 beta';
+
+var offlineFundamentals = [
+    {% for asset in assets %}
+    '{{ asset|raw }}'{% if not loop.last %},
+    {% endif %}
+    {% endfor %}
+];
+
+self.addEventListener("install", function (event) {
+    console.log('WORKER: install event in progress.');
+
+    event.waitUntil(caches.open(version + 'remotesteuerung')
+        .then(function (cache) {
+            return cache.addAll(offlineFundamentals);
+        }).then(function () {
+            console.log('WORKER: install completed');
+        })
+    );
+});
+
+self.addEventListener("fetch", function (event) {
+    console.log('WORKER: fetch event in progress.');
+});
+
+self.addEventListener("activate", function (event) {
+    console.log('WORKER: activate event in progress.');
+});
+
+messaging.setBackgroundMessageHandler(function(payload) {
+    const notificationTitle = 'Remote-Steuerung';
+    const notificationOptions = {
+        body: 'Hallo Dominik. Dein Unterricht findet im Zimmer A11 statt.',
+        {% image '@AppBundle/Resources/public/assets/android-chrome-192x192.png' %}
+        icon: '{{ asset_url|raw }}',
+        {% endimage %}
+        actions: [
+            {
+                'action': 'visit-action',
+                'title': '📱 Zimmer übernehmen'
+            }
+        ]
+    };
+
+    return self.registration.showNotification(notificationTitle,
+        notificationOptions);
+});
+
+self.addEventListener('notificationclick', function(event) {
+    if (!event.action) {
+        // Was a normal notification click
+        console.log('Notification Click.');
+        return;
+    }
+
+    switch (event.action) {
+        case 'visit-action':
+            clients.openWindow("{{ absolute_url(path('login_route'))|raw }}");
+            break;
+        default:
+            console.log(`Unknown action clicked: '${event.action}'`);
+            break;
+    }
+});

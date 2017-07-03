@@ -1,0 +1,13 @@
+{% extends app.request.xmlHttpRequest
+? 'AppBundle::ajax-base.html.twig'
+: 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="well bootable boot-start">
+            <h1><i class="material-icons" style="color: #d58512;">error</i> Error 403</h1>
+            <p>Sie haben keinen Zugriff auf diese Seite.</p>
+            <p>Kehren Sie zur <a href="{{ path('homepage') }}">Hauptseite</a> zurück.</p>
+        </div>
+    </div>
+{% endblock %}

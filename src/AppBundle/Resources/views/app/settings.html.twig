@@ -1,0 +1,54 @@
+{% extends app.request.xmlHttpRequest
+? 'AppBundle::ajax-base.html.twig'
+: 'AppBundle::base.html.twig'%}
+
+{% block body %}
+    <div class="container">
+        <div class="bootable boot-start well">
+            <form method="post">
+                <fieldset>
+                    <legend>Einstellungen</legend>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4" for="design">Design</label>
+                        <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
+                            <select id="design" class="form-control select" name="design" required>
+                                <option{{ app.user.settings.theme is constant('AppBundle\\Entity\\UserSettings::THEME_ORIGINAL') ? ' selected' : '' }}>{{ constant('AppBundle\\Entity\\UserSettings::THEME_ORIGINAL') }}</option>
+                                <option{{ app.user.settings.theme is constant('AppBundle\\Entity\\UserSettings::THEME_DARK') ? ' selected' : '' }}>{{ constant('AppBundle\\Entity\\UserSettings::THEME_DARK') }}</option>
+                                <option{{ app.user.settings.theme is constant('AppBundle\\Entity\\UserSettings::THEME_INDIGO') ? ' selected' : '' }}>{{ constant('AppBundle\\Entity\\UserSettings::THEME_INDIGO') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4" for="view">Standard-Steuerungsansicht</label>
+                        <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
+                            <select id="view" class="form-control select" name="view" required>
+                                {% for view in views %}
+                                    <option{{ view == activeView ? ' selected' : '' }}>{{ view }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="usePush">Push-Benachrichtigung</label>
+                        <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2 col-xs-12 col-xs-offset-0">
+                            <button class="btn btn-primary btn-block btn-raised" type="button" id="notificationsToggle" value="{% if app.user.settings.usePush %}on{% else %}off{% endif %}">
+                                {% if app.user.settings.usePush %}Deaktivieren{% else %}Aktivieren{% endif %}
+                            </button>
+                        </div>
+                    </div>
+                    {% if not is_device('iphone') %}
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="fullscreenToggle">Vollbild</label>
+                        <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2 col-xs-12 col-xs-offset-0">
+                            <button class="btn btn-primary btn-block btn-raised" type="button" id="fullscreenToggle">Wechseln</button>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <button type="submit" name="senden" value="1" class="btn btn-primary pull-right" onclick="app.unboot();">Speichern</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}

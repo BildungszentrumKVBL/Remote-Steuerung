@@ -1,0 +1,13 @@
+{% extends app.request.xmlHttpRequest
+? 'AppBundle::ajax-base.html.twig'
+: 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="well bootable boot-start">
+            <h1><i class="material-icons" style="color: #d58512;">error</i> Error 404</h1>
+            <p>Diese Seite "<i>{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}</i>" wurde nicht gefunden.</p>
+            <p>Kehren Sie zur <a href="{{ path('homepage') }}">Hauptseite</a> zurück.</p>
+        </div>
+    </div>
+{% endblock %}
