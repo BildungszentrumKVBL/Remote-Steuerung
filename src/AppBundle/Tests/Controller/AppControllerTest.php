@@ -59,35 +59,6 @@ class AppControllerTest extends AppTestCase
 
         $client->request('GET', '/controller');
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-
-        /*$this->login();
-
-        $this->employeeIt->request('GET', '/controller');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-
-        $client->request('GET', '/controller', array(), array(), array(
-                'HTTP_X-Requested-With' => 'XMLHttpRequest',
-            )
-        );
-        $ajaxSize = strlen($client->getResponse()->getContent());
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-
-        $this->assertTrue($normalSize > $ajaxSize);*/
-    }
-
-    /**
-     * Logs in itEmployee
-     */
-    private function login()
-    {
-        /*$session  = $this->employeeIt->getContainer()->get('session');
-        $firewall = 'main';
-        $token    = new UsernamePasswordToken('admin', null, $firewall, ['ROLE_IT']);
-        $session->set('_security_'.$firewall, serialize($token));
-        $session->save();
-
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $this->employeeIt->getCookieJar()->set($cookie);*/
     }
 
     /**

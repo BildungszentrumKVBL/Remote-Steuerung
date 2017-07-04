@@ -52,7 +52,7 @@ class TurnOffDevicesCommand extends ContainerAwareCommand
             $status = $commandHandler->getStatusOfZulu();
             $io->text(json_encode($status));
             $text .= sprintf("Raum %s\n", $zulu->getRoom());
-            //$text .= json_encode(CommandsHandler::statusToHumanReadable($status))."\n\n";
+            // Add this, when an intelligent method of implementing this function has been accepted. CommandsHandler::statusToHumanReadable($status);
             try {
                 if ($status['12'] !== true) {
                     $io->text(sprintf('Geräte im Raum "%s" abstellen.', $zulu->getRoom()));
