@@ -36,7 +36,7 @@ class LoadButtonsData extends AbstractFixture implements OrderedFixtureInterface
                 $this->container->get('kernel')->locateResource('@AppBundle/Resources/data/fixtures/buttons.yml')
             )
         );
-        $buttons  = $fixtures['buttons'];
+        $buttons = $fixtures['buttons'];
 
         foreach ($buttons as $button) {
             /** @var AbstractCommand $command */

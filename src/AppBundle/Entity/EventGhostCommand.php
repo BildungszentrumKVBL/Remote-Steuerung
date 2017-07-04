@@ -76,7 +76,7 @@ class EventGhostCommand extends AbstractCommand
      */
     public function getUri(): string
     {
-        return sprintf('/?%s&%s%s', $this->domain, $this->action,$this->formatAdditionalData());
+        return sprintf('/?%s&%s%s', $this->domain, $this->action, $this->formatAdditionalData());
     }
 
     /**
