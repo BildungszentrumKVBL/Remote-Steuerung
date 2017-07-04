@@ -38,8 +38,6 @@ class EventGhostCommand extends AbstractCommand
      * Additional Data for EventGhost commands.
      * It holds the name of the variables and a RegEx for validating the value.
      *
-     * \IPA
-     *
      * @ORM\Column(name="data_requirements", type="json_array", nullable=true)
      *
      * @var array $dataRequirements
@@ -48,8 +46,6 @@ class EventGhostCommand extends AbstractCommand
 
     /**
      * Additional data which will be needed for special EventGhost requests that requires parameters.
-     *
-     * \IPA
      *
      * @var array $additionalData
      */
@@ -80,8 +76,6 @@ class EventGhostCommand extends AbstractCommand
     }
 
     /**
-     * \IPA
-     *
      * @return string
      */
     public function getDomain(): string
@@ -90,8 +84,6 @@ class EventGhostCommand extends AbstractCommand
     }
 
     /**
-     * \IPA
-     *
      * @return mixed
      */
     public function getDataRequirements()
@@ -100,8 +92,6 @@ class EventGhostCommand extends AbstractCommand
     }
 
     /**
-     * \IPA
-     *
      * @param array $dataRequirements
      */
     public function setDataRequirements(array $dataRequirements)
@@ -112,8 +102,6 @@ class EventGhostCommand extends AbstractCommand
     /**
      * Sets the data that is needed for this command.
      *
-     * \IPA
-     *
      * @param array $data
      */
     public function setAdditionalData(array $data)
@@ -122,8 +110,6 @@ class EventGhostCommand extends AbstractCommand
     }
 
     /**
-     * \IPA
-     *
      * @return mixed
      */
     public function getAdditionalData()
@@ -134,14 +120,12 @@ class EventGhostCommand extends AbstractCommand
     /**
      * Formats and returns the additional data as an URL-ready string.
      *
-     * \IPA
-     *
      * @return string
      */
     private function formatAdditionalData(): string
     {
         $string = '';
-        if ($this->additionalData) {
+        if (!empty($this->additionalData)) {
             foreach ($this->additionalData as $key => $data) {
                 $string .= sprintf('&%s=%s', $key, $data);
             }

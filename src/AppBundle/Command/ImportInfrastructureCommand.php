@@ -176,11 +176,16 @@ class ImportInfrastructureCommand extends ContainerAwareCommand
      * Loads data by xml file.
      *
      * @param string $filename
+     *
+     * @throws \Exception
      */
     public function loadXml(string $filename)
     {
         $manager = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $xml = simplexml_load_string(file_get_contents($filename)) or die("Error: Cannot create object by xml.");
+        $xml = simplexml_load_string(file_get_contents($filename));
+        if (!$xml) {
+            throw new \Exception('Error: Cannot create object by xml.');
+        }
         foreach ($xml as $buildingName => $roomNames) {
             $building = new Building($buildingName);
             foreach ($roomNames as $roomName => $data) {

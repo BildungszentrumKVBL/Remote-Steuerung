@@ -164,6 +164,8 @@ var controller = {
             $form.children().remove();
             $(controller.requestingButton).click();
             $requirements.modal('hide');
+
+            return false;
         });
 
         $('#requirements').on('hidden.bs.modal', function () {

@@ -58,6 +58,8 @@ var observe = {
                     return false;
                 }
                 app.actions.UpdateController(data.status, container);
+
+                return false;
             }, 1200)
         },
         updateZulus: function (data) {
@@ -71,7 +73,7 @@ var observe = {
                 }
             }
             // Zulus that aren't listed anymore are not more occupied.
-            for (var i in observe.zulus) {
+            for (i in observe.zulus) {
                 if (typeof status[i] === 'undefined') {
                     status[i] = 'delete';
                 }
@@ -99,7 +101,7 @@ var observe = {
                         }
                     );
                 } else if (status[id] === 'delete') {
-                    var zulu = $('[data-zuluid=' + id + ']');
+                    zulu = $('[data-zuluid=' + id + ']');
                     zulu.removeClass('boot zulu');
                     delete observe.zulus[id];
                     setTimeout(function () {

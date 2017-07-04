@@ -122,7 +122,7 @@ class User extends BaseUser implements LdapUserInterface
      *
      * @return User
      */
-    static function createFromProperties(string $username, string $email, string $firstName, string $lastName): User
+    public static function createFromProperties(string $username, string $email, string $firstName, string $lastName): User
     {
         $self            = new self();
         $self->username  = $username;

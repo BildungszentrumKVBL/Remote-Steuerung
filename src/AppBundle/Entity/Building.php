@@ -121,7 +121,7 @@ class Building implements \JsonSerializable
     /**
      * @return string
      */
-    function jsonSerialize(): string
+    public function jsonSerialize(): string
     {
         return $this->name;
     }
