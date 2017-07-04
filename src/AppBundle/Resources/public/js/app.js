@@ -1,5 +1,16 @@
 /**
  * @author Dominik Müller (Ashura) ashura@aimei.ch
+ *
+ *
+ * Globals
+ *
+ * global: navigator
+ * global: controller
+ * global: observe
+ * global: Routing
+ * global: ServiceWorkerRegistration
+ * global: history
+ * global: screen
  */
 
 "use strict";
@@ -43,15 +54,21 @@ var app = {
             $('.link[href="/chooseRoom"]').trigger('click');
         },
         UpdateController: function (status, context) {
-            if (status === false) return;
-            if (typeof context === "undefined") context = "body";
+            if (status === false) {return;}
+
+            if (typeof context === "undefined") {context = "body";}
+
             for (var i in controller.commands) {
-                var commandId = controller.commands[i];
-                var $button   = $(context).find('[data-button=' + i + ']');
-                if (status[commandId]) {
-                    $button.addClass('btn-raised');
+                if (controller.commands.hasOwnProperty(i)) {
+                    var commandId = controller.commands[i];
+                    var $button   = $(context).find('[data-button=' + i + ']');
+                    if (status[commandId]) {
+                        $button.addClass('btn-raised');
+                    } else {
+                        $button.removeClass('btn-raised');
+                    }
                 } else {
-                    $button.removeClass('btn-raised');
+                    console.error('Can not update controller! Commands are not loaded properly.');
                 }
             }
         },
@@ -99,6 +116,7 @@ var app = {
 
             window.addEventListener('test', null, options);
         } catch (e) {
+            // The default value is already `false`.
         }
 
         app.boot();
@@ -146,10 +164,10 @@ var app = {
 
         app.messaging.requestPermission()
             .then(function () {
-                console.log('Notification permission granted.');
+                console.info('Notification permission granted.');
             })
             .catch(function (err) {
-                console.log('Unable to get permission to notify.', err);
+                console.warn('Unable to get permission to notify.', err);
             });
 
         app.messaging.getToken()
@@ -178,11 +196,11 @@ var app = {
                         }
                     );
                 } else {
-                    console.log('No Instance ID token available. Request permission to generate one.');
+                    console.info('No Instance ID token available. Request permission to generate one.');
                 }
             })
             .catch(function (err) {
-                console.log('An error occurred while retrieving token. ', err);
+                console.info('An error occurred while retrieving token. ', err);
             });
     },
 
