@@ -21,7 +21,7 @@ parameters:
 
     eventghost_port:     8264
     eventghost_username: Remotesteuerung
-    eventghost_password: ~
+    eventghost_password: ''
 
     ldap_host: server.fully.qualified.domain.name
     ldap_username: user@fully.qualified.domain.name
