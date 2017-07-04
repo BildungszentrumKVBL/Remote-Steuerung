@@ -39,7 +39,7 @@ class View implements \Serializable, \JsonSerializable
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Button", mappedBy="view")
      *
-     * @var Button $buttons
+     * @var Collection $buttons
      */
     private $buttons;
 

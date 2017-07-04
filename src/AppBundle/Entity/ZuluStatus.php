@@ -40,7 +40,7 @@ class ZuluStatus
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ZuluCommandStatus", mappedBy="zuluStatus", cascade={"all"})
      *
-     * @var ZuluCommandStatus $commandStatuses
+     * @var Collection $commandStatuses
      */
     private $commandStatuses;
 

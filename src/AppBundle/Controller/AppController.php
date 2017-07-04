@@ -340,7 +340,9 @@ class AppController extends Controller
         $status     = $commandHandler->getStatusOfZulu();
         $event      = new CommandEvent();
         $event->setStatus($status);
-        $event->setUser($this->getUser());
+        /** @var User $user */
+        $user = $this->getUser();
+        $event->setUser($user);
         $event->setCommand($command);
         $dispatcher->dispatch('app.command_event', $event);
 

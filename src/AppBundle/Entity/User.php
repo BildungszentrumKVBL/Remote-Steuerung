@@ -59,9 +59,9 @@ class User extends BaseUser implements LdapUserInterface
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      *
-     * @var array $groups
+     * @var Collection $groups
      */
-    protected $groups = array();
+    protected $groups;
 
     /**
      * The firstname of the user. Which is stored in the AD.
