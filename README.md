@@ -1,21 +1,20 @@
-Remote-Steuerung
-================
+# Remote-Steuerung [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BildungszentrumKVBL/Remote-Steuerung/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BildungszentrumKVBL/Remote-Steuerung/?branch=master)
 
 Classrooms and computer controlling software by the Bildungszentrum kvBL in Liestal Switzerland. 
 
 
-# Features
+## Features
 
-## Observation in Real-Time
+### Observation in Real-Time
 
 ![Observing](./doc/gif/demo.gif)
 
-## Easy switching between views
+### Easy switching between views
 
 ![Switching Views](./doc/gif/switch-view.gif)
 
 
-# Installation
+## Installation
 
 1. Prepare a webserver for the application.
 2. Depending on your network infrastructure, it also can be multi-homed. (Make sure to add routes if needed.)
@@ -50,11 +49,11 @@ Classrooms and computer controlling software by the Bildungszentrum kvBL in Lies
 15. Import your infrastructure. `php app/console app:import:infrastructure `
 
 
-# Creating an infrastructure-file
+## Creating an infrastructure-file
 
 You can use either YAML, CSV or XML.
 
-## YAML
+### YAML
 
 YAML is a tree-like structure, but very picky about spacing. So please keep them consistent.
 
@@ -74,7 +73,7 @@ YAML is a tree-like structure, but very picky about spacing. So please keep them
 ...
 ```
 
-## CSV
+### CSV
 
 Please make sure to label the parts in the CSV. And also keep the right order!
 The CSV has to be separated with semicolons (;).
@@ -98,7 +97,7 @@ Room1;IP.Of.This.MicroController
 AnotherARoom;IP.Of.This.MicroController
 ```
 
-## XML
+### XML
 
 Keep in mind that a header is required for the XML data. Also, there is a limitation that does not allow rooms and buildings to contain spaces.
 
@@ -126,33 +125,33 @@ Keep in mind that a header is required for the XML data. Also, there is a limita
 ```
 
 
-# Backup/Restore
+## Backup/Restore
 
 Backing up the application is important, once you get it running like you want it.
 Be aware, that a restore of the data will erase the data, that is not backed up.
 
-## Backup
+### Backup
 
 To backup your configuration and database, run the: `php backup`-command.
 It will backup your `application.yml`, `parameters.yml` and your database into the `.bu`-folder.
 The backup also remembers what version you where using.
 
 
-## Restore
+### Restore
 
 If you every have to restore one of your backup, your can use the: `php restore`-command.
 It is recommended, to just look for the missing information in the `.bu`-folder, instead of running this command.
 
 
 
-# License
+## License
 
 CC-BY-NC-3.0
 
 [Attribution-NonCommercial 3.0 Unported](https://creativecommons.org/licenses/by-nc/3.0/legalcode)
 
 
-# FAQ & Support
+## FAQ & Support
 
 Q: I found a bug.
 
