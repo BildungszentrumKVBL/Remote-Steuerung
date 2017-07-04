@@ -35,6 +35,7 @@ class ImportInfrastructureCommand extends ContainerAwareCommand
      * @param OutputInterface $output
      *
      * @return int|null
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -49,8 +50,7 @@ class ImportInfrastructureCommand extends ContainerAwareCommand
         }
 
         if (!file_exists($filename)) {
-            $io->error(sprintf('File: "%s" does not exist', $filename));
-            exit;
+            throw new \Exception(sprintf('File: "%s" does not exist', $filename));
         }
 
         // Check for extension
@@ -208,6 +208,8 @@ class ImportInfrastructureCommand extends ContainerAwareCommand
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
+     *
+     * @throws \Exception
      */
     private function askDeleteInfrastructure(InputInterface $input, OutputInterface $output)
     {
@@ -217,9 +219,7 @@ class ImportInfrastructureCommand extends ContainerAwareCommand
             $question = new ConfirmationQuestion('Die bestehende Infrastruktur wird gelöscht. Möchten Sie fortfahren? (N/y)', false);
 
             if (!$helper->ask($input, $output, $question)) {
-                $io = new SymfonyStyle($input, $output);
-                $io->error('Import wurde abgebrochen.');
-                exit;
+                throw new \Exception('Import wurde abgebrochen.');
             }
         }
 
