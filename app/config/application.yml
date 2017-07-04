@@ -31,7 +31,7 @@ parameters:
     ldap_account_domain_name: fully.qualified.domain.name
     ldap_account_domain_name_short: DOMAIN
 
-    ldap_base_dn: ''
+    ldap_base_dn: 'dc=your_base_dn'
     ldap_filter: '(&(ObjectClass=Person))'
 
     firebase_server_id:  ~

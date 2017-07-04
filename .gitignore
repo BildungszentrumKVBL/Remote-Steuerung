@@ -2,11 +2,11 @@
 app/cache/*
 /app/bootstrap.php.cache
 /vendor/
-/app/config/application.yml
 /app/config/parameters.yml
 /bin/node_modules/*
 !/bin/node_modules/.gitkeep
 /app/logs/*
+/web/bundles/*
 /doc/html/
 /doc/latex/
 /doc/*.tmp
