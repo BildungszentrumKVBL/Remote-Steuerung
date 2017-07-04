@@ -34,11 +34,9 @@ class AppController extends Controller
      *
      * @Route("/", name="homepage")
      *
-     * @param Request $request
-     *
      * @return Response
      */
-    public function indexAction(Request $request): Response
+    public function indexAction(): Response
     {
         return $this->render('AppBundle:app:index.html.twig');
     }

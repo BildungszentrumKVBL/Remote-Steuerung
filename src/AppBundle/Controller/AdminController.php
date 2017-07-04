@@ -65,12 +65,11 @@ class AdminController extends Controller
      *     requirements={"zuluId": "\d+"}
      * )
      *
-     * @param Request $request
      * @param int     $zuluId
      *
      * @return Response
      */
-    public function observeNewAction(Request $request, int $zuluId): Response
+    public function observeNewAction(int $zuluId): Response
     {
         $em   = $this->get('doctrine.orm.entity_manager');
         $zulu = $em->getRepository('AppBundle:Zulu')->find($zuluId);
@@ -87,14 +86,13 @@ class AdminController extends Controller
      *     requirements={"userId": "\d+", "viewId": "\d+"}
      * )
      *
-     * @param Request $request
      * @param int     $userId
      * @param int     $viewId
      *
      * @return Response
      * @throws \Exception
      */
-    public function updateObservedAction(Request $request, int $userId, int $viewId): Response
+    public function updateObservedAction(int $userId, int $viewId): Response
     {
         $observing = true;
         $em        = $this->get('doctrine.orm.entity_manager');
@@ -168,11 +166,9 @@ class AdminController extends Controller
      *
      * @Route("/status", name="admin_status_route")
      *
-     * @param Request $request
-     *
      * @return Response
      */
-    public function statusAction(Request $request): Response
+    public function statusAction(): Response
     {
         /** @var Zulu[] $zulus */
         $buildings = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Building')->findAll();
@@ -223,11 +219,9 @@ class AdminController extends Controller
     /**
      * @Route("/infrastructure", name="admin_infrastructure_route", options={"expose": true})
      *
-     * @param Request $request
-     *
      * @return Response
      */
-    public function infrastructureAction(Request $request): Response
+    public function infrastructureAction(): Response
     {
         return new Response("Hello");
     }
@@ -272,11 +266,9 @@ class AdminController extends Controller
      *
      * @Route("/logs", name="admin_logs_route")
      *
-     * @param Request $request
-     *
      * @return Response
      */
-    public function logsAction(Request $request): Response
+    public function logsAction(): Response
     {
         $em    = $this->get('doctrine.orm.entity_manager');
         $users = $em->getRepository('AppBundle:User')->findAll();
