@@ -162,6 +162,11 @@ var app = {
             return;
         }
 
+        if (app.messaging === null) {
+            console.warn('No SenderId provided.');
+            return;
+        }
+
         app.messaging.requestPermission()
             .then(function () {
                 console.info('Notification permission granted.');

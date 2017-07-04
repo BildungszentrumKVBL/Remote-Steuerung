@@ -243,8 +243,13 @@
 
         {% block postJavascript %}
             <script>app.environment.firebaseSenderID = "{{ firebase_server_id }}"</script>
-            <script>firebase.initializeApp({messagingSenderId: app.environment.firebaseSenderID});</script>
-            <script>app.messaging = firebase.messaging(); app.init(); controller.views = {{ app_twig_helper.getViews()|json_encode|raw }};</script>
+            <script>
+                if (app.environment.firebaseSenderID !== '') {
+                    firebase.initializeApp({messagingSenderId: app.environment.firebaseSenderID});
+                    app.messaging = firebase.messaging();
+                }
+            </script>
+            <script>app.init(); controller.views = {{ app_twig_helper.getViews()|json_encode|raw }};</script>
         {% endblock %}
     </body>
 </html>
