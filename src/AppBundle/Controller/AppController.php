@@ -129,12 +129,11 @@ class AppController extends Controller
      * @Security("has_role('ROLE_TEACHER')")
      * @Method(methods={"GET"})
      *
-     * @param Request $request
      * @param         $building
      *
      * @return Response
      */
-    public function getZulusAction(Request $request, $building): Response
+    public function getZulusAction($building): Response
     {
         // Get all rooms that are free and the room booked by WebUntis.
         $em       = $this->get('doctrine.orm.entity_manager');

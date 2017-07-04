@@ -14,9 +14,9 @@ parameters:
     mailer_password:     ~
 
     webuntis_enable:     false
-    webuntis_school:     ~
-    webuntis_username:   ~
-    webuntis_password:   ~
+    webuntis_school:     ''
+    webuntis_username:   ''
+    webuntis_password:   ''
     webuntis_api_client: Remotesteuerung
 
     eventghost_port:     8264
