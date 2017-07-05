@@ -1,38 +1,34 @@
 parameters:
-    application_log_level:      1
-    application_admin_email:    info@change.me
-    application_sender_email:   noreply@change.me
+    application_log_level: 1
+    application_admin_email: info@change.me
+    application_sender_email: noreply@change.me
     application_receiver_email: support@change.me
     application_group_it: 'LDAP IT Group'
     application_group_caretaker: 'LDAP Caretaker Group'
     application_group_teacher: 'LDAP Teacher Group'
     application_group_teacher_it: 'LDAP IT Teacher Group'
-
-    mailer_transport:    smtp
-    mailer_host:         127.0.0.1
-    mailer_user:         ~
-    mailer_password:     ~
-
-    webuntis_enable:     false
-    webuntis_school:     ''
-    webuntis_username:   ''
-    webuntis_password:   ''
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: ''
+    mailer_password: ''
+    webuntis_enable: false
+    webuntis_school: ''
+    webuntis_username: ''
+    webuntis_password: ''
     webuntis_api_client: Remotesteuerung
-
-    eventghost_port:     8264
+    eventghost_port: 8264
     eventghost_username: Remotesteuerung
     eventghost_password: ''
-
+    eventghost_websocket_server: ip.of.this.server
+    eventghost_websocket_ssl: false
     ldap_host: server.fully.qualified.domain.name
     ldap_username: user@fully.qualified.domain.name
-    ldap_password: ~
+    ldap_password: ''
     ldap_use_ssl: false
     ldap_allow_empty_password: false
     ldap_account_domain_name: fully.qualified.domain.name
     ldap_account_domain_name_short: DOMAIN
-
-    ldap_base_dn: 'dc=your_base_dn'
+    ldap_base_dn: dc=your_base_dn
     ldap_filter: '(&(ObjectClass=Person))'
-
-    firebase_server_id:  ~
-    firebase_server_key: ~
+    firebase_server_id: ''
+    firebase_server_key: ''

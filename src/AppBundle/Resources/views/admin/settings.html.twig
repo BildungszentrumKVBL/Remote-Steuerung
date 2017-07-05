@@ -6,21 +6,27 @@
     <div class="container">
         <div class="well bootable boot-start">
             <ul class="nav nav-tabs">
-                <li class="col-md-4 col-sm-4 col-xs-4 text-center active"><a href="#Applikation" data-toggle="tab">Applikation</a></li>
+                <li class="col-md-4 col-sm-4 col-xs-4 text-center active"><a href="#Applikation" data-toggle="tab">Applikation</a>
+                </li>
                 <li class="col-md-4 col-sm-4 col-xs-4 text-center"><a href="#LDAP" data-toggle="tab">LDAP</a></li>
                 <li class="col-md-4 col-sm-4 col-xs-4 text-center"><a href="#Mail" data-toggle="tab">Mail</a></li>
-                <li class="col-md-4 col-sm-4 col-xs-4 text-center"><a href="#Webuntis" data-toggle="tab">Webuntis</a></li>
-                <li class="col-md-4 col-sm-4 col-xs-4 text-center"><a href="#EventGhost" data-toggle="tab">EventGhost</a></li>
-                <li class="col-md-4 col-sm-4 col-xs-4 text-center"><a href="#Firebase" data-toggle="tab">Firebase</a></li>
+                <li class="col-md-4 col-sm-4 col-xs-4 text-center"><a href="#Webuntis" data-toggle="tab">Webuntis</a>
+                </li>
+                <li class="col-md-4 col-sm-4 col-xs-4 text-center"><a href="#EventGhost"
+                                                                      data-toggle="tab">EventGhost</a></li>
+                <li class="col-md-4 col-sm-4 col-xs-4 text-center"><a href="#Firebase" data-toggle="tab">Firebase</a>
+                </li>
             </ul>
             <form class="form-horizontal" method="post" id="settings-form">
                 <div class="tab-content">
                     <div class="tab-pane fade active in" id="Applikation">
                         <fieldset>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="application_log_level">Log Stufe</label>
+                                <label class="control-label col-md-4 col-sm-4" for="application_log_level">Log
+                                    Stufe</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                    <select name="application_log_level" class="form-control select" id="application_log_level"
+                                    <select name="application_log_level" class="form-control select"
+                                            id="application_log_level"
                                             required>
                                         <option value="{{ constant('AppBundle\\Entity\\Log::LEVEL_INFO') }}"{{ settings.application_log_level == constant('AppBundle\\Entity\\Log::LEVEL_INFO') ? ' selected' :'' }}>
                                             Infos
@@ -38,51 +44,66 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="application_admin_email">Admin E-mail</label>
+                                <label class="control-label col-md-4 col-sm-4" for="application_admin_email">Admin
+                                    E-mail</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                    <input type="text" name="application_admin_email" class="form-control" id="application_admin_email"
+                                    <input type="text" name="application_admin_email" class="form-control"
+                                           id="application_admin_email"
                                            value="{{ settings.application_admin_email }}" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="application_sender_email">Sender E-mail</label>
+                                <label class="control-label col-md-4 col-sm-4" for="application_sender_email">Sender
+                                    E-mail</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                    <input type="text" name="application_sender_email" class="form-control" id="application_sender_email"
+                                    <input type="text" name="application_sender_email" class="form-control"
+                                           id="application_sender_email"
                                            value="{{ settings.application_sender_email }}" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="application_receiver_email" title="E-Mail Addresse welche informationen und logs empfangen soll">Empfänger E-mail</label>
+                                <label class="control-label col-md-4 col-sm-4" for="application_receiver_email"
+                                       title="E-Mail Addresse welche informationen und logs empfangen soll">Empfänger
+                                    E-mail</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                    <input type="text" name="application_receiver_email" class="form-control" id="application_receiver_email"
+                                    <input type="text" name="application_receiver_email" class="form-control"
+                                           id="application_receiver_email"
                                            value="{{ settings.application_receiver_email }}" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="application_group_it">LDAP Gruppe für IT</label>
+                                <label class="control-label col-md-4 col-sm-4" for="application_group_it">LDAP Gruppe
+                                    für IT</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                    <input type="text" name="application_group_it" class="form-control" id="application_group_it"
+                                    <input type="text" name="application_group_it" class="form-control"
+                                           id="application_group_it"
                                            value="{{ settings.application_group_it }}" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="application_group_caretaker">LDAP Gruppe für Hausdienst</label>
+                                <label class="control-label col-md-4 col-sm-4" for="application_group_caretaker">LDAP
+                                    Gruppe für Hausdienst</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                    <input type="text" name="application_group_caretaker" class="form-control" id="application_group_caretaker"
+                                    <input type="text" name="application_group_caretaker" class="form-control"
+                                           id="application_group_caretaker"
                                            value="{{ settings.application_group_caretaker }}" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="application_group_teacher">LDAP Gruppe für Lehrer</label>
+                                <label class="control-label col-md-4 col-sm-4" for="application_group_teacher">LDAP
+                                    Gruppe für Lehrer</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                    <input type="text" name="application_group_teacher" class="form-control" id="application_group_teacher"
+                                    <input type="text" name="application_group_teacher" class="form-control"
+                                           id="application_group_teacher"
                                            value="{{ settings.application_group_teacher }}" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="application_group_teacher_it">LDAP Gruppe für IT-Lehrer</label>
+                                <label class="control-label col-md-4 col-sm-4" for="application_group_teacher_it">LDAP
+                                    Gruppe für IT-Lehrer</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                    <input type="text" name="application_group_teacher_it" class="form-control" id="application_group_teacher_it"
+                                    <input type="text" name="application_group_teacher_it" class="form-control"
+                                           id="application_group_teacher_it"
                                            value="{{ settings.application_group_teacher_it }}" required>
                                 </div>
                             </div>
@@ -108,7 +129,7 @@
                                 <label class="control-label col-md-4 col-sm-4" for="ldap_password">Passwort</label>
                                 <div class="col-md-4 col-md-offset-2 col-sm-4 col-sm-offset-2 input-group">
                                     <input type="password" name="ldap_password" class="form-control password"
-                                           id="ldap_password" value="{{ settings.ldap_password }}" required>
+                                           id="ldap_password" value="{{ settings.ldap_password }}">
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-fab btn-fab-mini password-show">
                                             <i class="material-icons">visibility</i>
@@ -117,7 +138,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4 col-xs-6" for="ldap_use_ssl">SSL verwenden</label>
+                                <label class="control-label col-md-4 col-sm-4 col-xs-6" for="ldap_use_ssl">SSL
+                                    verwenden</label>
                                 <div class="checkbox col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2 col-xs-0 col-xs-offset-6">
                                     <label>
                                         <input type="hidden" name="ldap_use_ssl" value="false">
@@ -127,20 +149,24 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4 col-xs-6" for="ldap_allow_empty_password">Erlaube leere Passwörter</label>
+                                <label class="control-label col-md-4 col-sm-4 col-xs-6" for="ldap_allow_empty_password">Erlaube
+                                    leere Passwörter</label>
                                 <div class="checkbox col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2 col-xs-0 col-xs-offset-6">
                                     <label>
                                         <input type="hidden" name="ldap_allow_empty_password" value="false">
-                                        <input type="checkbox" name="ldap_allow_empty_password" id="ldap_allow_empty_password"
+                                        <input type="checkbox" name="ldap_allow_empty_password"
+                                               id="ldap_allow_empty_password"
                                                value="true"{% if settings.ldap_allow_empty_password == "true" %} checked="checked"{% endif %}>
                                     </label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="ldap_account_domain_name">Domäne</label>
+                                <label class="control-label col-md-4 col-sm-4"
+                                       for="ldap_account_domain_name">Domäne</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
                                     <input type="text" name="ldap_account_domain_name" class="form-control"
-                                           id="ldap_account_domain_name" value="{{ settings.ldap_account_domain_name }}" required>
+                                           id="ldap_account_domain_name" value="{{ settings.ldap_account_domain_name }}"
+                                           required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -148,7 +174,8 @@
                                     kurz</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
                                     <input type="text" name="ldap_account_domain_name_short" class="form-control"
-                                           id="ldap_account_domain_name_short" value="{{ settings.ldap_account_domain_name_short }}"
+                                           id="ldap_account_domain_name_short"
+                                           value="{{ settings.ldap_account_domain_name_short }}"
                                            required>
                                 </div>
                             </div>
@@ -173,11 +200,20 @@
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4" for="mailer_transport">Transport</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                    <select name="mailer_transport" class="form-control select" id="mailer_transport" required>
-                                        <option value="smpt"{{ settings.mailer_transport == 'smpt' ? ' selected' :'' }}>SMTP</option>
-                                        <option value="mail"{{ settings.mailer_transport == 'mail' ? ' selected' :'' }}>Mail</option>
-                                        <option value="sendmail"{{ settings.mailer_transport == 'sendmail' ? ' selected' :'' }}>Sendmail</option>
-                                        <option value="gmail"{{ settings.mailer_transport == 'gmail' ? ' selected' :'' }}>GMail</option>
+                                    <select name="mailer_transport" class="form-control select" id="mailer_transport"
+                                            required>
+                                        <option value="smtp"{{ settings.mailer_transport == 'smtp' ? ' selected' :'' }}>
+                                            SMTP
+                                        </option>
+                                        <option value="mail"{{ settings.mailer_transport == 'mail' ? ' selected' :'' }}>
+                                            Mail
+                                        </option>
+                                        <option value="sendmail"{{ settings.mailer_transport == 'sendmail' ? ' selected' :'' }}>
+                                            Sendmail
+                                        </option>
+                                        <option value="gmail"{{ settings.mailer_transport == 'gmail' ? ' selected' :'' }}>
+                                            GMail
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -212,7 +248,8 @@
                     <div class="tab-pane fade" id="Webuntis">
                         <fieldset>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4 col-xs-6" for="webuntis_enable">Webuntis verwenden</label>
+                                <label class="control-label col-md-4 col-sm-4 col-xs-6" for="webuntis_enable">Webuntis
+                                    verwenden</label>
                                 <div class="checkbox col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2 col-xs-0 col-xs-offset-6">
                                     <label>
                                         <input type="hidden" name="webuntis_enable" value="false">
@@ -225,14 +262,15 @@
                                 <label class="control-label col-md-4 col-sm-4" for="webuntis_school">Schule</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
                                     <input type="text" name="webuntis_school" class="form-control" id="webuntis_school"
-                                           value="{{ settings.webuntis_school }}" required>
+                                           value="{{ settings.webuntis_school }}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4" for="webuntis_username">Username</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                    <input type="text" name="webuntis_username" class="form-control" id="webuntis_username"
-                                           value="{{ settings.webuntis_username }}" required>
+                                    <input type="text" name="webuntis_username" class="form-control"
+                                           id="webuntis_username"
+                                           value="{{ settings.webuntis_username }}">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -248,9 +286,11 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="webuntis_api_client">API Client</label>
+                                <label class="control-label col-md-4 col-sm-4" for="webuntis_api_client">API
+                                    Client</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                    <input type="text" name="webuntis_api_client" class="form-control" id="webuntis_api_client"
+                                    <input type="text" name="webuntis_api_client" class="form-control"
+                                           id="webuntis_api_client"
                                            value="{{ settings.webuntis_api_client }}" required>
                                 </div>
                             </div>
@@ -266,14 +306,17 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="eventghost_username">Username</label>
+                                <label class="control-label col-md-4 col-sm-4"
+                                       for="eventghost_username">Username</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                    <input type="text" name="eventghost_username" class="form-control" id="eventghost_username"
+                                    <input type="text" name="eventghost_username" class="form-control"
+                                           id="eventghost_username"
                                            value="{{ settings.eventghost_username }}" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="eventghost_password">Passwort</label>
+                                <label class="control-label col-md-4 col-sm-4"
+                                       for="eventghost_password">Passwort</label>
                                 <div class="col-md-4 col-md-offset-2 col-sm-4 col-sm-offset-2 input-group">
                                     <input type="password" name="eventghost_password" class="form-control password"
                                            id="eventghost_password" value="{{ settings.eventghost_password }}">
@@ -284,14 +327,33 @@
                                     </span>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="eventghost_websocket_server">Websocket Server</label>
+                                <div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-2">
+                                    <input type="text" name="eventghost_websocket_server" class="form-control"
+                                           id="eventghost_websocket_server"
+                                           value="{{ settings.eventghost_websocket_server }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4 col-xs-6" for="eventghost_websocket_ssl">Webserver SSL</label>
+                                <div class="checkbox col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2 col-xs-0 col-xs-offset-6">
+                                    <label>
+                                        <input type="hidden" name="eventghost_websocket_ssl" value="false">
+                                        <input type="checkbox" name="eventghost_websocket_ssl" id="eventghost_websocket_ssl"
+                                               value="true"{% if settings.eventghost_websocket_ssl == "true" %} checked="checked"{% endif %}>
+                                    </label>
+                                </div>
+                            </div>
                         </fieldset>
                     </div>
                     <div class="tab-pane fade" id="Firebase">
                         <div class="form-group">
                             <label class="control-label col-md-4 col-sm-4" for="firebase_server_id">Server ID</label>
                             <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                <input type="text" name="firebase_server_id" class="form-control" id="firebase_server_id"
-                                       value="{{ settings.firebase_server_id }}" required>
+                                <input type="text" name="firebase_server_id" class="form-control"
+                                       id="firebase_server_id"
+                                       value="{{ settings.firebase_server_id }}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -309,7 +371,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" name="senden" value="1" class="btn btn-primary pull-right" onclick="app.unboot();">Speichern</button>
+                    <button type="submit" name="senden" value="1" class="btn btn-primary pull-right"
+                            onclick="app.unboot();">Speichern
+                    </button>
                 </div>
             </form>
         </div>

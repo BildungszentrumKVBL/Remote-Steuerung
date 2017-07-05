@@ -37,7 +37,7 @@ monolog:
 
 gos_web_socket:
     server:
-        host: "%websocket_server%"
+        host: "%eventghost_websocket_server%"
     pushers:
         wamp:
-            host: "%websocket_server%"
+            host: "%eventghost_websocket_server%"
