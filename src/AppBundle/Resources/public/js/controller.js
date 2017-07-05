@@ -128,7 +128,7 @@ var controller = {
                 {
                     'url':        Routing.generate(
                         'send_commands_route',
-                        {'commandName': command}
+                        {'command': command}
                     ),
                     'method':     'POST',
                     'beforeSend': function () {

@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\AbstractCommand;
+use AppBundle\Entity\Building;
 use AppBundle\Entity\Device;
 use AppBundle\Entity\EventGhostCommand;
 use AppBundle\Entity\Log;
@@ -13,6 +15,7 @@ use AppBundle\Entity\ZuluCommand;
 use AppBundle\EventDispatcher\Event\CommandEvent;
 use Detection\MobileDetect;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -124,19 +127,19 @@ class AppController extends Controller
      * This room gets the zulus, after the building has been selected.
      *
      * @Route("/chooseRoom/{building}", name="get_zulus_route", options={"expose"=true})
+     * @ParamConverter("building", class="AppBundle:Building", options={"mapping": {"building" = "name"}})
      * @Security("has_role('ROLE_TEACHER')")
      * @Method(methods={"GET"})
      *
-     * @param         $building
+     * @param Building $building
      *
      * @return Response
      */
-    public function getZulusAction($building): Response
+    public function getZulusAction(Building $building): Response
     {
         // Get all rooms that are free and the room booked by WebUntis.
         $em       = $this->get('doctrine.orm.entity_manager');
         $roomname = $this->get('app.webuntis.handler')->login()->getRoomForTeacher($this->getUser()->getUsername());
-        $building = $em->getRepository('AppBundle:Building')->findOneBy(['name' => $building]);
         /* @var Room $room */
         $room  = $em->getRepository('AppBundle:Room')->findOneBy(['name' => $roomname]);
         $zulus = $em->createQueryBuilder()->select('z')->from('AppBundle:Zulu', 'z')->join('z.room', 'r')->where(
@@ -157,11 +160,11 @@ class AppController extends Controller
      *
      * @Route("/controller/{view}", name="controller_route", defaults={"view": null}, requirements={"view": "\d+"},
      *                              options={"expose": true})
+     * @ParamConverter("view", class="AppBundle:View")
      * @Security("has_role('ROLE_TEACHER')")
      *
      * @param Request $request
-     *
-     * @param int     $view
+     * @param View    $view
      *
      * @return Response
      */
@@ -180,11 +183,8 @@ class AppController extends Controller
         $status = $this->get('command_handler')->getStatusOfZulu();
 
         if ($view) {
-            $view = $em->getRepository('AppBundle:View')->find($view);
-            if ($view) {
-                /** @var View $view */
-                $user->getSettings()->setView($view);
-            }
+            /** @var View $view */
+            $user->getSettings()->setView($view);
         }
 
         try {
@@ -260,6 +260,7 @@ class AppController extends Controller
      *                                                  requirements={"state": "[0-1]{1}"})
      * @Security("has_role('ROLE_TEACHER')")
      * @Method(methods={"post"})
+     * TODO: Add ParamConverter.
      *
      * @param Request $request
      * @param bool    $state
@@ -307,28 +308,20 @@ class AppController extends Controller
      *  - `action`: The action that the front end has to make. e.g. Update the status of the zulu buttons.
      *  - `data`: Additional data that the `action` needs in order to work.
      *
-     * @Route("/command/{commandName}", name="send_commands_route", options={"expose"=true})
+     * @Route("/command/{command}", name="send_commands_route", options={"expose"=true})
+     * @ParamConverter("command", class="AppBundle:AbstractCommand", options={"mapping":{"command": "name"}})
      * @Security("has_role('ROLE_TEACHER')")
      * @Method(methods={"post"})
      *
-     * \IPA
      *
-     * @param Request $request
-     * @param string  $commandName
+     * @param Request         $request
+     * @param AbstractCommand $command
      *
      * @return Response
-     * @throws \Exception
      */
-    public function commandsAction(Request $request, string $commandName): Response
+    public function commandsAction(Request $request, AbstractCommand $command): Response
     {
-        $em             = $this->get('doctrine.orm.entity_manager');
         $commandHandler = $this->get('command_handler');
-        $command        = $em->getRepository('AppBundle:AbstractCommand')->findOneBy(['name' => $commandName]);
-
-        if (!$command) {
-            throw new \Exception('Dieser Befehl existiert nicht.');
-        }
-
         if ($command instanceof EventGhostCommand) {
             $additionalData = $request->request->all();
             $command->setAdditionalData($additionalData);

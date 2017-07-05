@@ -7,6 +7,7 @@ use AppBundle\Entity\User;
 use AppBundle\Entity\View;
 use AppBundle\Entity\Zulu;
 use AppBundle\Service\SettingsHandler;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,18 +62,17 @@ class AdminController extends Controller
      * @Route(
      *     "/observe/{zuluId}",
      *     name="admin_observe_new_route",
-     *     options={"expose": true},
-     *     requirements={"zuluId": "\d+"}
+     *     options={"expose": true}
      * )
+     * @ParamConverter("zulu", class="AppBundle:Zulu", options={"id" = "zuluId"})
      *
-     * @param int     $zuluId
+     * @param Zulu $zulu
      *
      * @return Response
      */
-    public function observeNewAction(int $zuluId): Response
+    public function observeNewAction(Zulu $zulu): Response
     {
         $em   = $this->get('doctrine.orm.entity_manager');
-        $zulu = $em->getRepository('AppBundle:Zulu')->find($zuluId);
         $user = $em->getRepository('AppBundle:User')->findOneBy(['username' => $zulu->getLockedBy()]);
 
         return $this->render('@App/admin/snippets/observation.html.twig', ['user' => $user, 'zulu' => $zulu]);
@@ -85,29 +85,21 @@ class AdminController extends Controller
      *     options={"expose": true},
      *     requirements={"userId": "\d+", "viewId": "\d+"}
      * )
+     * @ParamConverter("user", class="AppBundle:User", options={"id" = "userId"})
+     * @ParamConverter("view", class="AppBundle:View", options={"id" = "viewId"})
      *
-     * @param int     $userId
-     * @param int     $viewId
+     *
+     * @param User $user
+     * @param View $view
      *
      * @return Response
-     * @throws \Exception
      */
-    public function updateObservedAction(int $userId, int $viewId): Response
+    public function updateObservedAction(User $user, View $view): Response
     {
         $observing = true;
         $em        = $this->get('doctrine.orm.entity_manager');
-        $view      = $em->getRepository('AppBundle:View')->find($viewId);
-        $user      = $em->getRepository('AppBundle:User')->find($userId);
         /* @var View $view */
         /* @var User $user */
-
-        if (!$view) {
-            throw new \Exception('View was not found');
-        }
-
-        if (!$user) {
-            throw new \Exception('No user found for this zulu');
-        }
 
         $user->getSettings()->setView($view);
 
@@ -183,30 +175,29 @@ class AdminController extends Controller
      * @Route(
      *     "/status/{building}",
      *     name="admin_status_api_route",
-     *     options={"expose": true},
-     *     requirements={"building": "[ABCD\s]{1}"}
+     *     options={"expose": true}
      * )
+     * @Route("/status/all")
+     * @ParamConverter("building", class="AppBundle:Building", isOptional="true",
+     *     options={"mapping": {"building" = "name"}})
      *
-     * @param Request $request
-     * @param string  $building
+     * @param Request  $request
+     * @param Building $building
      *
      * @return Response
      */
-    public function statusApiAction(Request $request, string $building): Response
+    public function statusApiAction(Request $request, $building = null): Response
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->redirectToRoute('admin_status_route');
         }
 
-        $em       = $this->get('doctrine.orm.entity_manager');
-        $zuluRepo = $em->getRepository('AppBundle:Zulu');
-        if ($building === ' ') {
-            $zulus = $zuluRepo->findAll();
+        $em = $this->get('doctrine.orm.entity_manager');
+        if ($building === null) {
+            $zulus = $em->getRepository('AppBundle:Zulu')->findAll();
         } else {
-            /* @var Building $building */
-            $building = $em->getRepository('AppBundle:Building')->findOneBy(['name' => $building]);
-            $rooms    = $em->getRepository('AppBundle:Room')->findBy(['building' => $building]);
-            $zulus    = [];
+            $rooms = $em->getRepository('AppBundle:Room')->findBy(['building' => $building]);
+            $zulus = [];
             foreach ($rooms as $room) {
                 $zulus[] = $room->getZulu();
             }
@@ -223,6 +214,7 @@ class AdminController extends Controller
      */
     public function infrastructureAction(): Response
     {
+        // TODO: Interface for managing the infrastructure. Maybe extract to own Controller.
         return new Response("Hello");
     }
 
@@ -273,8 +265,7 @@ class AdminController extends Controller
         $em    = $this->get('doctrine.orm.entity_manager');
         $users = $em->getRepository('AppBundle:User')->findAll();
 
-        $date  = new \DateTime();
-        $date->add(\DateInterval::createFromDateString('-5 day'));
+        $date = new \DateTime('-5 day');
         $logs = $em->createQuery(
             'SELECT l FROM AppBundle:Log l WHERE l.dateTime >= :datetime ORDER BY l.dateTime DESC'
         )->setMaxResults(100)->setParameter('datetime', $date)->getResult();

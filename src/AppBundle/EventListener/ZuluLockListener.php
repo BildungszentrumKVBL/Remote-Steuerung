@@ -60,10 +60,8 @@ class ZuluLockListener
      * If the flag is set from the `postUpdate`-function, notify the observers about all currently locked Zulus.
      *
      * @todo: This application-flow will be optimized in the future.
-     *
-     * @param FilterResponseEvent $event
      */
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse()
     {
         if ($this->update) {
             $this->update = false;

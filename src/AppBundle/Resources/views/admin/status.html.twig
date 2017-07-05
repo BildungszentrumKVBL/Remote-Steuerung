@@ -15,7 +15,7 @@
                             <label for="building_status" class="col-md-2 control-label">Gebäude</label>
                             <div class="col-md-10">
                                 <select id="building_status" name="building" class="form-control select" required>
-                                    <option value=" ">Alle Gebäude</option>
+                                    <option value="all">Alle Gebäude</option>
                                     {% for build in buildings %}
                                         {% if building is defined and building == build %}
                                             <option value="{{ build }}" selected>Gebäude {{ build }}</option>
