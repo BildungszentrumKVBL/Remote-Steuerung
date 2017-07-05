@@ -207,7 +207,7 @@
 
             {% if is_granted('ROLE_ADMIN') %}
 
-            <script>var _WS_URI = "wss://" + window.location.hostname + ":8443";</script>
+            <script>var _WS_URI = "ws{{ websocket_ssl ? 's' : '' }}://" + window.location.hostname + ":8443";</script>
             {{ ws_client() }}
 
             {% javascripts '@AppBundle/Resources/public/js/admin.js' filter="?uglifyjs2" output="js/admin.js" %}

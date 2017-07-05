@@ -47,6 +47,7 @@ twig:
     globals:
         app_twig_helper: '@app.twig_helper'
         firebase_server_id: "%firebase_server_id%"
+        websocket_ssl: "%eventghost_websocket_ssl%"
 
 doctrine:
     dbal:
