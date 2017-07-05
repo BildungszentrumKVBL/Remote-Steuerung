@@ -134,10 +134,10 @@ var app = {
             window.addEventListener('load', function () {
                 navigator.serviceWorker.register(Routing.generate('service_worker_route')).then(function (registration) {
                     // Registration was successful
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    console.info('ServiceWorker registration successful with scope: ', registration.scope);
                 }, function (err) {
                     // registration failed :(
-                    console.log('ServiceWorker registration failed: ', err);
+                    console.info('ServiceWorker registration failed: ', err);
                 });
             });
             if ('PushManager' in window) {
