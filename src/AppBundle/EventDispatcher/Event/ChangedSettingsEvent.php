@@ -11,35 +11,25 @@ use Symfony\Component\EventDispatcher\Event;
  * Class ChangedSettingsEvent.
  *
  * This class is used as a model for event handling.
- *
- * @IPA
  */
 class ChangedSettingsEvent extends Event
 {
     /**
      * @var View $view
-     *
-     * @IPA
      */
     private $oldView;
 
     /**
      * @var View $newView
-     *
-     * @IPA
      */
     private $newView;
 
     /**
      * @var User $user
-     *
-     * @IPA
      */
     private $user;
 
     /**
-     * @IPA
-     *
      * @return View
      */
     public function getOldView(): View
@@ -50,8 +40,6 @@ class ChangedSettingsEvent extends Event
     /**
      * The old view will be clone to remove the reference to the object.
      *
-     * @IPA
-     *
      * @param View $oldView
      */
     public function setOldView(View $oldView)
@@ -60,8 +48,6 @@ class ChangedSettingsEvent extends Event
     }
 
     /**
-     * @IPA
-     *
      * @return View
      */
     public function getNewView(): View
@@ -70,8 +56,6 @@ class ChangedSettingsEvent extends Event
     }
 
     /**
-     * @IPA
-     *
      * @param View $newView
      */
     public function setNewView(View $newView)
@@ -80,8 +64,6 @@ class ChangedSettingsEvent extends Event
     }
 
     /**
-     * @IPA
-     *
      * @return User
      */
     public function getUser(): User
@@ -90,8 +72,6 @@ class ChangedSettingsEvent extends Event
     }
 
     /**
-     * @IPA
-     *
      * @param User $user
      */
     public function setUser(User $user)

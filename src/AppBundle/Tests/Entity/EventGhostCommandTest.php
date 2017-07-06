@@ -7,14 +7,9 @@ use AppBundle\Tests\AppTestCase;
 
 /**
  * Class EventGhostCommandTest.
- *
- * @IPA
  */
 class EventGhostCommandTest extends AppTestCase
 {
-    /**
-     * @IPA
-     */
     public function testGetUri()
     {
         $em            = $this->getContainer()->get('doctrine.orm.entity_manager');
@@ -27,9 +22,6 @@ class EventGhostCommandTest extends AppTestCase
         $this->assertEquals($prevCommand->getUri(), '/?PowerPoint&previous');
     }
 
-    /**
-     * @IPA
-     */
     public function testGetDataRequirements()
     {
         $em            = $this->getContainer()->get('doctrine.orm.entity_manager');
@@ -41,9 +33,6 @@ class EventGhostCommandTest extends AppTestCase
         $this->assertEmpty($prevCommand->getDataRequirements());
     }
 
-    /**
-     * @IPA
-     */
     public function testSetDataRequirements()
     {
         $command = new EventGhostCommand('test', 'test', 'test', 'test', 'test');
@@ -51,18 +40,12 @@ class EventGhostCommandTest extends AppTestCase
         $this->assertEquals($command->getDataRequirements(), [['variable' => 'fun']]);
     }
 
-    /**
-     * @IPA
-     */
     public function testGetAdditionalData()
     {
         $command = new EventGhostCommand('test', 'test', 'test', 'test', 'test');
         $this->assertNull($command->getAdditionalData());
     }
 
-    /**
-     * @IPA
-     */
     public function testSetAdditionalData()
     {
         $command = new EventGhostCommand('test', 'test', 'test', 'test', 'test');
@@ -70,6 +53,5 @@ class EventGhostCommandTest extends AppTestCase
 
         $this->assertEquals($command->getAdditionalData(), ['fun' => 'extreme']);
     }
-
 
 }

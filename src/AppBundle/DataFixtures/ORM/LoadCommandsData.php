@@ -28,8 +28,6 @@ class LoadCommandsData extends AbstractFixture implements OrderedFixtureInterfac
     /**
      * Load data fixtures with the passed ObjectManager.
      *
-     * @IPA
-     *
      * @param ObjectManager $manager
      */
     public function load(ObjectManager $manager)

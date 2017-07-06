@@ -61,8 +61,6 @@ class UsageLogger implements EventSubscriberInterface
     /**
      * This method runs when a command is being triggered.
      *
-     * @IPA
-     *
      * @param CommandEvent $event
      */
     public function onCommandEvent(CommandEvent $event)
