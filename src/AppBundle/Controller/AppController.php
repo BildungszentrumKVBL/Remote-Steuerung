@@ -342,22 +342,16 @@ class AppController extends Controller
 
             return new JsonResponse(['type' => 'error'], Response::HTTP_OK, ['Content-Type' => 'application/json']);
         }
+        $response = new JsonResponse(['type' => 'success'], Response::HTTP_OK, ['Content-Type' => 'application/json']);
         if ($command instanceof ZuluCommand) {
-            $response = new JsonResponse(
+            $response->setData(
                 [
                     'type'   => 'success',
                     'action' => 'UpdateController',
                     'data'   => $status,
                 ]
             );
-        } else {
-            $response = new JsonResponse(
-                [
-                    'type' => 'success',
-                ]
-            );
         }
-        $response->headers->set('Content-Type', 'application/json');
 
         return $response;
     }
