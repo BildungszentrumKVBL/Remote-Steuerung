@@ -12,7 +12,6 @@ app/cache/*
 /doc/html/
 /doc/latex/
 /doc/*.tmp
-.DS_Store
 Thumbs.db
 /.bu/*
 !.gitkeep
