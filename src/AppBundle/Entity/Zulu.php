@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -71,6 +73,15 @@ class Zulu implements \JsonSerializable
     private $locked;
 
     /**
+     * Past statuses of the Zulu.
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ZuluStatus", mappedBy="zulu", cascade={"all"})
+     *
+     * @var ArrayCollection $statuses
+     */
+    private $statuses;
+
+    /**
      * If the Zulu is locked, the username will be set in this field. This will be removed in a future version.
      *
      * @ORM\Column(name="locked_by", type="string", nullable=true)
@@ -106,6 +117,7 @@ class Zulu implements \JsonSerializable
         $this->active   = true;
         $this->locked   = false;
         $this->lockedBy = null;
+        $this->statuses = new ArrayCollection();
     }
 
     /**
@@ -170,6 +182,33 @@ class Zulu implements \JsonSerializable
     public function getLockedSince()
     {
         return $this->lockedSince;
+    }
+
+    /**
+     * @return ArrayCollection|Collection
+     */
+    public function getStatuses(): Collection
+    {
+        return $this->statuses;
+    }
+
+    /**
+     * @param ZuluStatus $status
+     */
+    public function addStatus(ZuluStatus $status)
+    {
+        if (!$this->statuses->contains($status)) {
+            $this->statuses->add($status);
+            $status->setZulu($this);
+        }
+    }
+
+    /**
+     * @param ZuluStatus $status
+     */
+    public function removeStatus(ZuluStatus $status)
+    {
+        $this->statuses->removeElement($status);
     }
 
     /**

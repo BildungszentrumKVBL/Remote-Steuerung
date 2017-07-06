@@ -45,6 +45,15 @@ class ZuluStatus
     private $commandStatuses;
 
     /**
+     * The Zulu associated with the status.
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Zulu", inversedBy="statuses")
+     *
+     * @var Zulu $zulu
+     */
+    private $zulu;
+
+    /**
      * ZuluStatus constructor.
      */
     public function __construct()
@@ -94,6 +103,22 @@ class ZuluStatus
     public function getCommandStatuses(): Collection
     {
         return $this->commandStatuses;
+    }
+
+    /**
+     * @return Zulu
+     */
+    public function getZulu()
+    {
+        return $this->zulu;
+    }
+
+    /**
+     * @param Zulu $zulu
+     */
+    public function setZulu(Zulu $zulu)
+    {
+        $this->zulu = $zulu;
     }
 
 }

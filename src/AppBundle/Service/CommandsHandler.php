@@ -181,25 +181,24 @@ class CommandsHandler
      */
     public function getStatusOfZulu()
     {
-        $status = new ZuluStatus();
-
         $dt   = microtime(true);
         $curl = curl_init($this->zulu->getStatusUrl());
         $this->modifyCurl($curl);
         $output  = curl_exec($curl);
         $dt2     = microtime(true);
         $latency = round($dt2 - $dt, 3) * 1000;
-        $log     = new Log('Latenz: '.$latency.'ms für die Zulu im Zimmer '.$this->zulu->getRoom(), Log::LEVEL_INFO, $this->user);
+        $log     = new Log(sprintf('Latenz: %sms für die Zulu im Zimmer %s', $latency, $this->zulu->getRoom()), Log::LEVEL_INFO, $this->user);
         $this->em->persist($log);
 
         if ($output) { // Request was successful
             $statuses = $this->statusXmlToZuluCommandStatuses($output);
+            $status = new ZuluStatus();
             foreach ($statuses as $stat) {
                 $status->addCommandStatus($stat);
             }
-            $this->em->persist($status);
-
-            $this->em->flush();
+            $this->zulu->addStatus($status);
+            $this->em->persist($this->zulu);
+            $this->em->flush($this->zulu);
         }
 
         return $this->convertToStatus($output);
