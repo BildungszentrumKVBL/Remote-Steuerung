@@ -197,6 +197,7 @@ class CommandsHandler
                 $status->addCommandStatus($stat);
             }
             $this->zulu->addStatus($status);
+            $this->em->persist($status);
             $this->em->persist($this->zulu);
             $this->em->flush($this->zulu);
         }
