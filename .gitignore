@@ -8,6 +8,8 @@ app/cache/*
 /app/logs/*
 /web/bundles/*
 /web/assets/vendor/*
+/web/js/*
+/web/css/*
 /doc/html/
 /doc/latex/
 /doc/*.tmp
