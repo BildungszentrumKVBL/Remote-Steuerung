@@ -12,6 +12,5 @@ app/cache/*
 /doc/html/
 /doc/latex/
 /doc/*.tmp
-Thumbs.db
 /.bu/*
 !.gitkeep
