@@ -46,8 +46,8 @@ Classrooms and computer controlling software by the Bildungszentrum kvBL in Lies
 13. Install `uglifyjs2` and `uglifycss` inside the project.
     ```bash
         cd bin
-        bower install uglifyjs2
-        bower install uglifycss
+        npm install uglifyjs2
+        npm install uglifycss
     ```
 14. Install JavaScripts and CSS files. `bower install -F`
 15. Dump website assets. `php app/console assetic:dump web -e=prod`
