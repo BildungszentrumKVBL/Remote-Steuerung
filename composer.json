@@ -1,5 +1,6 @@
 {
     "name": "BildungszentrumKVBL/Remote-Steuerung",
+    "description": "Remote-Steuerungs Software für Klassenzimmer.",
     "license": "CC-BY-NC-3.0",
     "type": "project",
     "authors": [
