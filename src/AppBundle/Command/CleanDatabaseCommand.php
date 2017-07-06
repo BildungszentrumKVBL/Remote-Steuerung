@@ -63,21 +63,16 @@ class CleanDatabaseCommand extends ContainerAwareCommand
      */
     protected function clearOldLogs(OutputInterface $io)
     {
-        $date   = new \DateTime('-1 month');
-        $em     = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $logs   = $em->createQueryBuilder()->select('l')->from('AppBundle:Log', 'l')->where('l.dateTime <= :datetime')->setParameter(':datetime', $date)->getQuery()->getResult();
-        $amount = count($logs);
+        $date = new \DateTime('-1 month');
+        $em   = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $logs = $em->createQueryBuilder()->select('l')->from('AppBundle:Log', 'l')->where('l.dateTime <= :datetime')->setParameter(':datetime', $date)->getQuery()->getResult();
 
-        $counter = 0;
         foreach ($logs as $log) {
             $em->remove($log);
-            ++$counter;
-            if ($counter % 500 === 0) {
-                $em->flush();
-            }
         }
+        $em->flush();
 
-        $msg = sprintf('%d Logeinträge aus der Datenbank entfernt.', $amount);
+        $msg = sprintf('%d Logeinträge aus der Datenbank entfernt.', count($logs));
 
         $log = new Log($msg, LOG::LEVEL_SYSTEM);
         $em->persist($log);
