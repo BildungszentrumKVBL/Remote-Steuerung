@@ -76,7 +76,6 @@ services:
         class: AppBundle\Service\StatusFetcher
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@command_handler'
             - '%kernel.root_dir%'
 
     app.twig_helper:

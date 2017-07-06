@@ -19,12 +19,6 @@ class StatusFetcher
      */
     private $em;
 
-    /**
-     * The CommandHandler that handles the commands.
-     *
-     * @var CommandsHandler $commandHandler
-     */
-    private $commandHandler;
 
     /**
      * The root-dirctory of the applcation.
@@ -37,13 +31,11 @@ class StatusFetcher
      * StatusFetcher constructor.
      *
      * @param EntityManager   $em
-     * @param CommandsHandler $handler
      * @param string          $kernelRootDir
      */
-    public function __construct(EntityManager $em, CommandsHandler $handler, $kernelRootDir)
+    public function __construct(EntityManager $em, string $kernelRootDir)
     {
         $this->em             = $em;
-        $this->commandHandler = $handler;
         $this->rootDir        = $kernelRootDir.'/../';
     }
 
