@@ -2,7 +2,6 @@
 
 namespace AppBundle\Service;
 
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -29,18 +28,12 @@ class SettingsHandler
     private $kernelRoot;
 
     /**
-     * @var Container $container
-     */
-    private $container;
-
-    /**
      * SettingsHandler constructor.
      *
      * @param KernelInterface $kernel
      */
     public function __construct(KernelInterface $kernel)
     {
-        $this->container  = $kernel->getContainer();
         $this->kernelRoot = $kernel->getContainer()->getParameter('kernel.root_dir');
         $this->settings   = Yaml::parse(file_get_contents($this->kernelRoot.self::SETTINGS_FILE))['parameters'];
     }
