@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ac2e1917c948dc3f15527a891e39dae",
+    "content-hash": "0ac7a82d1f27c660df3e20404bc6b88c",
     "packages": [
         {
             "name": "bcc/cron-manager-bundle",
@@ -1432,16 +1432,16 @@
         },
         {
             "name": "gos/pubsub-router-bundle",
-            "version": "v0.3.0",
+            "version": "v0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GeniusesOfSymfony/PubSubRouterBundle.git",
-                "reference": "8018ba85bb1b34ad96090a0b47107a775347a42d"
+                "reference": "10a155a6c970031734d1bfa6bc361609930cf85d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GeniusesOfSymfony/PubSubRouterBundle/zipball/8018ba85bb1b34ad96090a0b47107a775347a42d",
-                "reference": "8018ba85bb1b34ad96090a0b47107a775347a42d",
+                "url": "https://api.github.com/repos/GeniusesOfSymfony/PubSubRouterBundle/zipball/10a155a6c970031734d1bfa6bc361609930cf85d",
+                "reference": "10a155a6c970031734d1bfa6bc361609930cf85d",
                 "shasum": ""
             },
             "require": {
@@ -1483,7 +1483,7 @@
                 "redis",
                 "zmq"
             ],
-            "time": "2017-02-07T15:11:30+00:00"
+            "time": "2017-07-05T10:41:35+00:00"
         },
         {
             "name": "gos/ratchet",
@@ -3741,16 +3741,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.8.23",
+            "version": "v2.8.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "bca31e4e3b6cfd8cef39ec04a253966cecf8f2ca"
+                "reference": "0ab3693b1154b1b166e98981ab3755636a5ae0e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/bca31e4e3b6cfd8cef39ec04a253966cecf8f2ca",
-                "reference": "bca31e4e3b6cfd8cef39ec04a253966cecf8f2ca",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/0ab3693b1154b1b166e98981ab3755636a5ae0e3",
+                "reference": "0ab3693b1154b1b166e98981ab3755636a5ae0e3",
                 "shasum": ""
             },
             "require": {
@@ -3874,7 +3874,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-07-04T05:31:17+00:00"
+            "time": "2017-07-05T08:53:15+00:00"
         },
         {
             "name": "twig/twig",
