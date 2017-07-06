@@ -43,10 +43,10 @@ Classrooms and computer controlling software by the Bildungszentrum kvBL in Lies
     sudo apt-get install nodejs
     sudo apt-get install npm
     ```
-13. Install `uglifyjs2` and `uglifycss` inside the project.
+13. Install `uglify-js` and `uglifycss` inside the project.
     ```bash
         cd bin
-        npm install uglifyjs2
+        npm install uglify-js
         npm install uglifycss
     ```
 14. Install JavaScripts and CSS files. `bower install -F`
