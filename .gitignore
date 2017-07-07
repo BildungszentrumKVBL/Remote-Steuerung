@@ -13,4 +13,5 @@ app/cache/*
 /doc/latex/
 /doc/*.tmp
 /.bu/*
+!/src/AppBundle/Resources/public/css/style.css
 !.gitkeep

@@ -38,10 +38,12 @@ Classrooms and computer controlling software by the Bildungszentrum kvBL in Lies
 10. Create the schema. `php app/console doctrine:schame:create`
 11. Install fixtures. `php app/console doctrine:fixtures:load -n`
 [//]: # (uglifyjs2 and uglifycss maybe do not need to be install, because they are in the git repository. We need to check that.)
-12. Install `nodejs`, `npm` and `bower`.
+12. Install `nodejs`, `node-sass`, `npm` and `bower`.
     ```bash
     sudo apt-get install nodejs
     sudo apt-get install npm
+    sudo npm install -g node-sass
+    sudo npm install -g bower
     ```
 13. Install `uglify-js` and `uglifycss` inside the project.
     ```bash
@@ -49,11 +51,12 @@ Classrooms and computer controlling software by the Bildungszentrum kvBL in Lies
         npm install uglify-js
         npm install uglifycss
     ```
-14. Install JavaScripts and CSS files. `bower install -F`
-15. Dump website assets. `php app/console assetic:dump web -e=prod`
-16. Create an admin-account. `php app/console app:create:admin`
+14. Generate CSS files.
+15. Install JavaScripts and CSS files. `bower install -F`
+16. Dump website assets. `php app/console assetic:dump web -e=prod`
+17. Create an admin-account. `php app/console app:create:admin`
     To reset the password, use this command. `php app/console app:create:admin --change-password`
-17. Import your infrastructure. `php app/console app:import:infrastructure `
+18. Import your infrastructure. `php app/console app:import:infrastructure `
 
 
 ## Creating an infrastructure-file

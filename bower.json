@@ -22,5 +22,8 @@
     "bootstrap-material-design": "^0.5.10",
     "bootstrap-sass": "^3.3.7",
     "snackbarjs": "^1.1.0"
+  },
+  "resolutions": {
+    "jquery": "1.9.1 - 3"
   }
 }
