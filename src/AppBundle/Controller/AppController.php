@@ -203,7 +203,7 @@ class AppController extends Controller
             $em->flush();
         }
 
-
+        // TODO: Extract to template.
         if ($request->isXmlHttpRequest()) {
             return $this->render('AppBundle:app/content:controller.html.twig', ['status' => $status]);
         }
@@ -211,7 +211,6 @@ class AppController extends Controller
         return $this->render(
             'AppBundle:app:controller.html.twig', [
                 'status' => $status,
-                'room'   => $zulu->getRoom(),
             ]
         );
     }
