@@ -191,13 +191,12 @@ class CommandsHandler
         $this->em->persist($log);
 
         if ($output) { // Request was successful
-            $statuses = $this->statusXmlToZuluCommandStatuses($output);
+            $commandStatuses = $this->statusXmlToZuluCommandStatuses($output);
             $status = new ZuluStatus();
-            foreach ($statuses as $stat) {
-                $status->addCommandStatus($stat);
+            foreach ($commandStatuses as $commandStatus) {
+                $status->addCommandStatus($commandStatus);
             }
             $this->zulu->addStatus($status);
-            $this->em->persist($status);
             $this->em->persist($this->zulu);
             $this->em->flush($this->zulu);
         }

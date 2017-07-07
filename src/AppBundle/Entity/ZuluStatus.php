@@ -48,6 +48,7 @@ class ZuluStatus
      * The Zulu associated with the status.
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Zulu", inversedBy="statuses")
+     * @ORM\JoinColumn(name="zulu_id", referencedColumnName="id")
      *
      * @var Zulu $zulu
      */
