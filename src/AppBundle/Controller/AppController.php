@@ -163,12 +163,11 @@ class AppController extends Controller
      * @ParamConverter("view", class="AppBundle:View")
      * @Security("has_role('ROLE_TEACHER')")
      *
-     * @param Request $request
-     * @param View    $view
+     * @param View $view
      *
      * @return Response
      */
-    public function controllerAction(Request $request, $view): Response
+    public function controllerAction($view): Response
     {
         $em   = $this->get('doctrine.orm.entity_manager');
         $user = $this->getUser();
