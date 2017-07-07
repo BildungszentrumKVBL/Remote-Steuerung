@@ -51,7 +51,7 @@ Classrooms and computer controlling software by the Bildungszentrum kvBL in Lies
         npm install uglify-js
         npm install uglifycss
     ```
-14. Generate CSS files.
+14. Generate CSS files. `./generate_css.sh`
 15. Install JavaScripts and CSS files. `bower install -F`
 16. Dump website assets. `php app/console assetic:dump web -e=prod`
 17. Create an admin-account. `php app/console app:create:admin`
