@@ -260,7 +260,6 @@ class AppController extends Controller
      *                                                  requirements={"state": "[0-1]{1}"})
      * @Security("has_role('ROLE_TEACHER')")
      * @Method(methods={"post"})
-     * TODO: Add ParamConverter.
      *
      * @param Request $request
      * @param bool    $state
@@ -291,9 +290,7 @@ class AppController extends Controller
         $em->persist($user);
         $em->flush();
 
-        $text = $state ? 'Deaktivieren' : 'Aktivieren';
-
-        return new JsonResponse(['state' => $state, 'text' => $text]);
+        return new JsonResponse(['state' => $state, 'text' => $state ? 'Deaktivieren' : 'Aktivieren']);
     }
 
     /**
