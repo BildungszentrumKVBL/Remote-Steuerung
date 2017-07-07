@@ -1,4 +1,6 @@
-{% extends 'AppBundle::base.html.twig' %}
+{% extends app.request.xmlHttpRequest
+? 'AppBundle::ajax-base.html.twig'
+: 'AppBundle::base.html.twig'%}
 
 {% block body %}
     {% include 'AppBundle:app/content:controller.html.twig' %}
