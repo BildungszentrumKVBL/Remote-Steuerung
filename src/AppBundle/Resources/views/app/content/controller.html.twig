@@ -1,6 +1,7 @@
 {% spaceless %}
     {% set observing = (observe is defined and observe == true) %}
     {% set settings = (user.settings is defined) ? user.settings : app.user.settings %}
+    {% set update = update|default(false) %}
 
     {% if not observing %}
         <div id="controller-wrapper" class="container" data-view="{{ app.user.settings.view|json_encode }}">
@@ -50,7 +51,7 @@
                 {% set is_end_of_row = true %}
             {% endif %}
             {% endif %}
-            <div class="well well-sm{% if observing and update is not defined and not update %} boot booted{% else %} bootable boot-start{% endif %} btn btn-primary btn-{{ observing ? 'fake-':'' }}controller{{ (active) ? ' btn-raised' }}" data-button="{{ button.command.name }}"{{ extraDataString }}>
+            <div class="well well-sm{% if observing and not update %} boot booted{% else %} bootable boot-start{% endif %} btn btn-primary btn-{{ observing ? 'fake-':'' }}controller{{ (active) ? ' btn-raised' }}" data-button="{{ button.command.name }}"{{ extraDataString }}>
                 <i class="material-icons">{{ button.command.icon }}</i>
                 <br>
                 <span class="description">{{ button.command.label }}</span>
