@@ -13,7 +13,7 @@
         <meta charset="UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">{# Forces Edge to render properly #}
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">{# Add responsive capabilities #}
-        <title>{% block title %}Remote-Steuerung{% endblock %}</title>
+        <title>{% block title %}{{ 'remote_control'|trans }}{% endblock %}</title>
 
         <meta name="mobile-web-app-capable" content="yes">
         <link rel="manifest" href="{{ path('app_manifest_route') }}">
@@ -120,26 +120,26 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="{{ path('homepage') }}" class="navbar-brand link"><i class="material-icons">memory</i> Remote Steuerung</a>
+                    <a href="{{ path('homepage') }}" class="navbar-brand link"><i class="material-icons">memory</i> {{ 'nav.remote_control'|trans }}</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     {% if is_granted('ROLE_USER') %}
                         <ul class="nav navbar-nav navbar-left">
-                        <li><a href="{{ path('controller_route') }}" class="link"><i class="material-icons">settings_remote</i> Steuerung</a></li>
-                        <li><a href="{{ path('choose_room_route') }}" class="link"><i class="material-icons">my_location</i> Zimmer</a></li>
+                        <li><a href="{{ path('controller_route') }}" class="link"><i class="material-icons">settings_remote</i> {{ 'nav.control'|trans }}</a></li>
+                        <li><a href="{{ path('choose_room_route') }}" class="link"><i class="material-icons">my_location</i> {{ 'nav.room'|trans }}</a></li>
                             {% if is_granted('ROLE_HW') %}
                                 <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <i class="material-icons">security</i><span class="hidden-sm"> Admin</span><span class="caret"></span>
+                                    <i class="material-icons">security</i><span class="hidden-sm"> {{ 'nav.admin'|trans }}</span><span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     {% if is_granted('ROLE_ADMIN') %}
-                                        <li><a href="{{ path('admin_observe_route') }}" class="link"><i class="material-icons">visibility</i> Observieren</a></li>
-                                        <li><a href="{{ path('admin_settings_route') }}" class="link"><i class="material-icons">settings_input_component</i> Einstellungen</a></li>
-                                        <li class="hidden-xs"><a href="{{ path('BCCCronManagerBundle_index') }}"><i class="material-icons">access_time</i> Cron</a></li>
+                                        <li><a href="{{ path('admin_observe_route') }}" class="link"><i class="material-icons">visibility</i> {{ 'nav.admin.observe'|trans }}</a></li>
+                                        <li><a href="{{ path('admin_settings_route') }}" class="link"><i class="material-icons">settings_input_component</i> {{ 'nav.admin.settings'|trans }}</a></li>
+                                        <li class="hidden-xs"><a href="{{ path('BCCCronManagerBundle_index') }}"><i class="material-icons">access_time</i> {{ 'nav.admin.cron'|trans }}</a></li>
                                     {% endif %}
-                                    <li><a href="{{ path('admin_status_route') }}" class="link"><i class="material-icons">assessment</i> Status</a></li>
-                                    <li><a href="{{ path('admin_logs_route') }}" class="link"><i class="material-icons">assignment</i> Logs</a></li>
+                                    <li><a href="{{ path('admin_status_route') }}" class="link"><i class="material-icons">assessment</i> {{ 'nav.admin.status'|trans }}</a></li>
+                                    <li><a href="{{ path('admin_logs_route') }}" class="link"><i class="material-icons">assignment</i> {{ 'nav.admin.logs'|trans }}</a></li>
                                 </ul>
                             </li>
                             {% endif %}
@@ -147,13 +147,13 @@
                     {% endif %}
                     <ul class="nav navbar-nav navbar-right">
                         {% if is_granted('ROLE_USER') %}
-                            <li><a href="{{ path('user_settings_route') }}" class="link"><i class="material-icons">settings</i><span class="hidden-sm"> Einstellungen</span></a></li>
+                            <li><a href="{{ path('user_settings_route') }}" class="link"><i class="material-icons">settings</i><span class="hidden-sm"> {{ 'nav.settings'|trans }}</span></a></li>
                         {% endif %}
-                        <li><a onclick="app.help();"><i class="material-icons">help</i><span class="hidden-sm"> Hilfe</span></a></li>
+                        <li><a onclick="app.help();"><i class="material-icons">help</i><span class="hidden-sm"> {{ 'nav.help'|trans }}</span></a></li>
                         {% if is_granted('ROLE_USER') %}
-                            <li><a href="{{ path('logout_route') }}" class="link"><i class="material-icons">exit_to_app</i><span class="hidden-sm">  Logout</span></a></li>
+                            <li><a href="{{ path('logout_route') }}" class="link"><i class="material-icons">exit_to_app</i><span class="hidden-sm">  {{ 'nav.logout'|trans }}</span></a></li>
                         {% else %}
-                            <li><a href="{{ path('login_route') }}" class="link"><i class="material-icons">account_circle</i> Login</a></li>
+                            <li><a href="{{ path('login_route') }}" class="link"><i class="material-icons">account_circle</i> {{ 'nav.login'|trans }}</a></li>
                         {% endif %}
                     </ul>
                 </div>
@@ -163,22 +163,22 @@
             {% block body %}{% endblock %}
         </main>
         <footer>
-            <span id="loader" data-toggle="snackbar" data-content="Bitte warten..."></span>
+            <span id="loader" data-toggle="snackbar" data-content="{{ 'snack.please_wait'|trans }}"></span>
             <div id="help" class="modal accelerated fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title">Möchten Sie...</h4>
+                            <h4 class="modal-title">{{ 'modal.would_you_like_to'|trans }}</h4>
                         </div>
                         <div class="modal-body">
-                            <a href="tel:+{{ hotline_number }}"><div class="alert alert-primary action-box"><i class="material-icons">call</i> Das IT-Team anrufen</div></a>
+                            <a href="tel:+{{ hotline_number }}"><div class="alert alert-primary action-box"><i class="material-icons">call</i> {{ 'modal.call_it'|trans }}</div></a>
                             {#{% if is_granted('ROLE_USER') %}
                                 <a href="#"><div class="alert alert-primary action-box"><i class="material-icons">receipt</i> Ein Ticket erstellen</div></a>
                             {% endif %}#}
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Schliessen</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">{{ 'modal.cancel'|trans }}</button>
                         </div>
                     </div>
                 </div>
@@ -188,15 +188,15 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title">Auswahl</h4>
+                            <h4 class="modal-title">{{ 'modal.choose'|trans }}</h4>
                         </div>
                         <div class="modal-body">
-                            <p>Bitte wählen Sie die gewünschten Werte aus.</p>
+                            <p>{{ 'modal.please_choose_value'|trans }}</p>
                             <form class="fields" onsubmit="document.getElementById('requirementsHelper').click(); return false;">
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button id="requirementsHelper" type="button" class="btn btn-primary">Senden</button>
+                            <button id="requirementsHelper" type="button" class="btn btn-primary">{{ 'modal.send'|trans }}</button>
                         </div>
                     </div>
                 </div>

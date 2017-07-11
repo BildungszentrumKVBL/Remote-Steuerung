@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="de" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="nav.control">
+                <source>nav.control</source>
+                <target>Steuerung</target>
+            </trans-unit>
+            <trans-unit id="nav.remote_control">
+                <source>nav.remote_control</source>
+                <target>Remote-Steuerung</target>
+            </trans-unit>
+            <trans-unit id="nav.room">
+                <source>nav.room</source>
+                <target>Zimmer</target>
+            </trans-unit>
+            <trans-unit id="nav.admin">
+                <source>nav.admin</source>
+                <target>Admin</target>
+            </trans-unit>
+            <trans-unit id="nav.admin.observe">
+                <source>nav.admin.observe</source>
+                <target>Observieren</target>
+            </trans-unit>
+            <trans-unit id="nav.admin.settings">
+                <source>nav.admin.settings</source>
+                <target>Einstellungen</target>
+            </trans-unit>
+            <trans-unit id="nav.admin.cron">
+                <source>nav.admin.cron</source>
+                <target>Cron</target>
+            </trans-unit>
+            <trans-unit id="nav.admin.status">
+                <source>nav.admin.status</source>
+                <target>Status</target>
+            </trans-unit>
+            <trans-unit id="nav.admin.logs">
+                <source>nav.admin.logs</source>
+                <target>Logs</target>
+            </trans-unit>
+            <trans-unit id="nav.settings">
+                <source>nav.settings</source>
+                <target>Einstellungen</target>
+            </trans-unit>
+            <trans-unit id="nav.help">
+                <source>nav.help</source>
+                <target>Hilfe</target>
+            </trans-unit>
+            <trans-unit id="nav.logout">
+                <source>nav.logout</source>
+                <target>Logout</target>
+            </trans-unit>
+            <trans-unit id="nav.login">
+                <source>nav.login</source>
+                <target>Login</target>
+            </trans-unit>
+            <trans-unit id="snack.please_wait">
+                <source>snack.please_wait</source>
+                <target>Bitte warten...</target>
+            </trans-unit>
+            <trans-unit id="modal.would_you_like_to">
+                <source>modal.would_you_like_to</source>
+                <target>Möchten Sie...</target>
+            </trans-unit>
+            <trans-unit id="modal.call_it">
+                <source>modal.call_it</source>
+                <target>Das IT-Team anrufen</target>
+            </trans-unit>
+            <trans-unit id="modal.cancel">
+                <source>modal.cancel</source>
+                <target>Schließen</target>
+            </trans-unit>
+            <trans-unit id="modal.choose">
+                <source>modal.choose</source>
+                <target>Auswahl</target>
+            </trans-unit>
+            <trans-unit id="modal.please_choose_value">
+                <source>modal.please_choose_value</source>
+                <target>Bitte wählen Sie die gewünschten Werte aus.</target>
+            </trans-unit>
+            <trans-unit id="modal.send">
+                <source>modal.send</source>
+                <target>Senden</target>
+            </trans-unit>
+            <trans-unit id="remote_control">
+                <source>remote_control</source>
+                <target>Remote-Steuerung</target>
+            </trans-unit>
+            <trans-unit id="form.login">
+                <source>form.login</source>
+                <target>Login</target>
+            </trans-unit>
+            <trans-unit id="form.username">
+                <source>form.username</source>
+                <target>Benutzername</target>
+            </trans-unit>
+            <trans-unit id="form.password">
+                <source>form.password</source>
+                <target>Password</target>
+            </trans-unit>
+            <trans-unit id="form.send">
+                <source>form.send</source>
+                <target>Senden</target>
+            </trans-unit>
+            <trans-unit id="remote_control.application">
+                <source>remote_control.application</source>
+                <target>Remote-Steuerung kvBL</target>
+            </trans-unit>
+            <trans-unit id="main.educational_center_text">
+                <source>main.educational_center_text</source>
+                <target>Diese Applikation wurde für Sie durch das IT-Team vom Bildungszentrum kvBL Liestal zur Verfügung gestellt.</target>
+            </trans-unit>
+            <trans-unit id="main.we_hope_you_like_it">
+                <source>main.we_hope_you_like_it</source>
+                <target>Wir hoffen dass Euch dies hilft den Unterricht effektiver zu gestalten.</target>
+            </trans-unit>
+            <trans-unit id="settings">
+                <source>settings</source>
+                <target>Einstellungen</target>
+            </trans-unit>
+            <trans-unit id="design">
+                <source>design</source>
+                <target>Design</target>
+            </trans-unit>
+            <trans-unit id="default_control_view">
+                <source>default_control_view</source>
+                <target>Standard-Steuerungsansicht</target>
+            </trans-unit>
+            <trans-unit id="push_messaging">
+                <source>push_messaging</source>
+                <target>Push-Benachrichtigung</target>
+            </trans-unit>
+            <trans-unit id="deactivate">
+                <source>deactivate</source>
+                <target>Deaktivieren</target>
+            </trans-unit>
+            <trans-unit id="activate">
+                <source>activate</source>
+                <target>Aktivieren</target>
+            </trans-unit>
+            <trans-unit id="fullscreen">
+                <source>fullscreen</source>
+                <target>Vollbild</target>
+            </trans-unit>
+            <trans-unit id="toggle">
+                <source>toggle</source>
+                <target>Wechseln</target>
+            </trans-unit>
+            <trans-unit id="save">
+                <source>save</source>
+                <target>Speichern</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

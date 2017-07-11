@@ -283,7 +283,9 @@ class AppController extends Controller
         $em->persist($user);
         $em->flush();
 
-        return new JsonResponse(['state' => $state, 'text' => $state ? 'Deaktivieren' : 'Aktivieren']);
+        $text = $this->get('translator')->trans($state ? 'deactivate' : 'activate');
+
+        return new JsonResponse(['state' => $state, 'text' => $text]);
     }
 
     /**
