@@ -150,6 +150,98 @@
                 <source>save</source>
                 <target>Speichern</target>
             </trans-unit>
+            <trans-unit id="choose_room">
+                <source>choose_room</source>
+                <target>Raum auswählen</target>
+            </trans-unit>
+            <trans-unit id="building">
+                <source>building</source>
+                <target>Gebäude</target>
+            </trans-unit>
+            <trans-unit id="choose">
+                <source>choose</source>
+                <target>Auswählen</target>
+            </trans-unit>
+            <trans-unit id="room">
+                <source>room</source>
+                <target>Raum</target>
+            </trans-unit>
+            <trans-unit id="control">
+                <source>control</source>
+                <target>Steuern</target>
+            </trans-unit>
+            <trans-unit id="choose_building">
+                <source>choose_building</source>
+                <target>Gebäude auswählen</target>
+            </trans-unit>
+            <trans-unit id="all_buildings">
+                <source>all_buildings</source>
+                <target>Alle Gebäude</target>
+            </trans-unit>
+            <trans-unit id="show">
+                <source>show</source>
+                <target>Anzeigen</target>
+            </trans-unit>
+            <trans-unit id="filter">
+                <source>filter</source>
+                <target>Filter</target>
+            </trans-unit>
+            <trans-unit id="user">
+                <source>user</source>
+                <target>Benutzer</target>
+            </trans-unit>
+            <trans-unit id="all_users">
+                <source>all_users</source>
+                <target>Alle</target>
+            </trans-unit>
+            <trans-unit id="level">
+                <source>level</source>
+                <target>Level</target>
+            </trans-unit>
+            <trans-unit id="all_logs_levels">
+                <source>all_logs_levels</source>
+                <target>Alle</target>
+            </trans-unit>
+            <trans-unit id="log_level_info">
+                <source>log_level_info</source>
+                <target>Infos</target>
+            </trans-unit>
+            <trans-unit id="log_level_command">
+                <source>log_level_command</source>
+                <target>Befehle</target>
+            </trans-unit>
+            <trans-unit id="log_level_system">
+                <source>log_level_system</source>
+                <target>System</target>
+            </trans-unit>
+            <trans-unit id="log_level_error">
+                <source>log_level_error</source>
+                <target>Error</target>
+            </trans-unit>
+            <trans-unit id="to_filter">
+                <source>to_filter</source>
+                <target>Filtern</target>
+            </trans-unit>
+            <trans-unit id="logs">
+                <source>logs</source>
+                <target>Logs</target>
+            </trans-unit>
+            <trans-unit id="no_devices_found">
+                <source>no_devices_found</source>
+                <target>Keine Geräte gefunden.</target>
+            </trans-unit>
+            <trans-unit id="time">
+                <source>time</source>
+                <target>Zeit</target>
+            </trans-unit>
+            <trans-unit id="description">
+                <source>description</source>
+                <target>Beschreibung</target>
+            </trans-unit>
+            <trans-unit id="no_entries_found">
+                <source>no_entries_found</source>
+                <target>Keine Einträge gefunden</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

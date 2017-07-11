@@ -18,7 +18,7 @@
         </div>
         {% endfor %}
         {% if counter == 0 %}
-            <h1 style="text-align: center;">Keine Geräte gefunden. <i class="material-icons">sentiment_dissatisfied</i></h1>
+            <h1 style="text-align: center;">{{ 'no_devices_found'|trans }} <i class="material-icons">sentiment_dissatisfied</i></h1>
         {% endif %}
     </div>
 {% endspaceless %}
