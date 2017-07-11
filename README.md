@@ -18,45 +18,72 @@ Classrooms and computer controlling software by the Bildungszentrum kvBL in Lies
 
 1. Prepare a webserver for the application.
 2. Depending on your network infrastructure, it also can be multi-homed. (Make sure to add routes if needed.)
-3. Go to a desired location for the website.
-4. Clone this repository. `git clone https://github.com/BildungszentrumKVBL/Remote-Steuerung.git`
-5. Create a virtual-host and set the `DocumentRoot` to the `/web`-Directory inside the cloned folder.
-6. Create a rewrite rule for this virtual-host to redirect all requests to `app.php`.
-   ```apacheconf
-   <IfModule mod_rewrite.c>
+3. Make sure you have the following packages installed:
+    ```bash
+    apt-get install git
+    apt-get install mysql # *
+    apt-get install php-ldap
+    apt-get install php-dom
+    apt-get install php-mbstring
+    apt-get install php-zip
+    apt-get instal composer
+    ```
+    \* Or similar. (Postgres, mariadb, and even mssql should work fine. Infos are [here](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html))
+    You can change the driver in `app/config/config.yml` under doctrine > dbal > driver
+4. Go to a desired location for the website.
+5. Clone this repository. `git clone https://github.com/BildungszentrumKVBL/Remote-Steuerung.git`
+6. Set owners and rights. 
+    ```bash
+    # Example for apache2
+    chown -R www-data:www-data YOUR_DOCUMENT_ROOT
+    chmod -R 775 YOUR_DOCUMENT_ROOT
+    usermod -a -G www-data YOUR_WEB_USER
+    ```
+7. Create a virtual-host and set the `DocumentRoot` to the `/web`-Directory inside the cloned folder.
+8. Create a rewrite rule for this virtual-host to redirect all requests to `app.php`. [Infos here](https://symfony.com/doc/current/setup/web_server_configuration.html).
+    ```apacheconf
+    # Example for apache2
+    # Make sure to activate mod_rewrite: a2enmod rewrite
+    <IfModule mod_rewrite.c>
        RewriteEngine On
        RewriteCond %{REQUEST_FILENAME} !-f
-       RewriteRule ^(.*)$ app_dev.php [QSA,L]
-   </IfModule>
-   ```
+       RewriteRule ^(.*)$ /app.php [QSA,L]
+    </IfModule>
+    ```
    You might have to do some research, depending on your webserver.
-7. Check your PHP installation. `php app/SymfonyRequirements.php`
+9. Check your PHP installation. `php app/check.php`
    If there are missing libraries or plugins, install them accordingly.
-8. Install dependencies and configure variables. `composer install --optimize-autoloader`
+10. Install dependencies and configure variables. `composer install --optimize-autoloader`
    The variables asked during the installation can be changed later in `/app/config/parameters.yml`.
-9. Create the database. `php app/console doctrine:database:create`
-10. Create the schema. `php app/console doctrine:schame:create`
-11. Install fixtures. `php app/console doctrine:fixtures:load -n`
-[//]: # (uglifyjs2 and uglifycss maybe do not need to be install, because they are in the git repository. We need to check that.)
-12. Install `nodejs`, `node-sass`, `npm` and `bower`.
+11. Create the database. `php app/console doctrine:database:create`
+12. Create the schema. `php app/console doctrine:schema:create`
+13. Install fixtures. `php app/console doctrine:fixtures:load -n`
+14. Install `nodejs`, `node-sass`, `npm` and `bower`.
     ```bash
     sudo apt-get install nodejs
     sudo apt-get install npm
-    sudo npm install -g node-sass
-    sudo npm install -g bower
+    sudo npm install -g node-sass # Eventually you have to use: npm install --unsafe-perm -g node-sass
+    sudo npm install -g bower # Eventually you have to use: npm install --unsafe-perm -g bower
     ```
-13. Install `uglify-js` and `uglifycss` inside the project.
+15. Install `uglify-js` and `uglifycss` inside the project.
     ```bash
-        cd bin
-        npm install uglify-js
-        npm install uglifycss
+    cd bin
+    npm install uglify-js
+    npm install uglifycss
+    cd ..
     ```
-14. Generate CSS files. `./generate_css.sh`
-15. Install JavaScripts and CSS files. `bower install -F`
-16. Dump website assets. `php app/console assetic:dump web -e=prod`
-17. Create an admin-account. `php app/console app:create:admin`
+16. Install JavaScripts and CSS files. `bower install -F`
+17. Generate CSS files. `./generate_css.sh`
+18. Dump website assets. `php app/console assetic:dump web -e=prod`
+19. Reset permissions.
+    ```bash
+    # Example for apache2
+    chown -R www-data:www-data YOUR_DOCUMENT_ROOT
+    chmod -R 775 YOUR_DOCUMENT_ROOT
+    ```
+20. Create an admin-account. `php app/console app:create:admin`
     To reset the password, use this command. `php app/console app:create:admin --change-password`
-18. Import your infrastructure. `php app/console app:import:infrastructure `
+21. Import your infrastructure. `php app/console app:import:infrastructure `
 
 
 ## Creating an infrastructure-file
