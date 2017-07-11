@@ -44,10 +44,18 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="application_hotline">Hotline</label>
+                                <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
+                                    <input type="text" name="application_hotline" class="form-control"
+                                           id="application_hotline"
+                                           value="{{ settings.application_hotline }}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4" for="application_admin_email">Admin
                                     E-mail</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                    <input type="text" name="application_admin_email" class="form-control"
+                                    <input type="email" name="application_admin_email" class="form-control"
                                            id="application_admin_email"
                                            value="{{ settings.application_admin_email }}" required>
                                 </div>
@@ -56,7 +64,7 @@
                                 <label class="control-label col-md-4 col-sm-4" for="application_sender_email">Sender
                                     E-mail</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                    <input type="text" name="application_sender_email" class="form-control"
+                                    <input type="email" name="application_sender_email" class="form-control"
                                            id="application_sender_email"
                                            value="{{ settings.application_sender_email }}" required>
                                 </div>
@@ -66,7 +74,7 @@
                                        title="E-Mail Addresse welche informationen und logs empfangen soll">Empfänger
                                     E-mail</label>
                                 <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2">
-                                    <input type="text" name="application_receiver_email" class="form-control"
+                                    <input type="email" name="application_receiver_email" class="form-control"
                                            id="application_receiver_email"
                                            value="{{ settings.application_receiver_email }}" required>
                                 </div>

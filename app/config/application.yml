@@ -1,5 +1,6 @@
 parameters:
     application_log_level: 1
+    application_hotline: 12345678901
     application_admin_email: info@change.me
     application_sender_email: noreply@change.me
     application_receiver_email: support@change.me
