@@ -21,7 +21,7 @@
                 <table class="table table-striped" >
                     <tr>
                         <th class="span2" style="color: #808080;"><i class="glyphicon glyphicon-time"></i> {{ 'Last Run' | trans({}, 'BCCCronManagerBundle') }}</th>
-                        <td colspan="2">{{ cron.lastRunTime ? cron.lastRunTime | date : 'Unknown' | trans({}, 'BCCCronManagerBundle') }}</td>
+                        <td colspan="2">{{ cron.lastRunTime ? cron.lastRunTime | date : 'unknown' | trans({}, 'BCCCronManagerBundle') }}</td>
                     </tr>
                     {% if cron.comment %}
                         <tr>
@@ -53,7 +53,7 @@
                                     <a class="btn btn-default btn-info pull-right modal-link"
                                        href="{{ path('BCCCronManagerBundle_file', {'id':index, 'type': 'error'}) }}">
                                         <i class="glyphicon glyphicon-search glyphicon-white"></i>
-                                        {{ 'Error file' | trans({}, 'BCCCronManagerBundle') }}
+                                        {{ 'Error File' | trans({}, 'BCCCronManagerBundle') }}
                                     </a>
                                 {% endif %}
                             </td>
