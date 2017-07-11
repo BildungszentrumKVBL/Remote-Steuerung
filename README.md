@@ -26,7 +26,7 @@ Classrooms and computer controlling software by the Bildungszentrum kvBL in Lies
     apt-get install php-dom
     apt-get install php-mbstring
     apt-get install php-zip
-    apt-get instal composer
+    apt-get install composer
     ```
     \* Or similar. (Postgres, mariadb, and even mssql should work fine. Infos are [here](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html))
     You can change the driver in `app/config/config.yml` under doctrine > dbal > driver
