@@ -56,7 +56,7 @@
             </trans-unit>
             <trans-unit id="14">
                 <source>Keep in mind that cron user is %user% and its root directory is %root%.</source>
-                <target>Beachte, dass der Cron-Benutzer %user% ist und sein Root-Verzeichnis %root%.</target>
+                <target>Beachte, dass %user% der Cron-Benutzer ist und das Root-Verzeichnis %root% benutzt wird.</target>
             </trans-unit>
             <trans-unit id="15">
                 <source>Daily</source>
