@@ -11,7 +11,7 @@ Classrooms and computer controlling software by the Bildungszentrum kvBL in Lies
 
 ### Easy switching between views
 
-![Switching Views](./doc/gif/switch-view.gif)
+<img src="doc/gif/switch-view.gif" width=250px>
 
 ### More features..
 
@@ -29,7 +29,7 @@ Classrooms and computer controlling software by the Bildungszentrum kvBL in Lies
 - Reduce the cost and effort of managing presenters.
 - Translatable interface.
 - Application analysis-toolbar for administrators.
-  ![Symfony Toolbar](src/AppBundle/Resources/doc/img/symfony_toolsbar.png)
+  <img src="src/AppBundle/Resources/doc/img/symfony_toolsbar.png" width=300px>
 - Customizable designs.
 
 
