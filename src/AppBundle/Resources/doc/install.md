@@ -70,4 +70,9 @@ Base installation
 20. Create an admin-account. `php app/console app:create:admin`
     To reset the password, use this command. `php app/console app:create:admin --change-password`
 21. [Create your infrastructure](infrastructure.md) and it. `php app/console app:import:infrastructure`
-22. Start your websocket server.
+22. Start your [websocket server](websocket.md).
+
+
+# Advanced topics
+
+- [Use SSL](ssl.md)
