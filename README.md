@@ -27,6 +27,10 @@ Classrooms and computer controlling software by the Bildungszentrum kvBL in Lies
     - In futuristic schools: automatically open the windows and air out the room, 10 minutes before the next lesson.
     - In futuristic schools: 2 hours before the first lesson, make a self-check of the room. Does everything work and respond as expected?
 - Reduce the cost and effort of managing presenters.
+- Translatable interface.
+- Application analysis-toolbar for administrators.
+  ![Symfony Toolbar](src/AppBundle/Resources/doc/img/symfony_toolsbar.png)
+- Customizable designs.
 
 
 ## Documentation
