@@ -20,6 +20,9 @@ Here lies the basic documentation for the remote-control application.
 
 # Technical explanations
 
+An interactive graph is available here: https://blackfire.io/profiles/c85f6444-66a3-4c1c-815e-517c50f71537/graph
+
+These diagrams, are currently localized in german.
 - [Activity diagram: When a command was sent](/uml/activity%20-%20command.png)
 - [Use-case diagram: What is this application's use](/uml/application%20-%20use%20case.png)
 - [Flow diagram: Authentication](/uml/communication%20-%20authentication.png)
