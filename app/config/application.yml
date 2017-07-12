@@ -22,6 +22,8 @@ parameters:
     eventghost_password: ''
     eventghost_websocket_server: ip.of.this.server
     eventghost_websocket_ssl: false
+    eventghost_websocket_port: 8888
+    eventghost_websocket_ssl_port: 8443
     ldap_host: server.fully.qualified.domain.name
     ldap_username: user@fully.qualified.domain.name
     ldap_password: ''

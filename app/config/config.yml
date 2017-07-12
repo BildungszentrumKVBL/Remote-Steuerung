@@ -49,6 +49,8 @@ twig:
         firebase_server_id: "%firebase_server_id%"
         websocket_ssl: "%eventghost_websocket_ssl%"
         hotline_number: "%application_hotline%"
+        websocket_port: "%eventghost_websocket_port%"
+        websocket_ssl_port: "%eventghost_websocket_ssl_port%"
 
 doctrine:
     dbal:
@@ -96,9 +98,9 @@ gos_web_socket:
     pushers:
         wamp:
             host: 127.0.0.1
-            port: 8888
+            port: "%eventghost_websocket_port%"
     server:
-        port: 8888        #The port the socket server will listen on
+        port: "%eventghost_websocket_port%"        #The port the socket server will listen on
         host: 127.0.0.1
         router:
             resources:
