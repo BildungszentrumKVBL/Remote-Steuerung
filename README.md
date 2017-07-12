@@ -56,4 +56,4 @@ A: Please create an issue on Github and describe the problem.
 
 Q: We have a special wish/idea for this application.
 
-A: For custom features or installations, please contact [ashura@protonmail.ch](ashura@protonmail.ch).
+A: For custom features or installations, please contact [ashura@protonmail.ch](mailto:ashura@protonmail.ch).
