@@ -29,6 +29,7 @@ Classrooms and computer controlling software by the Bildungszentrum kvBL in Lies
 - Reduce the cost and effort of managing presenters.
 - Translatable interface.
 - Application analysis-toolbar for administrators.
+
   <img src="src/AppBundle/Resources/doc/img/symfony_toolsbar.png" width=300px>
 - Customizable designs.
 
