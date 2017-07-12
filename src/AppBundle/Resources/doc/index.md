@@ -28,3 +28,5 @@ These diagrams, are currently localized in german.
 - [Flow diagram: Authentication](/uml/communication%20-%20authentication.png)
 - [Flow diagram: EventGhost](/uml/communication%20-%20eventghost.png)
 - [Flow diagram: Microcontroller](/uml/communication%20-%20zulu.png)
+
+If you are interested in a very detailed documentation of this project, you can contact me per email. The whole document contains over 450 pages.
