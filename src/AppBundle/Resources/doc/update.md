@@ -3,7 +3,7 @@ Update
 
 To keep up-to-date, first create a backup using the [backup](backup.md)-command.
 1. Ignore changes to your application.yml-file: `git update-index --assume-unchanged app/config/application.yml`
-2. Update the code. `git pull`
+2. Update the code. `git fetch --all && git reset --hard origin/master && git pull`
 3. Update new dependencies. `composer install --optimize-autoloader`
 4. Check for database-updates. `php app/console doctrine:schema:update --dump-sql`
    If there are updates, you can apply them with using the `--force`-flag. `php app/console doctrine:schema:update --force`
