@@ -3,7 +3,9 @@
 namespace AppBundle\EventListener;
 
 use AppBundle\Entity\Group;
+use AppBundle\Entity\Log;
 use AppBundle\Entity\User;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Monolog\Logger;
 
@@ -73,6 +75,7 @@ class UserEventListener
             return;
         }
 
+        $em = $args->getEntityManager();
 
         // Checks the user is new.
         if ($user->getId() === null) {
@@ -81,6 +84,9 @@ class UserEventListener
                 $message .= $group.', ';
             }
             $this->logger->info($message);
+            $log = new Log($message, Log::LEVEL_INFO, $user);
+            $em->persist($log);
+            $em->flush($log);
 
             $mapping = [
                 'IT'         => $this->groupIt,
@@ -90,16 +96,19 @@ class UserEventListener
             ];
 
             foreach ($mapping as $group => $ou) {
-                $this->addGroupByOU($args, $group, $ou);
+                $this->addGroupByOU($em, $user, $group, $ou);
             }
         }
     }
 
-    private function addGroupByOU(LifecycleEventArgs $args, string $ou, string $groupName)
+    /**
+     * @param EntityManager $em
+     * @param User          $user
+     * @param string        $ou
+     * @param string        $groupName
+     */
+    private function addGroupByOU(EntityManager $em, User &$user, string $ou, string $groupName)
     {
-        $em = $args->getEntityManager();
-        /** @var User $user */
-        $user = $args->getEntity();
         if (in_array($ou, $user->getLdapGroups())) {
             /** @var Group $group */
             $group = $em->getRepository('AppBundle:Group')->findOneBy(array('name' => $groupName));
