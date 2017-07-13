@@ -12,6 +12,7 @@ app/cache/*
 /doc/html/
 /doc/latex/
 /doc/*.tmp
+/bin/phpunit
 /.bu/*
 /src/AppBundle/Resources/public/css/*.css
 /src/AppBundle/Resources/public/css/*.map
