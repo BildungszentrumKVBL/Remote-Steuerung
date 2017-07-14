@@ -70,50 +70,33 @@ class UserEventListener
     public function prePersist(LifecycleEventArgs $args)
     {
         $user = $args->getEntity();
-
-        if (!$user instanceof User) {
-            return;
-        }
-
-        $em = $args->getEntityManager();
-
-        // Checks the user is new.
-        if ($user->getId() === null) {
-            $message = 'Usergroups are: ';
-            foreach ($user->getLdapGroups() as $group) {
-                $message .= $group.', ';
-            }
-            $this->logger->info($message);
-            $log = new Log($message, Log::LEVEL_INFO, $user);
-            $em->persist($log);
-            $em->flush($log);
-
-            $mapping = [
-                'IT'         => $this->groupIt,
-                'HW'         => $this->groupCaretaker,
-                'IT-Teacher' => $this->groupItTeacher,
-                'Teacher'    => $this->groupTeacher,
-            ];
-
-            foreach ($mapping as $group => $ou) {
-                $this->addGroupByOU($em, $user, $group, $ou);
-            }
-        }
-    }
-
-    /**
-     * @param EntityManager $em
-     * @param User          $user
-     * @param string        $ou
-     * @param string        $groupName
-     */
-    private function addGroupByOU(EntityManager $em, User &$user, string $ou, string $groupName)
-    {
-        if (in_array($ou, $user->getLdapGroups())) {
-            /** @var Group $group */
-            $group = $em->getRepository('AppBundle:Group')->findOneBy(array('name' => $groupName));
-            if ($group) {
-                $user->addGroup($group);
+        if ($user instanceof User) {
+            $em = $args->getEntityManager();
+            // Checks the user is new.
+            if ($user->getId() === null) {
+                $message = 'Usergroups are: ';
+                foreach ($user->getLdapGroups() as $group) {
+                    $message .= $group.', ';
+                }
+                $this->logger->info($message);
+                $repo = $em->getRepository('AppBundle:Group');
+                if (in_array($this->groupIt, $user->getLdapGroups())) {
+                    $group = $repo->findOneBy(array('name' => 'IT'));
+                    /** @var Group $group */
+                    $user->addGroup($group);
+                } elseif (in_array($this->groupCaretaker, $user->getLdapGroups())) {
+                    $group = $repo->findOneBy(array('name' => 'HW'));
+                    /** @var Group $group */
+                    $user->addGroup($group);
+                } elseif (in_array($this->groupItTeacher, $user->getLdapGroups())) {
+                    $group = $repo->findOneBy(array('name' => 'IT-Teacher'));
+                    /** @var Group $group */
+                    $user->addGroup($group);
+                } elseif (in_array($this->groupTeacher, $user->getLdapGroups())) {
+                    $group = $repo->findOneBy(array('name' => 'Teacher'));
+                    /** @var Group $group */
+                    $user->addGroup($group);
+                }
             }
         }
     }
