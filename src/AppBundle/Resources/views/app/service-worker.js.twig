@@ -5,7 +5,7 @@ console.log('WORKER: executing.');
 importScripts('https://www.gstatic.com/firebasejs/4.1.2/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/4.1.2/firebase-messaging.js');
 
-firebase.initializeApp({messagingSenderId: "{{ firebase_server_id }}"});
+firebase.initializeApp({messagingSenderId: "{{ settings_handler.settings.firebase_server_id }}"});
 const messaging = firebase.messaging();
 
 var version = '2.0 beta';

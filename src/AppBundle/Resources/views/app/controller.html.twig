@@ -8,7 +8,7 @@
 
 {% block postJavascript %}
     <script>
-        app.environment.firebaseSenderID = "{{ firebase_server_id }}";
+        app.environment.firebaseSenderID = "{{ settings_handler.settings.firebase_server_id }}";
         if (app.environment.firebaseSenderID !== '') {
             firebase.initializeApp({messagingSenderId: app.environment.firebaseSenderID});
             app.messaging = firebase.messaging();

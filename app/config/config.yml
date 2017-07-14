@@ -46,11 +46,7 @@ twig:
         - 'bootstrap_3_layout.html.twig'
     globals:
         app_twig_helper: '@app.twig_helper'
-        firebase_server_id: "%firebase_server_id%"
-        websocket_ssl: "%eventghost_websocket_ssl%"
-        hotline_number: "%application_hotline%"
-        websocket_port: "%eventghost_websocket_port%"
-        websocket_ssl_port: "%eventghost_websocket_ssl_port%"
+        settings_handler: '@app.settings_handler'
     cache: false
     auto_reload: true
 

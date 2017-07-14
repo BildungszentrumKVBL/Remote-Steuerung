@@ -172,7 +172,7 @@
                             <h4 class="modal-title">{{ 'modal.would_you_like_to'|trans }}</h4>
                         </div>
                         <div class="modal-body">
-                            <a href="tel:+{{ hotline_number }}"><div class="alert alert-primary action-box"><i class="material-icons">call</i> {{ 'modal.call_it'|trans }}</div></a>
+                            <a href="tel:+{{ settings_handler.settings.application_hotline }}"><div class="alert alert-primary action-box"><i class="material-icons">call</i> {{ 'modal.call_it'|trans }}</div></a>
                             {#{% if is_granted('ROLE_USER') %}
                                 <a href="#"><div class="alert alert-primary action-box"><i class="material-icons">receipt</i> Ein Ticket erstellen</div></a>
                             {% endif %}#}
@@ -207,7 +207,7 @@
 
             {% if is_granted('ROLE_ADMIN') %}
 
-            <script>var _WS_URI = "ws{{ websocket_ssl ? 's' : '' }}://" + window.location.hostname + ":{{ websocket_ssl ? websocket_ssl_port : websocket_port }}";</script>
+            <script>var _WS_URI = "ws{{ settings_handler.settings.eventghost_websocket_ssl ? 's' : '' }}://" + window.location.hostname + ":{{ settings_handler.settings.eventghost_websocket_ssl ? settings_handler.settings.eventghost_websocket_ssl_port : settings_handler.settings.eventghost_websocket_port }}";</script>
             {{ ws_client() }}
 
             {% javascripts '@AppBundle/Resources/public/js/admin.js' filter="?uglifyjs2" output="js/admin.js" %}
@@ -242,7 +242,7 @@
         {% endblock %}
 
         {% block postJavascript %}
-            <script>app.environment.firebaseSenderID = "{{ firebase_server_id }}"</script>
+            <script>app.environment.firebaseSenderID = "{{ settings_handler.settings.firebase_server_id }}"</script>
             <script>
                 if (app.environment.firebaseSenderID !== '') {
                     firebase.initializeApp({messagingSenderId: app.environment.firebaseSenderID});

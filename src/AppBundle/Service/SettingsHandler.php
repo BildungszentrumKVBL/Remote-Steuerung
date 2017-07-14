@@ -29,19 +29,13 @@ class SettingsHandler
     private $kernelRoot;
 
     /**
-     * @var ContainerInterface $container
-     */
-    private $container;
-
-    /**
      * SettingsHandler constructor.
      *
      * @param KernelInterface $kernel
      */
     public function __construct(KernelInterface $kernel)
     {
-        $this->container  = $kernel->getContainer();
-        $this->kernelRoot = $this->container->getParameter('kernel.root_dir');
+        $this->kernelRoot = $kernel->getContainer()->getParameter('kernel.root_dir');
         $this->settings   = Yaml::parse(file_get_contents($this->kernelRoot.self::SETTINGS_FILE))['parameters'];
     }
 
@@ -68,16 +62,5 @@ class SettingsHandler
             }
         }
         file_put_contents($this->kernelRoot.self::SETTINGS_FILE, Yaml::dump(['parameters' => $this->settings]));
-        $this->clearCache();
-    }
-
-    private function clearCache()
-    {
-        if (!$this->container->getParameter('kernel.debug')) {
-            $cacheFile = $this->container->getParameter('kernel.cache_dir').'/appProdProjectContainer.php';
-            if (file_exists($cacheFile)) {
-                unlink($cacheFile);
-            }
-        }
     }
 }
