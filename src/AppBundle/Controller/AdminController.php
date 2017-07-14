@@ -149,11 +149,6 @@ class AdminController extends Controller
             }
         }
 
-        $filesystem = $this->get('filesystem');
-        $realCacheDir = $this->getParameter('kernel.cache_dir');
-        $this->get('cache_clearer')->clear($realCacheDir);
-        $filesystem->remove($realCacheDir);
-
         return $this->render('AppBundle:admin:settings.html.twig', ['settings' => $settings]);
     }
 
