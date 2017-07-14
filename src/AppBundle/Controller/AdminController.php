@@ -10,6 +10,9 @@ use AppBundle\Service\SettingsHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -149,7 +152,24 @@ class AdminController extends Controller
             }
         }
 
+        $this->clearCache();
+
         return $this->render('AppBundle:admin:settings.html.twig', ['settings' => $settings]);
+    }
+
+    private function clearCache()
+    {
+        $app = new Application($this->get('kernel'));
+        $app->setAutoExit(false);
+
+        $input = new ArrayInput(
+            [
+                'command' => 'cache:clear',
+                '-e' => 'prod',
+            ]
+        );
+        $output = new NullOutput();
+        $app->run($input, $output);
     }
 
     /**
