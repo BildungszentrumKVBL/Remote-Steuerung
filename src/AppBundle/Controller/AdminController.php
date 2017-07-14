@@ -152,24 +152,7 @@ class AdminController extends Controller
             }
         }
 
-        $this->clearCache();
-
         return $this->render('AppBundle:admin:settings.html.twig', ['settings' => $settings]);
-    }
-
-    private function clearCache()
-    {
-        $app = new Application($this->get('kernel'));
-        $app->setAutoExit(false);
-
-        $input = new ArrayInput(
-            [
-                'command' => 'cache:clear',
-                '-e' => 'prod',
-            ]
-        );
-        $output = new NullOutput();
-        $app->run($input, $output);
     }
 
     /**
