@@ -203,7 +203,6 @@
             </div>
         </footer>
         {% block preJavascript %}
-            {{ dump(test) }}
             <script>var settings = {'theme': "{{ theme }}"};</script>
 
             {% if is_granted('ROLE_ADMIN') %}
