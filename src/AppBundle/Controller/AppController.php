@@ -19,6 +19,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -240,12 +243,29 @@ class AppController extends Controller
         }
         $views = $em->getRepository('AppBundle:View')->findAll();
 
+        $this->clearCache();
+
         return $this->render(
             'AppBundle:app:settings.html.twig', [
                 'views'      => $views,
                 'activeView' => $settings->getView(),
             ]
         );
+    }
+
+    private function clearCache()
+    {
+        $app = new Application($this->get('kernel'));
+        $app->setAutoExit(false);
+
+        $input = new ArrayInput(
+            [
+                'command' => 'cache:clear',
+                '-e' => 'prod',
+            ]
+        );
+        $output = new NullOutput();
+        $app->run($input, $output);
     }
 
     /**
