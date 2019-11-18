@@ -311,7 +311,7 @@ class WebUntisHandler
             return;
         }
 
-        $dbTimegrids = $this->em->getRepository('AppBundle:Timegrid')->findAll();
+        $dbTimegrids = $this->em->getRepository(Timegrid::class)->findAll();
         foreach ($dbTimegrids as $timegrid) {
             $this->em->remove($timegrid);
         }

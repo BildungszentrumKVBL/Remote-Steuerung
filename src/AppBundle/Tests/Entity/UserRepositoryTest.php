@@ -2,6 +2,7 @@
 
 namespace AppBundle\Tests\Entity;
 
+use AppBundle\Entity\Room;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Zulu;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -69,7 +70,7 @@ class UserRepositoryTest extends WebTestCase
      */
     public function testGetLockedZulu()
     {
-        $repo = $this->em->getRepository('AppBundle:User');
+        $repo = $this->em->getRepository(User::class);
         $this->assertNull($repo->getLockedZulu('username'));
 
         $zulu = new Zulu('127.0.0.1');
@@ -77,9 +78,9 @@ class UserRepositoryTest extends WebTestCase
         $this->em->flush($zulu);
 
         $user = User::createFromProperties('test', 'test@test.com', 'test', 'test');
-        $room = $this->em->getRepository('AppBundle:Room')->findOneBy(['name'=> 'A11']);
+        $room = $this->em->getRepository(Room::class)->findOneBy(['name'=> 'A11']);
 
-        $zulu = $this->em->getRepository('AppBundle:Zulu')->findOneBy(['room' => $room]);
+        $zulu = $this->em->getRepository(Zulu::class)->findOneBy(['room' => $room]);
         $zulu->lock($user);
         $this->em->persist($user);
         $this->em->persist($zulu);

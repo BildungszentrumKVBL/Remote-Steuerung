@@ -104,7 +104,7 @@ class ZuluTest extends WebTestCase
      */
     public function testJsonSerialize()
     {
-        $zulu       = $this->em->getRepository('AppBundle:Zulu')->findOneBy(['id' => 1]);
+        $zulu       = $this->em->getRepository(Zulu::class)->findOneBy(['id' => 1]);
         $serialized = json_encode($zulu);
         json_decode($serialized);
 

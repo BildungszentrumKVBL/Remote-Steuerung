@@ -17,7 +17,7 @@ class UserTest extends AppTestCase
     public function testGettersAndSetters()
     {
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $group = $em->getRepository('AppBundle:Group')->findOneBy(['name' => 'IT-Teacher']);
+        $group = $em->getRepository(Group::class)->findOneBy(['name' => 'IT-Teacher']);
 
         $user = User::createFromProperties('BTK', 'bill@thekid.com', 'Billy', 'The Kid');
         $user->setDn('DN')->setLdapGroups(['anything'])->addGroup($group);

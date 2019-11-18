@@ -2,6 +2,7 @@
 
 namespace AppBundle\Tests\DataFixtures\ORM;
 
+use AppBundle\Entity\Group;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Container;
@@ -64,7 +65,7 @@ class LoadInfrastructureDataTest extends WebTestCase
         $this->runConsole("doctrine:schema:create");
         $this->runConsole("doctrine:fixtures:load");
 
-        $groups = $this->em->getRepository('AppBundle:Group')->findAll();
+        $groups = $this->em->getRepository(Group::class)->findAll();
 
         $this->assertEquals(count($groups), 4);
     }

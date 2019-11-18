@@ -2,6 +2,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Zulu;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Process\Process;
 
@@ -49,7 +50,7 @@ class StatusFetcher
     public function fetch($zulus = null): array
     {
         if ($zulus === null) {
-            $zulus = $this->em->getRepository('AppBundle:Zulu')->findAll();
+            $zulus = $this->em->getRepository(Zulu::class)->findAll();
         }
         $statuses  = [];
         $processes = [];

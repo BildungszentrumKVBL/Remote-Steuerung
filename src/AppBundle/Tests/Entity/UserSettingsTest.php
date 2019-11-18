@@ -3,6 +3,7 @@
 namespace AppBundle\Tests\Entity;
 
 use AppBundle\Entity\UserSettings;
+use AppBundle\Entity\View;
 use AppBundle\Tests\AppTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -17,7 +18,7 @@ class UserSettingsTest extends AppTestCase
     public function testGettersAndSetters()
     {
         $em       = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $view     = $em->getRepository('AppBundle:View')->findOneBy(['name' => 'Cockpit']);
+        $view     = $em->getRepository(View::class)->findOneBy(['name' => 'Cockpit']);
         $settings = new UserSettings();
 
         $this->assertNull($settings->getView());

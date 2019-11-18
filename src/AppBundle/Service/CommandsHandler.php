@@ -95,7 +95,7 @@ class CommandsHandler
         if ($token !== null) {
             /* @var TokenInterface $token */
             $this->user = $token->getUser();
-            $this->zulu = $this->em->getRepository('AppBundle:User')->getLockedZulu($this->user->getUsername());
+            $this->zulu = $this->em->getRepository(User::class)->getLockedZulu($this->user->getUsername());
         } else {
             $this->user = null;
             $this->zulu = null;
@@ -223,7 +223,7 @@ class CommandsHandler
             }
             $id = (int) str_replace('Id', '', $name); // We get the id as a key named 'Id1' or 'Id3'...
             // We get the actual status as a property of the $data variable... Its called 'Image' and holds a 1 (Off) or 2 (On).
-            $command = $this->em->getRepository('AppBundle:ZuluCommand')->findOneBy(['commandId' => $id]);
+            $command = $this->em->getRepository(ZuluCommand::class)->findOneBy(['commandId' => $id]);
             if ($command) {
                 $commandStatus     = new ZuluCommandStatus($command, (bool) ($data['Image'] - 1));
                 $commandStatuses[] = $commandStatus;

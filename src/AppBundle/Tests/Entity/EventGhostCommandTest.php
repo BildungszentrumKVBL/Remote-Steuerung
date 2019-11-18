@@ -13,23 +13,23 @@ class EventGhostCommandTest extends AppTestCase
     public function testGetUri()
     {
         $em            = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $slideXCommand = $em->getRepository('AppBundle:EventGhostCommand')->findOneBy(['domain' => 'PowerPoint', 'action' => 'slide_x']);
+        $slideXCommand = $em->getRepository(EventGhostCommand::class)->findOneBy(['domain' => 'PowerPoint', 'action' => 'slide_x']);
         $slideXCommand->setAdditionalData(['slide' => 5]);
 
         $this->assertEquals($slideXCommand->getUri(), '/?PowerPoint&slide_x&slide=5');
 
-        $prevCommand = $em->getRepository('AppBundle:EventGhostCommand')->findOneBy(['domain' => 'PowerPoint', 'action' => 'previous']);
+        $prevCommand = $em->getRepository(EventGhostCommand::class)->findOneBy(['domain' => 'PowerPoint', 'action' => 'previous']);
         $this->assertEquals($prevCommand->getUri(), '/?PowerPoint&previous');
     }
 
     public function testGetDataRequirements()
     {
         $em            = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $slideXCommand = $em->getRepository('AppBundle:EventGhostCommand')->findOneBy(['domain' => 'PowerPoint', 'action' => 'slide_x']);
+        $slideXCommand = $em->getRepository(EventGhostCommand::class)->findOneBy(['domain' => 'PowerPoint', 'action' => 'slide_x']);
 
         $this->assertEquals($slideXCommand->getDataRequirements(), [['variable' => 'slide', 'label' => 'Folie', 'type' => 'tel', 'regex' => '\d+']]);
 
-        $prevCommand = $em->getRepository('AppBundle:EventGhostCommand')->findOneBy(['domain' => 'PowerPoint', 'action' => 'previous']);
+        $prevCommand = $em->getRepository(EventGhostCommand::class)->findOneBy(['domain' => 'PowerPoint', 'action' => 'previous']);
         $this->assertEmpty($prevCommand->getDataRequirements());
     }
 

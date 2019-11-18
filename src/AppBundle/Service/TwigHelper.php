@@ -4,6 +4,7 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\User;
 use AppBundle\Entity\View;
+use AppBundle\Entity\Zulu;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -31,7 +32,7 @@ class TwigHelper
      */
     public function getViews()
     {
-        return $this->em->getRepository('AppBundle:View')->findAll();
+        return $this->em->getRepository(View::class)->findAll();
     }
 
     /**
@@ -96,7 +97,7 @@ class TwigHelper
      */
     public function getRoomForUser(User $user)
     {
-        $zulu = $this->em->getRepository('AppBundle:Zulu')->findOneBy(['lockedBy' => $user->getUsername()]);
+        $zulu = $this->em->getRepository(Zulu::class)->findOneBy(['lockedBy' => $user->getUsername()]);
 
         return ($zulu) ? $zulu->getRoom() : null;
     }
