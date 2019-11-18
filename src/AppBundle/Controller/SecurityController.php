@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +34,7 @@ class SecurityController extends Controller
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        $users = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:User')->findAll();
+        $users = $this->get('doctrine.orm.entity_manager')->getRepository(User::class)->findAll();
 
         return $this->render(
             'AppBundle:security:login.html.twig', array(

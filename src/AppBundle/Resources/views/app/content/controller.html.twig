@@ -1,4 +1,4 @@
-{% spaceless %}
+{% apply spaceless %}
     {% set observing = (observe is defined and observe == true) %}
     {% set settings = (user.settings is defined) ? user.settings : app.user.settings %}
     {% set update = update|default(false) %}
@@ -64,4 +64,4 @@
     {% endfor %}
 
     {% if not observing %}</div>{# #controller-wrapper #}{% endif %}
-{% endspaceless %}
+{% endapply %}

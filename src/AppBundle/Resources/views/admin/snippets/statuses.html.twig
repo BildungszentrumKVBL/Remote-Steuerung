@@ -1,4 +1,4 @@
-{% spaceless %}
+{% apply spaceless %}
     <div class="row">
     {% set counter = 0 %}
         {% for key, zulu in zulus if statuses[key] is not null and statuses[key] != false %}
@@ -21,4 +21,4 @@
             <h1 style="text-align: center;">{{ 'no_devices_found'|trans }} <i class="material-icons">sentiment_dissatisfied</i></h1>
         {% endif %}
     </div>
-{% endspaceless %}
+{% endapply %}

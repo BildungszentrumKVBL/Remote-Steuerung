@@ -52,7 +52,7 @@ class CleanDatabaseCommand extends ContainerAwareCommand
     protected function displayTotalLogs(OutputInterface $io)
     {
         $queryBuilder = $this->getContainer()->get('doctrine.orm.entity_manager')->createQueryBuilder();
-        $amount       = $queryBuilder->select('count(log.id)')->from('AppBundle:Log', 'log')->getQuery()->getSingleScalarResult();
+        $amount       = $queryBuilder->select('count(log.id)')->from(Log::class, 'log')->getQuery()->getSingleScalarResult();
         $io->writeln(sprintf('%d Logeinträge insgesamt gefunden.', $amount));
     }
 
@@ -65,7 +65,7 @@ class CleanDatabaseCommand extends ContainerAwareCommand
     {
         $date = new \DateTime('-1 month');
         $em   = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $logs = $em->createQueryBuilder()->select('l')->from('AppBundle:Log', 'l')->where('l.dateTime <= :datetime')->setParameter(':datetime', $date)->getQuery()->getResult();
+        $logs = $em->createQueryBuilder()->select('l')->from(Log::class, 'l')->where('l.dateTime <= :datetime')->setParameter(':datetime', $date)->getQuery()->getResult();
 
         foreach ($logs as $log) {
             $em->remove($log);

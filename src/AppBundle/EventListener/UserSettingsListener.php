@@ -32,7 +32,7 @@ class UserSettingsListener
             if ($settings->getId() === null && $settings->getView() === null) {
                 // TODO: Make the default view configurable.
                 /** @var View $view */
-                $view = $em->getRepository('AppBundle:View')->findOneBy(['name' => 'Cockpit']);
+                $view = $em->getRepository(View::class)->findOneBy(['name' => 'Cockpit']);
                 $settings->setView($view);
             }
         }

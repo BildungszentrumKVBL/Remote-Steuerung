@@ -3,6 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Building;
+use AppBundle\Entity\Log;
+use AppBundle\Entity\Room;
 use AppBundle\Entity\User;
 use AppBundle\Entity\View;
 use AppBundle\Entity\Zulu;
@@ -40,11 +42,11 @@ class AdminController extends Controller
     {
         $em = $this->get('doctrine.orm.entity_manager');
         /** @var Zulu[] $lockedZulus */
-        $lockedZulus = $em->getRepository('AppBundle:Zulu')->findBy(['locked' => true], ['room' => 'ASC']);
+        $lockedZulus = $em->getRepository(Zulu::class)->findBy(['locked' => true], ['room' => 'ASC']);
         $handler     = $this->get('command_handler');
         $activeUsers = [];
         foreach ($lockedZulus as $lockedZulu) {
-            $user          = $em->getRepository('AppBundle:User')->findOneBy(['username' => $lockedZulu->getLockedBy()]);
+            $user          = $em->getRepository(User::class)->findOneBy(['username' => $lockedZulu->getLockedBy()]);
             $activeUsers[] = [
                 'user'   => $user,
                 'zulu'   => $lockedZulu,
@@ -76,7 +78,7 @@ class AdminController extends Controller
     public function observeNewAction(Zulu $zulu): Response
     {
         $em   = $this->get('doctrine.orm.entity_manager');
-        $user = $em->getRepository('AppBundle:User')->findOneBy(['username' => $zulu->getLockedBy()]);
+        $user = $em->getRepository(User::class)->findOneBy(['username' => $zulu->getLockedBy()]);
 
         return $this->render('@App/admin/snippets/observation.html.twig', ['user' => $user, 'zulu' => $zulu]);
     }
@@ -109,7 +111,7 @@ class AdminController extends Controller
         // TODO: Detect if the view has statuses. If not, don't request them. Instead assign status to `false`.
         $status = false;
         /** @var Zulu $zulu */
-        if ($zulu = $em->getRepository('AppBundle:Zulu')->findOneBy(['lockedBy' => $user->getUsername()])) {
+        if ($zulu = $em->getRepository(Zulu::class)->findOneBy(['lockedBy' => $user->getUsername()])) {
             $commandHandler = $this->get('command_handler');
             $commandHandler->setZulu($zulu);
             $status = $commandHandler->getStatusOfZulu();
@@ -166,7 +168,7 @@ class AdminController extends Controller
     public function statusAction(): Response
     {
         /** @var Zulu[] $zulus */
-        $buildings = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Building')->findAll();
+        $buildings = $this->get('doctrine.orm.entity_manager')->getRepository(Building::class)->findAll();
 
         // TODO: Track user and set $building to his building.
         return $this->render('@App/admin/status.html.twig', ['buildings' => $buildings]);
@@ -197,9 +199,9 @@ class AdminController extends Controller
 
         $em = $this->get('doctrine.orm.entity_manager');
         if ($building === null) {
-            $zulus = $em->getRepository('AppBundle:Zulu')->findAll();
+            $zulus = $em->getRepository(Zulu::class)->findAll();
         } else {
-            $rooms = $em->getRepository('AppBundle:Room')->findBy(['building' => $building]);
+            $rooms = $em->getRepository(Room::class)->findBy(['building' => $building]);
             $zulus = [];
             foreach ($rooms as $room) {
                 $zulus[] = $room->getZulu();
@@ -208,17 +210,6 @@ class AdminController extends Controller
         $statuses = $this->get('app.status.fetcher')->fetch($zulus);
 
         return $this->render('@App/admin/snippets/statuses.html.twig', ['zulus' => $zulus, 'statuses' => $statuses]);
-    }
-
-    /**
-     * @Route("/infrastructure", name="admin_infrastructure_route", options={"expose": true})
-     *
-     * @return Response
-     */
-    public function infrastructureAction(): Response
-    {
-        // TODO: Interface for managing the infrastructure. Maybe extract to own Controller.
-        return new Response("Hello");
     }
 
     /**
@@ -238,7 +229,7 @@ class AdminController extends Controller
         $em     = $this->get('doctrine.orm.entity_manager');
         if ($values->get('filtern')) {
             $queryBuilder = $em->createQueryBuilder();
-            $queryBuilder->select('l')->from('AppBundle:Log', 'l')->leftJoin('l.user', 'u')->setMaxResults(100);
+            $queryBuilder->select('l')->from(Log::class, 'l')->leftJoin('l.user', 'u')->setMaxResults(100);
 
             if ($values->get('benutzer') !== '') {
                 $queryBuilder->andWhere('u.username = :username')->setParameter(':username', $values->get('benutzer'));
@@ -250,7 +241,7 @@ class AdminController extends Controller
 
             $logs = $queryBuilder->orderBy('l.dateTime', 'DESC')->getQuery()->getResult();
         } else {
-            $logs = $em->getRepository('AppBundle:Log')->findAll();
+            $logs = $em->getRepository(Log::class)->findAll();
         }
 
         return $this->render('AppBundle:admin/snippets:logTable.html.twig', ['logs' => $logs]);
@@ -266,7 +257,7 @@ class AdminController extends Controller
     public function logsAction(): Response
     {
         $em    = $this->get('doctrine.orm.entity_manager');
-        $users = $em->getRepository('AppBundle:User')->findAll();
+        $users = $em->getRepository(User::class)->findAll();
 
         $date = new \DateTime('-5 day');
         $logs = $em->createQuery(

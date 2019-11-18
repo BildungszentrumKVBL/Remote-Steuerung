@@ -39,7 +39,7 @@ class LoadButtonsData extends AbstractFixture implements OrderedFixtureInterface
 
         foreach ($buttons as $button) {
             /** @var AbstractCommand $command */
-            $command = $manager->getRepository('AppBundle:AbstractCommand')->findOneBy(['name' => $button['command']]);
+            $command = $manager->getRepository(AbstractCommand::class)->findOneBy(['name' => $button['command']]);
             $button  = new Button($command, $button['size']);
             $manager->persist($button);
         }

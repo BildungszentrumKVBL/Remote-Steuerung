@@ -66,13 +66,13 @@ class AppController extends Controller
         $building = null;
         if ($roomname) {
             /* @var Zulu $zulu */
-            $zulu = $em->getRepository('AppBundle:Zulu')->findOneBy(['room' => $roomname]);
+            $zulu = $em->getRepository(Zulu::class)->findOneBy(['room' => $roomname]);
             if ($zulu) {
                 $building = $zulu->getRoom()->getBuilding();
             }
         }
 
-        $repo = $em->getRepository('AppBundle:Zulu');
+        $repo = $em->getRepository(Zulu::class);
 
         $values = $request->request;
         if ($values->get('senden')) {
@@ -85,7 +85,7 @@ class AppController extends Controller
                 $em->flush();
             }
 
-            $room = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Room')->findOneBy(['name' => $values->get('room')]);
+            $room = $this->get('doctrine.orm.entity_manager')->getRepository(Room::class)->findOneBy(['name' => $values->get('room')]);
             // Locks new Zulu
             /* @var Zulu $zulu */
             $zulu = $repo->findOneBy(['room' => $room]);
@@ -141,8 +141,8 @@ class AppController extends Controller
         $em       = $this->get('doctrine.orm.entity_manager');
         $roomname = $this->get('app.webuntis.handler')->login()->getRoomForTeacher($this->getUser()->getUsername());
         /* @var Room $room */
-        $room  = $em->getRepository('AppBundle:Room')->findOneBy(['name' => $roomname]);
-        $zulus = $em->createQueryBuilder()->select('z')->from('AppBundle:Zulu', 'z')->join('z.room', 'r')->where(
+        $room  = $em->getRepository(Room::class)->findOneBy(['name' => $roomname]);
+        $zulus = $em->createQueryBuilder()->select('z')->from(Zulu::class, 'z')->join('z.room', 'r')->where(
             'r.building = :building'
         )->andWhere('z.locked = false')->orWhere('r = :room')->setParameters(
             [
@@ -171,7 +171,7 @@ class AppController extends Controller
     {
         $em   = $this->get('doctrine.orm.entity_manager');
         $user = $this->getUser();
-        $zulu = $em->getRepository('AppBundle:Zulu')->findOneBy(['lockedBy' => $user->getUsername()]);
+        $zulu = $em->getRepository(Zulu::class)->findOneBy(['lockedBy' => $user->getUsername()]);
         /* @var User $user */
         /* @var Zulu $zulu */
 
@@ -232,13 +232,13 @@ class AppController extends Controller
             $settings->setTheme($values->get('design'));
 
             /** @var View $view */
-            $view = $em->getRepository('AppBundle:View')->findOneBy(['name' => $values->get('view')]);
+            $view = $em->getRepository(View::class)->findOneBy(['name' => $values->get('view')]);
             $settings->setView($view);
 
             $em->persist($settings);
             $em->flush();
         }
-        $views = $em->getRepository('AppBundle:View')->findAll();
+        $views = $em->getRepository(View::class)->findAll();
 
         return $this->render(
             'AppBundle:app:settings.html.twig', [
@@ -265,7 +265,7 @@ class AppController extends Controller
         $em = $this->get('doctrine.orm.entity_manager');
         /** @var User $user */
         $user   = $this->getUser();
-        $device = $em->getRepository('AppBundle:Device')->findOneBy(['messagingId' => $token]);
+        $device = $em->getRepository(Device::class)->findOneBy(['messagingId' => $token]);
         $user->getSettings()->setUsePush($state);
         if (!$device) {
             $detector = new MobileDetect();

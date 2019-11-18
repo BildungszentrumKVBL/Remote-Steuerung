@@ -114,8 +114,8 @@ class ImportInfrastructureCommand extends ContainerAwareCommand
     public function loadCsv(string $filename)
     {
         $manager      = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $buildingRepo = $manager->getRepository('AppBundle:Building');
-        $roomRepo     = $manager->getRepository('AppBundle:Room');
+        $buildingRepo = $manager->getRepository(Building::class);
+        $roomRepo     = $manager->getRepository(Room::class);
         $csv          = explode("\n", file_get_contents($filename));
         $label        = null;
         foreach ($csv as $line) {
@@ -225,22 +225,22 @@ class ImportInfrastructureCommand extends ContainerAwareCommand
 
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
 
-        $pcs = $em->getRepository('AppBundle:Computer')->findAll();
+        $pcs = $em->getRepository(Computer::class)->findAll();
         foreach ($pcs as $pc) {
             $em->remove($pc);
         }
 
-        $zulus = $em->getRepository('AppBundle:Zulu')->findAll();
+        $zulus = $em->getRepository(Zulu::class)->findAll();
         foreach ($zulus as $zulu) {
             $em->remove($zulu);
         }
 
-        $rooms = $em->getRepository('AppBundle:Room')->findAll();
+        $rooms = $em->getRepository(Room::class)->findAll();
         foreach ($rooms as $room) {
             $em->remove($room);
         }
 
-        $buildings = $em->getRepository('AppBundle:Building')->findAll();
+        $buildings = $em->getRepository(Building::class)->findAll();
         foreach ($buildings as $building) {
             $em->remove($building);
         }

@@ -1,4 +1,4 @@
-{% spaceless %}
+{% apply spaceless %}
     {% set theme = app.user.settings is defined ? app.user.settings.theme : constant('AppBundle\\Entity\\UserSettings::THEME_ORIGINAL') %}
     {% if theme is constant('AppBundle\\Entity\\UserSettings::THEME_DARK') %}
         {% set themeColor = '#000000' %}
@@ -79,25 +79,22 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         {% block stylesheets %}
             {% if theme is constant('AppBundle\\Entity\\UserSettings::THEME_DARK') %}
-                {% stylesheets filter="?uglifycss"
+                {% stylesheets
                 'assets/vendor/bootstrap/dist/css/bootstrap.css'
-                '@AppBundle/Resources/public/css/dark-material.css'
                 'assets/vendor/bootstrap-material-design/dist/css/ripples.css'
                 '@AppBundle/Resources/public/css/style.css' output="css/dark.css" %}
                 <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
                 {% endstylesheets %}
             {% elseif theme is constant('AppBundle\\Entity\\UserSettings::THEME_INDIGO') %}
-                {% stylesheets filter="?uglifycss"
+                {% stylesheets
                 'assets/vendor/bootstrap/dist/css/bootstrap.css'
-                '@AppBundle/Resources/public/css/indigo-material.css'
                 'assets/vendor/bootstrap-material-design/dist/css/ripples.css'
                 '@AppBundle/Resources/public/css/style.css' output="css/indigo.css" %}
                 <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
                 {% endstylesheets %}
             {% else %}
-                {% stylesheets filter="?uglifycss"
+                {% stylesheets
                 'assets/vendor/bootstrap/dist/css/bootstrap.css'
-                '@AppBundle/Resources/public/css/material.css'
                 'assets/vendor/bootstrap-material-design/dist/css/ripples.css'
                 '@AppBundle/Resources/public/css/style.css' output="css/default.css" %}
                 <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
@@ -253,4 +250,4 @@
         {% endblock %}
     </body>
 </html>
-{% endspaceless %}
+{% endapply %}

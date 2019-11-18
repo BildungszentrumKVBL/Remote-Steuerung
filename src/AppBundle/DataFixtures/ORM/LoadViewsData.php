@@ -38,7 +38,7 @@ class LoadViewsData extends AbstractFixture implements OrderedFixtureInterface, 
             )
         );
         /** @var Button[] $buttons */
-        $buttons = $manager->getRepository('AppBundle:Button')->findAll();
+        $buttons = $manager->getRepository(Button::class)->findAll();
 
         foreach ($fixtures as $name => $commands) {
             $view = new View($name);

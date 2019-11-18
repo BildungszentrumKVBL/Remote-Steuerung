@@ -65,7 +65,7 @@ class ZuluLockListener
     {
         if ($this->update) {
             $this->update = false;
-            $zulus        = $this->container->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Zulu')->findBy(['locked' => true]);
+            $zulus        = $this->container->get('doctrine.orm.entity_manager')->getRepository(Zulu::class)->findBy(['locked' => true]);
             // Added this workaround to not call a CircularReferenceException due to the bidirectional One-to-One relationship between the Zulu and Room Entity.
             $dataArray = [];
             foreach ($zulus as $zulu) {

@@ -79,7 +79,7 @@ class UserEventListener
                     $message .= $group.', ';
                 }
                 $this->logger->info($message);
-                $repo = $em->getRepository('AppBundle:Group');
+                $repo = $em->getRepository(Group::class);
                 if (in_array($this->groupIt, $user->getLdapGroups())) {
                     $group = $repo->findOneBy(array('name' => 'IT'));
                     /** @var Group $group */

@@ -38,7 +38,7 @@ class UnlockZuluCommand extends ContainerAwareCommand
         $io        = new SymfonyStyle($input, $output);
         $datetime  = date('H:i', strtotime('-10 min'));
         /** @var Timegrid[] $timegrids */
-        $timegrids = $this->getContainer()->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Timegrid')->findAll();
+        $timegrids = $this->getContainer()->get('doctrine.orm.entity_manager')->getRepository(Timegrid::class)->findAll();
         foreach ($timegrids as $timegrid) {
             if ($timegrid->getEnd()->format('H:i') === $datetime) {
                 $io->title('Zulu unlocken');
@@ -58,7 +58,7 @@ class UnlockZuluCommand extends ContainerAwareCommand
     protected function freeZulus(SymfonyStyle $io)
     {
         $em    = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $zulus = $em->createQueryBuilder()->select('z')->from('AppBundle:Zulu', 'z')->where('z.locked = true')->getQuery()->getResult();
+        $zulus = $em->createQueryBuilder()->select('z')->from(Zulu::class, 'z')->where('z.locked = true')->getQuery()->getResult();
         $wh    = $this->getContainer()->get('app.webuntis.handler')->login();
         foreach ($zulus as $zulu) {
             /* @var Zulu $zulu */

@@ -41,7 +41,7 @@ class CreateAdminCommand extends ContainerAwareCommand
         $io     = new SymfonyStyle($input, $output);
         $em     = $this->getContainer()->get('doctrine.orm.entity_manager');
         /** @var User $admin */
-        $admin   = $em->getRepository('AppBundle:User')->findOneBy(['username' => 'admin']);
+        $admin   = $em->getRepository(User::class)->findOneBy(['username' => 'admin']);
         $encoder = $this->getContainer()->get('security.password_encoder');
         if ($admin) {
             if ($input->getOption('change-password')) { // Change Password

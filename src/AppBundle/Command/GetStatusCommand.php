@@ -2,6 +2,7 @@
 
 namespace AppBundle\Command;
 
+use AppBundle\Entity\Room;
 use AppBundle\Entity\Zulu;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -36,9 +37,9 @@ class GetStatusCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em   = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $room = $em->getRepository('AppBundle:Room')->findOneBy(['name' => $input->getArgument('room')]);
+        $room = $em->getRepository(Room::class)->findOneBy(['name' => $input->getArgument('room')]);
         /** @var Zulu $zulu */
-        $zulu = $em->getRepository('AppBundle:Zulu')->findOneBy(['room' => $room]);
+        $zulu = $em->getRepository(Zulu::class)->findOneBy(['room' => $room]);
         if (!$zulu) {
             $output->write(json_encode(null));
 

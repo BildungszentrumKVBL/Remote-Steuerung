@@ -1,4 +1,4 @@
-{% spaceless %}
+{% apply spaceless %}
     {% set theme = app.user.settings is defined ? app.user.settings.theme : constant('AppBundle\\Entity\\UserSettings::THEME_ORIGINAL') %}
     <!DOCTYPE html>
     <html lang="{{ app.request.locale }}">
@@ -75,4 +75,4 @@
 
     </body>
     </html>
-{% endspaceless %}
+{% endapply %}

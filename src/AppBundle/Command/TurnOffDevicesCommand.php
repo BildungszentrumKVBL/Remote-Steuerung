@@ -4,6 +4,7 @@ namespace AppBundle\Command;
 
 use AppBundle\Entity\AbstractCommand;
 use AppBundle\Entity\Zulu;
+use AppBundle\Entity\ZuluCommand;
 use AppBundle\Service\CommandsHandler;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -44,7 +45,7 @@ class TurnOffDevicesCommand extends ContainerAwareCommand
         /* @var Zulu[] $zulus */
         $zulus = $em->getRepository('AppBundle:Zulu')->findAll();
         /** @var AbstractCommand $command */
-        $command        = $em->getRepository('AppBundle:ZuluCommand')->findOneBy(['name' => 'cmd_shutdownAll']);
+        $command        = $em->getRepository(ZuluCommand::class)->findOneBy(['name' => 'cmd_shutdownAll']);
         $commandHandler = $this->getContainer()->get('command_handler');
         foreach ($zulus as $zulu) {
             $commandHandler->setZulu($zulu);
