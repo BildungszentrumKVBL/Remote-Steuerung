@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use JsonSerializable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity()
  */
-class Room implements \JsonSerializable
+class Room implements JsonSerializable
 {
     /**
      * This is the id that will be placed in the database after the persisting of this object.

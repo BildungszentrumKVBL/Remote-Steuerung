@@ -2,6 +2,7 @@
 
 namespace AppBundle\Command;
 
+use Exception;
 use AppBundle\Entity\Building;
 use AppBundle\Entity\Computer;
 use AppBundle\Entity\Room;
@@ -50,7 +51,7 @@ class ImportInfrastructureCommand extends ContainerAwareCommand
         }
 
         if (!file_exists($filename)) {
-            throw new \Exception(sprintf('File: "%s" does not exist', $filename));
+            throw new Exception(sprintf('File: "%s" does not exist', $filename));
         }
 
         // Check for extension
@@ -139,7 +140,7 @@ class ImportInfrastructureCommand extends ContainerAwareCommand
                         $manager->persist($building);
                         $manager->flush($building);
                     } else {
-                        throw new \Exception(sprintf('Building: "%s" was not found. Did you make sure that the buildings are defined above the rooms in your CSV?', $buildingName));
+                        throw new Exception(sprintf('Building: "%s" was not found. Did you make sure that the buildings are defined above the rooms in your CSV?', $buildingName));
                     }
                 } elseif ($label === '{{PC}}') {
                     list($roomName, $pcName) = explode(';', $line);
@@ -151,7 +152,7 @@ class ImportInfrastructureCommand extends ContainerAwareCommand
                         $manager->persist($room);
                         $manager->flush($room);
                     } else {
-                        throw new \Exception(sprintf('Room: "%s" was not found. Did you make sure that the rooms are defined above the computers in your CSV?', $roomName));
+                        throw new Exception(sprintf('Room: "%s" was not found. Did you make sure that the rooms are defined above the computers in your CSV?', $roomName));
                     }
                 } elseif ($label === '{{Zulu}}') {
                     list($roomName, $zuluIp) = explode(';', $line);
@@ -163,10 +164,10 @@ class ImportInfrastructureCommand extends ContainerAwareCommand
                         $manager->persist($room);
                         $manager->flush($room);
                     } else {
-                        throw new \Exception(sprintf('Room: "%s" was not found. Did you make sure that the rooms are defined above the zulus in your CSV?', $roomName));
+                        throw new Exception(sprintf('Room: "%s" was not found. Did you make sure that the rooms are defined above the zulus in your CSV?', $roomName));
                     }
                 } else {
-                    throw new \Exception('No label was set. Please consult the README.');
+                    throw new Exception('No label was set. Please consult the README.');
                 }
             }
         }
@@ -184,7 +185,7 @@ class ImportInfrastructureCommand extends ContainerAwareCommand
         $manager = $this->getContainer()->get('doctrine.orm.entity_manager');
         $xml = simplexml_load_string(file_get_contents($filename));
         if (!$xml) {
-            throw new \Exception('Error: Cannot create object by xml.');
+            throw new Exception('Error: Cannot create object by xml.');
         }
         foreach ($xml as $buildingName => $roomNames) {
             $building = new Building($buildingName);
@@ -219,7 +220,7 @@ class ImportInfrastructureCommand extends ContainerAwareCommand
             $question = new ConfirmationQuestion('Die bestehende Infrastruktur wird gelöscht. Möchten Sie fortfahren? (N/y)', false);
 
             if (!$helper->ask($input, $output, $question)) {
-                throw new \Exception('Import wurde abgebrochen.');
+                throw new Exception('Import wurde abgebrochen.');
             }
         }
 

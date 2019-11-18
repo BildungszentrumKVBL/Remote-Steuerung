@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Exception;
 use AppBundle\Entity\AbstractCommand;
 use AppBundle\Entity\Building;
 use AppBundle\Entity\Device;
@@ -330,7 +331,7 @@ class AppController extends Controller
 
         try {
             $commandHandler->runCommand($command);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
 
             return new JsonResponse(['type' => 'error'], Response::HTTP_OK, ['Content-Type' => 'application/json']);
         }

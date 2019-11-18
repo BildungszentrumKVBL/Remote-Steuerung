@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use JsonSerializable;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,7 +22,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("room")
  * @UniqueEntity("lookedBy")
  */
-class Zulu implements \JsonSerializable
+class Zulu implements JsonSerializable
 {
     /**
      * This is the id that will be placed in the database after the persisting of this object.
@@ -220,7 +222,7 @@ class Zulu implements \JsonSerializable
     {
         $this->locked      = true;
         $this->lockedBy    = $user->getUsername();
-        $this->lockedSince = new \DateTime();
+        $this->lockedSince = new DateTime();
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace AppBundle\Service;
 
+use Exception;
+use DateTime;
 use AppBundle\Entity\Log;
 use AppBundle\Entity\Timegrid;
 use Doctrine\ORM\EntityManager;
@@ -108,7 +110,7 @@ class WebUntisHandler
                     $this->session = $response->result->sessionId;
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $log = new Log('Login von WebUntisHandler ist fehlgeschlagen.', Log::LEVEL_ERROR);
             $this->em->persist($log);
             $this->em->flush();
@@ -227,7 +229,7 @@ class WebUntisHandler
             } else {
                 return null;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $log = new Log('getTeachers Funktion von WebUntisHandler ist fehlgeschlagen.', Log::LEVEL_ERROR);
             $this->em->persist($log);
             $this->em->flush();
@@ -261,7 +263,7 @@ class WebUntisHandler
             } else {
                 return null;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $log = new Log('getTimetableForTeacher Funktion von WebUntisHandler ist fehlgeschlagen.', Log::LEVEL_ERROR);
             $this->em->persist($log);
             $this->em->flush();
@@ -290,7 +292,7 @@ class WebUntisHandler
             } else {
                 return null;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $log = new Log('getRooms Funktion von WebUntisHandler ist fehlgeschlagen.', Log::LEVEL_ERROR);
             $this->em->persist($log);
             $this->em->flush();
@@ -318,7 +320,7 @@ class WebUntisHandler
         $this->em->flush();
 
         foreach ($schedule as $sch) {
-            $timegrid = new Timegrid(TimeGrid::intToDateTime($sch->startTime), Timegrid::intToDateTime($sch->endTime));
+            $timegrid = new Timegrid(Timegrid::intToDateTime($sch->startTime), Timegrid::intToDateTime($sch->endTime));
             $this->em->persist($timegrid);
         }
         $this->em->flush();
@@ -331,7 +333,7 @@ class WebUntisHandler
      */
     public function getTodaySchedule()
     {
-        $datetime  = new \DateTime();
+        $datetime  = new DateTime();
         $weekday   = (int) $datetime->format('w') + 1;
         $timeUnits = null;
         $schedule  = array_filter(
@@ -370,7 +372,7 @@ class WebUntisHandler
             } else {
                 return null;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $log = new Log('getSchedules Funktion von WebUntisHandler ist fehlgeschlagen.', Log::LEVEL_ERROR);
             $this->em->persist($log);
             $this->em->flush();

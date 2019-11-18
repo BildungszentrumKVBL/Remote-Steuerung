@@ -2,6 +2,7 @@
 
 namespace AppBundle\Service;
 
+use Exception;
 use AppBundle\Entity\AbstractCommand;
 use AppBundle\Entity\EventGhostCommand;
 use AppBundle\Entity\Log;
@@ -133,13 +134,13 @@ class CommandsHandler
         } elseif ($command instanceof EventGhostCommand) {
             $constaints = $this->validator->validate($command);
             if ($constaints->count() > 0) {
-                throw new \Exception('Command ist nicht valide.');
+                throw new Exception('Command ist nicht valide.');
             }
             $ip  = $this->zulu->getRoom()->getComputer()->getName();
             $uri = $command->getUri();
             $this->doRequest(sprintf('%s:%s@%s:%s%s', $this->egUsername, $this->egPassword, $ip, $this->egPort, $uri));
         } else {
-            throw new \Exception('Nicht existierender Command wurde getätigt.');
+            throw new Exception('Nicht existierender Command wurde getätigt.');
         }
     }
 

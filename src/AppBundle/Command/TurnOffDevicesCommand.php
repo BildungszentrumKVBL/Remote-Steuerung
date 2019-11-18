@@ -2,6 +2,8 @@
 
 namespace AppBundle\Command;
 
+use Exception;
+use Swift_Message;
 use AppBundle\Entity\AbstractCommand;
 use AppBundle\Entity\Zulu;
 use AppBundle\Entity\ZuluCommand;
@@ -59,7 +61,7 @@ class TurnOffDevicesCommand extends ContainerAwareCommand
                     $io->text(sprintf('Geräte im Raum "%s" abstellen.', $zulu->getRoom()));
                     $commandHandler->runCommand($command);
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $io->text(sprintf('Exception: "%s"', $e->getMessage()));
                 $io->text(sprintf('Geräte im Raum "%s" abstellen.', $zulu->getRoom()));
                 $commandHandler->runCommand($command);
@@ -69,7 +71,7 @@ class TurnOffDevicesCommand extends ContainerAwareCommand
         $from = $this->getContainer()->getParameter('application_sender_email');
         $to   = $this->getContainer()->getParameter('application_receiver_email');
 
-        $message = \Swift_Message::newInstance()->setSubject('Cron message')->setFrom($from)->setTo($to)->setBody($text);
+        $message = Swift_Message::newInstance()->setSubject('Cron message')->setFrom($from)->setTo($to)->setBody($text);
         $this->getContainer()->get('mailer')->send($message);
 
         return 0;

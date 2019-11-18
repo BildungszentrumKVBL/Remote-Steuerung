@@ -2,6 +2,7 @@
 
 namespace AppBundle\Tests\Entity;
 
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use AppBundle\Entity\Room;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Zulu;
@@ -37,7 +38,7 @@ class UserRepositoryTest extends WebTestCase
     public function setup()
     {
         self::bootKernel();
-        $this->application = new \Symfony\Bundle\FrameworkBundle\Console\Application(self::$kernel);
+        $this->application = new Application(self::$kernel);
         $this->application->setAutoExit(false);
 
         $this->runConsole("doctrine:schema:drop", ["--force" => true]);

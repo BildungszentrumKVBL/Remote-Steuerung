@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -59,7 +60,7 @@ class ZuluStatus
      */
     public function __construct()
     {
-        $this->createdAt       = new \DateTime();
+        $this->createdAt       = new DateTime();
         $this->commandStatuses = new ArrayCollection();
     }
 
@@ -74,7 +75,7 @@ class ZuluStatus
     /**
      * @return \DateTime
      */
-    public function getCreatedAt(): \DateTime
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }

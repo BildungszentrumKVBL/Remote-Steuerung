@@ -2,6 +2,7 @@
 
 namespace AppBundle\Tests\DataFixtures\ORM;
 
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use AppBundle\Entity\Group;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Application;
@@ -35,7 +36,7 @@ class LoadInfrastructureDataTest extends WebTestCase
     public function setup()
     {
         self::bootKernel();
-        $this->application = new \Symfony\Bundle\FrameworkBundle\Console\Application(self::$kernel);
+        $this->application = new Application(self::$kernel);
         $this->container   = self::$kernel->getContainer();
         $this->em          = $this->container->get('doctrine.orm.entity_manager');
         $this->application->setAutoExit(false);

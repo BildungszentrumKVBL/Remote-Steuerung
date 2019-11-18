@@ -2,6 +2,7 @@
 
 namespace AppBundle\Tests\Command;
 
+use DateTime;
 use AppBundle\Command\CleanDatabaseCommand;
 use AppBundle\Entity\Log;
 use AppBundle\Tests\AppTestCase;
@@ -24,7 +25,7 @@ class CleanDatabaseCommandTest extends AppTestCase
         $command = $this->getApplication()->find('app:clean:database');
 
         $oldLog = new Log('test', Log::LEVEL_INFO);
-        $oldLog->setDateTime(new \DateTime('-2 months'));
+        $oldLog->setDateTime(new DateTime('-2 months'));
         $em->persist($oldLog);
 
         $newLog = new Log('test', Log::LEVEL_INFO);

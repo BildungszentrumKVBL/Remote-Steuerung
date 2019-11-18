@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use ReflectionClass;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -114,7 +115,7 @@ class Button
      */
     public function setSize(string $size)
     {
-        $rc        = new \ReflectionClass(__CLASS__);
+        $rc        = new ReflectionClass(__CLASS__);
         $constants = $rc->getConstants();
         $sizes     = [];
         foreach ($constants as $name => $constant) {

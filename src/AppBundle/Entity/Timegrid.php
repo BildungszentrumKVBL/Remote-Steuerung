@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -58,11 +59,11 @@ class Timegrid
      * @param \DateTime $start
      * @param \DateTime $end
      */
-    public function __construct(\DateTime $start, \DateTime $end)
+    public function __construct(DateTime $start, DateTime $end)
     {
         $this->start     = $start;
         $this->end       = $end;
-        $this->updatedAt = new \DateTime();
+        $this->updatedAt = new DateTime();
     }
 
     /**
@@ -76,7 +77,7 @@ class Timegrid
     /**
      * @return \DateTime
      */
-    public function getStart(): \DateTime
+    public function getStart(): DateTime
     {
         return $this->start;
     }
@@ -88,17 +89,17 @@ class Timegrid
      *
      * @return \DateTime
      */
-    public static function intToDateTime(int $int): \DateTime
+    public static function intToDateTime(int $int): DateTime
     {
         $string = substr_replace($int, ':', -2, 0);
 
-        return \DateTime::createFromFormat('H:i', $string);
+        return DateTime::createFromFormat('H:i', $string);
     }
 
     /**
      * @return \DateTime
      */
-    public function getEnd(): \DateTime
+    public function getEnd(): DateTime
     {
         return $this->end;
     }
@@ -106,7 +107,7 @@ class Timegrid
     /**
      * @return \DateTime
      */
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt(): DateTime
     {
         return $this->updatedAt;
     }

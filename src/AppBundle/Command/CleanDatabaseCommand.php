@@ -2,6 +2,7 @@
 
 namespace AppBundle\Command;
 
+use DateTime;
 use AppBundle\Entity\Log;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -63,7 +64,7 @@ class CleanDatabaseCommand extends ContainerAwareCommand
      */
     protected function clearOldLogs(OutputInterface $io)
     {
-        $date = new \DateTime('-1 month');
+        $date = new DateTime('-1 month');
         $em   = $this->getContainer()->get('doctrine.orm.entity_manager');
         $logs = $em->createQueryBuilder()->select('l')->from(Log::class, 'l')->where('l.dateTime <= :datetime')->setParameter(':datetime', $date)->getQuery()->getResult();
 
@@ -74,7 +75,7 @@ class CleanDatabaseCommand extends ContainerAwareCommand
 
         $msg = sprintf('%d Logeinträge aus der Datenbank entfernt.', count($logs));
 
-        $log = new Log($msg, LOG::LEVEL_SYSTEM);
+        $log = new Log($msg, Log::LEVEL_SYSTEM);
         $em->persist($log);
         $em->flush();
 

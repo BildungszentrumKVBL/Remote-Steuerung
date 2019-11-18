@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use ReflectionClass;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -125,7 +126,7 @@ class Device
      */
     public function setType(string $type)
     {
-        $rc        = new \ReflectionClass(__CLASS__);
+        $rc        = new ReflectionClass(__CLASS__);
         $constants = $rc->getConstants();
         foreach ($constants as $name => $value) {
             if (substr($name, 0, 5) === 'TYPE_') {

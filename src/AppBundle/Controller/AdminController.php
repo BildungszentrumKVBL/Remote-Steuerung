@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use DateTime;
 use AppBundle\Entity\Building;
 use AppBundle\Entity\Log;
 use AppBundle\Entity\Room;
@@ -259,7 +260,7 @@ class AdminController extends Controller
         $em    = $this->get('doctrine.orm.entity_manager');
         $users = $em->getRepository(User::class)->findAll();
 
-        $date = new \DateTime('-5 day');
+        $date = new DateTime('-5 day');
         $logs = $em->createQuery(
             'SELECT l FROM AppBundle:Log l WHERE l.dateTime >= :datetime ORDER BY l.dateTime DESC'
         )->setMaxResults(100)->setParameter('datetime', $date)->getResult();

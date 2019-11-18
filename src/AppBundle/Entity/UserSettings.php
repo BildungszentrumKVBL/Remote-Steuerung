@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use ReflectionClass;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -139,7 +140,7 @@ class UserSettings
      */
     private function getThemes(): array
     {
-        $rc        = new \ReflectionClass(__CLASS__);
+        $rc        = new ReflectionClass(__CLASS__);
         $constants = $rc->getConstants();
         $themes    = [];
         foreach ($constants as $name => $constant) {

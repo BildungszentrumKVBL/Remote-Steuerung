@@ -1,5 +1,27 @@
 <?php
 
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\SecurityBundle\SecurityBundle;
+use Symfony\Bundle\TwigBundle\TwigBundle;
+use Symfony\Bundle\MonologBundle\MonologBundle;
+use Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle;
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
+use Symfony\Bundle\AsseticBundle\AsseticBundle;
+use FOS\UserBundle\FOSUserBundle;
+use FR3D\LdapBundle\FR3DLdapBundle;
+use Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle;
+use FOS\JsRoutingBundle\FOSJsRoutingBundle;
+use Gos\Bundle\WebSocketBundle\GosWebSocketBundle;
+use Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle;
+use BCC\CronManagerBundle\BCCCronManagerBundle;
+use Symfony\Bundle\WebProfilerBundle\WebProfilerBundle;
+use SunCat\MobileDetectBundle\MobileDetectBundle;
+use Fresh\FirebaseCloudMessagingBundle\FreshFirebaseCloudMessagingBundle;
+use AppBundle\AppBundle;
+use Symfony\Bundle\DebugBundle\DebugBundle;
+use Sensio\Bundle\DistributionBundle\SensioDistributionBundle;
+use Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -8,31 +30,31 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         $bundles = array(
-            new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new Symfony\Bundle\SecurityBundle\SecurityBundle(),
-            new Symfony\Bundle\TwigBundle\TwigBundle(),
-            new Symfony\Bundle\MonologBundle\MonologBundle(),
-            new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
-            new FOS\UserBundle\FOSUserBundle(),
-            new FR3D\LdapBundle\FR3DLdapBundle(),
-            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
-            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-            new Gos\Bundle\WebSocketBundle\GosWebSocketBundle(),
-            new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),
-            new BCC\CronManagerBundle\BCCCronManagerBundle(),
-            new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle(),
-            new SunCat\MobileDetectBundle\MobileDetectBundle(),
-            new Fresh\FirebaseCloudMessagingBundle\FreshFirebaseCloudMessagingBundle(),
-            new AppBundle\AppBundle(),
+            new FrameworkBundle(),
+            new SecurityBundle(),
+            new TwigBundle(),
+            new MonologBundle(),
+            new SwiftmailerBundle(),
+            new DoctrineBundle(),
+            new SensioFrameworkExtraBundle(),
+            new AsseticBundle(),
+            new FOSUserBundle(),
+            new FR3DLdapBundle(),
+            new DoctrineFixturesBundle(),
+            new FOSJsRoutingBundle(),
+            new GosWebSocketBundle(),
+            new GosPubSubRouterBundle(),
+            new BCCCronManagerBundle(),
+            new WebProfilerBundle(),
+            new MobileDetectBundle(),
+            new FreshFirebaseCloudMessagingBundle(),
+            new AppBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
-            $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
-            $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
-            $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            $bundles[] = new DebugBundle();
+            $bundles[] = new SensioDistributionBundle();
+            $bundles[] = new SensioGeneratorBundle();
         }
 
         return $bundles;

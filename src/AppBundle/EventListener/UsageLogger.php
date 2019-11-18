@@ -53,7 +53,7 @@ class UsageLogger implements EventSubscriberInterface
     public function onAuthenticationSuccess(InteractiveLoginEvent $event)
     {
         $user = $event->getAuthenticationToken()->getUser();
-        $log  = new Log(sprintf('%s hat sich eingeloggt.', $user->getUsername()), LOG::LEVEL_INFO, $user);
+        $log  = new Log(sprintf('%s hat sich eingeloggt.', $user->getUsername()), Log::LEVEL_INFO, $user);
         $this->em->persist($log);
         $this->em->flush($log);
     }

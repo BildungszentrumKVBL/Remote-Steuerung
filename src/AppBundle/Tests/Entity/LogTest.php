@@ -2,6 +2,7 @@
 
 namespace AppBundle\Tests\Entity;
 
+use DateTime;
 use AppBundle\Entity\Log;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -19,7 +20,7 @@ class LogTest extends WebTestCase
         $user = User::createFromProperties('test', 'test@test.com', 'Test', 'Test');
         $log  = new Log('Test', Log::LEVEL_INFO, $user);
 
-        $this->assertTrue($log->getDateTime() instanceof \DateTime);
+        $this->assertTrue($log->getDateTime() instanceof DateTime);
         $this->assertNull($log->getId());
         $this->assertEquals($log->getLevel(), Log::LEVEL_INFO);
         $this->assertEquals($log->getMessage(), 'Test');

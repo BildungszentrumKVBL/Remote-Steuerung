@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use JsonSerializable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity()
  */
-class Building implements \JsonSerializable
+class Building implements JsonSerializable
 {
     /**
      * This is the id that will be placed in the database after the persisting of this object.

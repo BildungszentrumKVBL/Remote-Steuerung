@@ -2,6 +2,8 @@
 
 namespace AppBundle\Tests\Entity;
 
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use DateTime;
 use AppBundle\Entity\Room;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Zulu;
@@ -34,7 +36,7 @@ class ZuluTest extends WebTestCase
     public function setup()
     {
         self::bootKernel();
-        $this->application = new \Symfony\Bundle\FrameworkBundle\Console\Application(self::$kernel);
+        $this->application = new Application(self::$kernel);
         $this->application->setAutoExit(false);
 
         $this->runConsole("doctrine:schema:drop", ["--force" => true]);
@@ -89,7 +91,7 @@ class ZuluTest extends WebTestCase
         $zulu = new Zulu('192.168.1.1');
         $zulu->lock($user);
 
-        $this->assertTrue($zulu->getLockedSince() instanceof \DateTime);
+        $this->assertTrue($zulu->getLockedSince() instanceof DateTime);
         $this->assertEquals($zulu->getLockedBy(), 'test');
         $this->assertTrue($zulu->isLocked());
 

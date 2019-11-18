@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use JsonSerializable;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="log")
  */
-class Log implements \JsonSerializable
+class Log implements JsonSerializable
 {
     /**
      * Basic informational logs.
@@ -96,7 +98,7 @@ class Log implements \JsonSerializable
         $this->message  = $message;
         $this->level    = $level;
         $this->user     = $user;
-        $this->dateTime = new \DateTime();
+        $this->dateTime = new DateTime();
     }
 
     /**
@@ -126,7 +128,7 @@ class Log implements \JsonSerializable
     /**
      * @return \DateTime
      */
-    public function getDateTime(): \DateTime
+    public function getDateTime(): DateTime
     {
         return $this->dateTime;
     }
@@ -134,7 +136,7 @@ class Log implements \JsonSerializable
     /**
      * @param \DateTime $dateTime
      */
-    public function setDateTime(\DateTime $dateTime)
+    public function setDateTime(DateTime $dateTime)
     {
         $this->dateTime = $dateTime;
     }

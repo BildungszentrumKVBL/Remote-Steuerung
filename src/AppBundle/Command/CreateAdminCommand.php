@@ -2,6 +2,7 @@
 
 namespace AppBundle\Command;
 
+use Exception;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -97,10 +98,10 @@ class CreateAdminCommand extends ContainerAwareCommand
                     if (!$existingEmail) {
                         return $answer;
                     } else {
-                        throw new \Exception(sprintf('Die Email-Adresse "%s" ist bereits vergeben!', $answer));
+                        throw new Exception(sprintf('Die Email-Adresse "%s" ist bereits vergeben!', $answer));
                     }
                 } else {
-                    throw new \Exception(sprintf('%s ist keine Email-Adresse!', $answer));
+                    throw new Exception(sprintf('%s ist keine Email-Adresse!', $answer));
                 }
             }
         );

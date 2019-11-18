@@ -1,5 +1,7 @@
 <?php
 
+use SymfonyRequirements;
+use Requirement;
 require_once dirname(__FILE__).'/SymfonyRequirements.php';
 
 $lineSize = 70;
