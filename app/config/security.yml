@@ -41,4 +41,4 @@ security:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/logs, roles: ROLE_HW }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/(_(profiler|wdt|error))/, roles: ROLE_IT}
+        #- { path: ^/(_(profiler|wdt|error))/, roles: ROLE_IT}

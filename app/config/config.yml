@@ -3,7 +3,6 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: "@BCCCronManagerBundle/Resources/config/assetic.yml" }
 
 parameters:
     locale: de
@@ -35,9 +34,6 @@ framework:
     fragments:       ~
     http_method_override: true
     ide: "phpstorm://open?file=%%f&line=%%l"
-    profiler:
-        matcher:
-            service: app.admin_matcher
 
 twig:
     debug:            "%kernel.debug%"
