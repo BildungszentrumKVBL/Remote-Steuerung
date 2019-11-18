@@ -17,13 +17,13 @@ use AppBundle\EventDispatcher\Event\CommandEvent;
 use Detection\MobileDetect;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Gos\Component\WebSocketClient\Exception\BadResponseException;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class AppController.

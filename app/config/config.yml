@@ -3,7 +3,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: @BCCCronManagerBundle/Resources/config/assetic.yml }
+#    - { resource: '@BCCCronManagerBundle/Resources/config/assetic.yml' }
 
 parameters:
     locale: de
@@ -29,7 +29,6 @@ framework:
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_hosts:   ~
-    trusted_proxies: ~
     session:
         handler_id:      ~
     fragments:       ~

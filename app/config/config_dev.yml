@@ -18,11 +18,11 @@ monolog:
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             excluded_404s: true
             level: warning
-            channels: [!event]
+            channels: ['!event']
         console:
             type:   console
             bubble: false
-            channels: [!event, !doctrine]
+            channels: ['!event', '!doctrine']
 
 swiftmailer:
     delivery_address: "%application_admin_email%"

@@ -180,7 +180,7 @@ class User extends BaseUser implements LdapUserInterface
     /**
      * @return string
      */
-    public function getDn()
+    public function getDn(): ?string
     {
         return $this->dn;
     }
@@ -190,7 +190,7 @@ class User extends BaseUser implements LdapUserInterface
      *
      * @return $this
      */
-    public function setDn($dn)
+    public function setDn(string $dn)
     {
         $this->dn = $dn;
 

@@ -49,6 +49,7 @@ class AppKernel extends Kernel
             new MobileDetectBundle(),
             new FreshFirebaseCloudMessagingBundle(),
             new AppBundle(),
+            new Symfony\Bundle\WebServerBundle\WebServerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

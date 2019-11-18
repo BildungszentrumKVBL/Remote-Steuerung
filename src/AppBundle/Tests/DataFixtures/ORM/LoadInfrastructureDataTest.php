@@ -2,13 +2,11 @@
 
 namespace AppBundle\Tests\DataFixtures\ORM;
 
-use Application;
-use Group;
-use EntityManager;
-use Application;
-use Container;
-use WebTestCase;
-use ArrayInput;
+use AppBundle\Entity\Group;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+
 /**
  * Class LoadInfrastructureDataTest.
  */
