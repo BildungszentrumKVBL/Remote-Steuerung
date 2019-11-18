@@ -14,7 +14,7 @@ class MeetsRequirementsValidatorTest extends AppTestCase
     {
         $validator = $this->getContainer()->get('validator');
         /* @var EventGhostCommand $switchSlideCommand */
-        $switchSlideCommand = $this->getContainer()->get('doctrine.orm.entity_manager')->getRepository('AppBundle:EventGhostCommand')->findOneBy(['action' => 'slide_x']);
+        $switchSlideCommand = $this->getContainer()->get('doctrine.orm.entity_manager')->getRepository(EventGhostCommand::class)->findOneBy(['action' => 'slide_x']);
         $violations = $validator->validate($switchSlideCommand);
         $this->assertEquals(count($violations), 1);
 

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Validator\Constraints;
 
+use AppBundle\Validator\MeetsRequirementsValidator;
 use Symfony\Component\Validator\Constraint;
 
 /**
@@ -27,7 +28,7 @@ class MeetsRequirements extends Constraint
      */
     public function validatedBy()
     {
-        return 'AppBundle\Validator\MeetsRequirementsValidator';
+        return MeetsRequirementsValidator::class;
     }
 
     /**

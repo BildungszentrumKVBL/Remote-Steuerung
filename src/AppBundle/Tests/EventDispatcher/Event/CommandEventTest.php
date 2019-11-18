@@ -19,7 +19,7 @@ class CommandEventTest extends AppTestCase
     {
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         /** @var AbstractCommand $command */
-        $command = $em->getRepository('AppBundle:AbstractCommand')->findOneBy(['name' => 'cmd_freezeProjector']);
+        $command = $em->getRepository(AbstractCommand::class)->findOneBy(['name' => 'cmd_freezeProjector']);
         $user  = User::createFromProperties('BTK', 'bill@thekid.com', 'Billy', 'The Kid');
         $event = new CommandEvent();
         $event->setCommand($command);

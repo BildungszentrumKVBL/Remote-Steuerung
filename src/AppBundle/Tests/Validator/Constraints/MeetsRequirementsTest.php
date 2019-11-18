@@ -4,6 +4,7 @@ namespace AppBundle\Tests\Validator\Constraints;
 
 use AppBundle\Tests\AppTestCase;
 use AppBundle\Validator\Constraints\MeetsRequirements;
+use AppBundle\Validator\MeetsRequirementsValidator;
 
 /**
  * Class MeetsRequirementsTest.
@@ -19,7 +20,7 @@ class MeetsRequirementsTest extends AppTestCase
     public function testValidatedBy()
     {
         $constraint = new MeetsRequirements();
-        $this->assertEquals($constraint->validatedBy(), 'AppBundle\Validator\MeetsRequirementsValidator');
+        $this->assertEquals($constraint->validatedBy(), MeetsRequirementsValidator::class);
     }
 
     public function testGetTargets()
