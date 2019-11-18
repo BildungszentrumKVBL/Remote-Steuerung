@@ -26,7 +26,8 @@ security:
             logout:
                 path: /logout
             form_login:
-                provider: chain_provider
+                provider: fos_userbundle
+                #provider: chain_provider
                 login_path: /login
                 check_path: /login_check
 
