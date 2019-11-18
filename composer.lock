@@ -4,24 +4,25 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ac7a82d1f27c660df3e20404bc6b88c",
+    "content-hash": "4158e9629c214baae4c23b580fe4fc3b",
     "packages": [
         {
             "name": "bcc/cron-manager-bundle",
-            "version": "v3.1",
+            "version": "v3.0",
             "target-dir": "BCC/CronManagerBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michelsalib/BCCCronManagerBundle.git",
-                "reference": "7dbd2dd884a6398e10088399e11270dfafb171a4"
+                "reference": "880902cabe76156b652c65fcdf3d4d7a6faa6525"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michelsalib/BCCCronManagerBundle/zipball/7dbd2dd884a6398e10088399e11270dfafb171a4",
-                "reference": "7dbd2dd884a6398e10088399e11270dfafb171a4",
+                "url": "https://api.github.com/repos/michelsalib/BCCCronManagerBundle/zipball/880902cabe76156b652c65fcdf3d4d7a6faa6525",
+                "reference": "880902cabe76156b652c65fcdf3d4d7a6faa6525",
                 "shasum": ""
             },
             "require": {
+                "symfony/assetic-bundle": "~2",
                 "symfony/config": "~2.2|~3.0",
                 "symfony/dependency-injection": "~2.2|~3.0",
                 "symfony/form": "~2.2|~3.0",
@@ -55,7 +56,7 @@
             "keywords": [
                 "cron management"
             ],
-            "time": "2017-08-25T13:18:03+00:00"
+            "time": "2016-06-30T14:13:20+00:00"
         },
         {
             "name": "cboden/ratchet",
@@ -5787,7 +5788,10 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "~7.0"
+        "php": "~7.0",
+        "ext-json": "*",
+        "ext-simplexml": "*",
+        "ext-curl": "*"
     },
     "platform-dev": [],
     "platform-overrides": {
