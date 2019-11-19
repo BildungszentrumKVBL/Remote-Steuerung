@@ -27,7 +27,7 @@
         ]
     },
     "require": {
-        "php": "~7.1",
+        "php": "^7.3",
         "ext-json": "*",
         "ext-simplexml": "*",
         "ext-curl": "*",
@@ -80,7 +80,7 @@
     "config": {
         "bin-dir": "bin",
         "platform": {
-            "php": "7.1.3"
+            "php": "7.3"
         }
     },
     "extra": {
