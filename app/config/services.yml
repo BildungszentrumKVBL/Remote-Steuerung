@@ -1,10 +1,18 @@
 # http://symfony.com/doc/current/book/service_container.html
 services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    App\:
+        resource: '../../src/*'
+        exclude: '../../src/{DependencyInjection,Entity,Form/Listener,Migrations,Tests,Kernel.php}'
+
     fos_user.doctrine_registry:
         alias: doctrine
 
     user_listener:
-        class: AppBundle\EventListener\UserEventListener
+        class: App\EventListener\UserEventListener
         arguments: ['%application_group_it%', '%application_group_caretaker%', '%application_group_teacher%', '%application_group_teacher_it%']
         calls:
             - [ setLogger, ['@logger'] ]
@@ -12,13 +20,13 @@ services:
             - { name: doctrine.event_listener, event: prePersist }
 
     user_settings_listener:
-        class: AppBundle\EventListener\UserSettingsListener
+        class: App\EventListener\UserSettingsListener
         tags:
             - name: doctrine.event_listener
               event: prePersist
 
     app.usage_logger.authentication_success_listener:
-        class: AppBundle\EventListener\UsageLogger
+        class: App\EventListener\UsageLogger
         arguments: ['@doctrine.orm.entity_manager']
         tags:
             - name: kernel.event_listener
@@ -29,12 +37,12 @@ services:
               method: onCommandEvent
 
     app.command.topic_service:
-        class: AppBundle\Topic\CommandTopic
+        class: App\Topic\CommandTopic
         tags:
             - { name: gos_web_socket.topic }
 
     app.webuntis.handler:
-        class: AppBundle\Service\WebUntisHandler
+        class: App\Service\WebUntisHandler
         arguments:
             - '@doctrine.orm.entity_manager'
             - '%webuntis_school%'
@@ -47,14 +55,14 @@ services:
               method: onKernelResponse
 
     app.log.level_listener:
-        class: AppBundle\EventListener\LogListener
+        class: App\EventListener\LogListener
         arguments:
             - '%application_log_level%'
         tags:
             - { name: doctrine.event_listener, event: postPersist }
 
     app.observation.command_listener:
-        class: AppBundle\EventListener\ObservationListener
+        class: App\EventListener\ObservationListener
         arguments:
             - '@gos_web_socket.wamp.pusher'
         tags:
@@ -63,7 +71,7 @@ services:
               method: onCommandEvent
 
     app.observation.zulu_change_listener:
-        class: AppBundle\EventListener\ZuluLockListener
+        class: App\EventListener\ZuluLockListener
         arguments: ['@gos_web_socket.wamp.pusher', '@service_container']
         tags:
             - name: doctrine.event_listener
@@ -73,23 +81,23 @@ services:
               method: onKernelResponse
 
     app.status.fetcher:
-        class: AppBundle\Service\StatusFetcher
+        class: App\Service\StatusFetcher
         arguments:
             - '@doctrine.orm.entity_manager'
             - '%kernel.root_dir%'
 
     app.twig_helper:
-        class: AppBundle\Service\TwigHelper
+        class: App\Service\TwigHelper
         arguments:
             - '@doctrine.orm.entity_manager'
 
     app.settings_handler:
-        class: AppBundle\Service\SettingsHandler
+        class: App\Service\SettingsHandler
         arguments:
             - '@kernel'
 
     command_handler:
-        class: AppBundle\Service\CommandsHandler
+        class: App\Service\CommandsHandler
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@security.token_storage'
