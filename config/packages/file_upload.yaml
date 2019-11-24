@@ -1,0 +1,3 @@
+parameters:
+    app.file_upload_settings:
+        path: '%kernel.project_dir%/public/uploads/'

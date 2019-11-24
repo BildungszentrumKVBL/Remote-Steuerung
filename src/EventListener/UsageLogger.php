@@ -5,9 +5,10 @@ namespace App\EventListener;
 use App\Entity\Log;
 use App\EventDispatcher\Event\CommandEvent;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\AuthenticationEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Core\Event\AuthenticationSuccessEvent;
 
 /**
  * Class UsageLogger.
@@ -18,17 +19,10 @@ class UsageLogger implements EventSubscriberInterface
 {
     /**
      * The EntityManager that handles database-interactions.
-     *
-     * @var EntityManager $em
      */
     private $em;
 
-    /**
-     * UsageLogger constructor.
-     *
-     * @param EntityManager $em
-     */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
@@ -47,13 +41,11 @@ class UsageLogger implements EventSubscriberInterface
 
     /**
      * This method runs when the authentication of an user was successful.
-     *
-     * @param InteractiveLoginEvent $event
      */
-    public function onAuthenticationSuccess(InteractiveLoginEvent $event)
+    public function onAuthenticationSuccess(AuthenticationSuccessEvent $event)
     {
         $user = $event->getAuthenticationToken()->getUser();
-        $log  = new Log(sprintf('%s hat sich eingeloggt.', $user->getUsername()), Log::LEVEL_INFO, $user);
+        $log  = new Log(sprintf('%s hat sich eingeloggt.', $user instanceof User ? $user->getUsername() : 'anon'), Log::LEVEL_INFO, $user instanceof User ? $user : null);
         $this->em->persist($log);
         $this->em->flush($log);
     }

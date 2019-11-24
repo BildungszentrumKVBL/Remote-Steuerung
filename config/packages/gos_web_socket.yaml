@@ -1,0 +1,11 @@
+gos_web_socket:
+  pushers:
+    wamp:
+      host: 127.0.0.1
+      port: "%eventghost_websocket_port%"
+  server:
+    port: "%eventghost_websocket_port%"        #The port the socket server will listen on
+    host: 127.0.0.1
+    router:
+      resources: ~
+        #- "@AppBundle/Resources/config/pubsub/routing.yml"

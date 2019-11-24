@@ -1,0 +1,450 @@
+@import "~bootstrap/dist/css/bootstrap-theme.min.css";
+@import "~bootstrap-material-design/dist/css/ripples.min.css";
+@import "~bootstrap-material-design/sass/mixins";
+@import "~bootstrap-material-design/sass/shadows";
+@import "~bootstrap-material-design/sass/core";
+
+/* Reset ugly defaultstyles */
+
+a, a:visited, a:focus, a:active, a:hover {
+  outline: 0 none !important;
+  border: none;
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  border: 0;
+}
+
+select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000000;
+}
+
+/* Animations */
+
+@keyframes shake {
+  from, to {
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%, 30%, 50%, 70%, 90% {
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  20%, 40%, 60%, 80% {
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
+.shake {
+  animation-name: shake;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+@keyframes tooltip-top {
+  from {
+    transform: translateY(10px) scale(0.95);
+    opacity: 0.7;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes tooltip-right {
+  from {
+    transform: translateX(-10px) scale(0.95);
+    opacity: 0.7;
+  }
+  to {
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes tooltip-bottom {
+  from {
+    transform: translateY(-10px) scale(0.95);
+    opacity: 0.7;
+  }
+  to {
+    transform: translateX(0) scale(1);
+  }
+}
+
+.tooltip.top {
+  animation-name: tooltip-top;
+  animation-duration: 0.5s;
+}
+
+.tooltip.bottom {
+  animation-name: tooltip-bottom;
+  animation-duration: 0.5s;
+}
+
+.tooltip.right {
+  animation-name: tooltip-right;
+  animation-duration: 0.5s;
+}
+
+@keyframes slideInUp {
+  0% {
+    transform: translate3d(0, 100px, 0);
+    opacity: 0;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideOutDown {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 80px, 0);
+  }
+}
+
+.slideDown {
+  display: none;
+}
+
+.accelerated {
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+/* snackbar */
+
+.snackbar {
+  background-color: rgba(50, 50, 50, .9);
+  color: #ffffff;
+  font-size: 14px;
+  border-radius: 2px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  height: 0;
+  -moz-transition: -moz-transform 0.2s ease-in-out, opacity 0.2s ease-in, height 0s linear 0.2s, padding 0s linear 0.2s, height 0s linear 0.2s;
+  -webkit-transition: -webkit-transform 0.2s ease-in-out, opacity 0.2s ease-in, height 0s linear 0.2s, padding 0s linear 0.2s, height 0s linear 0.2s;
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in, height 0s linear 0.2s, padding 0s linear 0.2s, height 0s linear 0.2s;
+  -moz-transform: translateY(200%);
+  -webkit-transform: translateY(200%);
+  transform: translateY(200%);
+}
+
+.snackbar.snackbar:not(.snackbar-opened) > .snackbar-content {
+  display: none;
+}
+
+.snack.snackbar:not(.snackbar-opened) {
+  transition-duration: 0.1s;
+  padding: 0;
+}
+
+.snackbar a {
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.snackbar.snackbar-opened {
+  padding: 14px 15px;
+  margin-bottom: 20px;
+  height: auto;
+  -moz-transition: -moz-transform 0.2s ease-in-out, opacity 0.2s ease-in, height 0s linear 0.2s;
+  -webkit-transition: -webkit-transform 0.2s ease-in-out, opacity 0.2s ease-in, height 0s linear 0.2s;
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in, height 0s linear 0.2s, height 0s linear 0.2s;
+  -moz-transform: none;
+  -webkit-transform: none;
+  transform: none;
+}
+
+.snackbar.toast {
+  border-radius: 200px;
+  opacity: 0.8;
+}
+
+@media screen and (min-width: 768px) {
+  .snackbar.snackbar-opened {
+    width: 300px;
+  }
+}
+
+/* App styles */
+
+main {
+  padding-top: 120px;
+  height: 100vh;
+  padding-bottom: 160px;
+}
+
+.select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.btn-controller, .btn-fake-controller {
+  height: 100px;
+  width: 99%;
+}
+
+.btn-fake-controller {
+  height: 80px;
+}
+
+.btn-controller .description, .btn-fake-controller .description {
+  font-size: 1rem;
+  margin-top: -15px;
+  display: block;
+  line-height: 2.2;
+}
+
+.btn-fake-controller .description {
+  margin-top: -10px;
+}
+
+.modal-content .modal-footer button {
+  margin: 0 18px 5px;
+}
+
+.btn-controller > .material-icons, .btn-fake-controller > .material-icons {
+  line-height: 2;
+  font-size: 4rem;
+}
+
+.btn-fake-controller > .material-icons {
+  line-height: 1.5;
+}
+
+body .container .well.btn-fake-controller {
+  margin-bottom: 10px;
+}
+
+.filters:hover, .status-api:hover {
+  cursor: pointer;
+}
+
+.filters .panel-heading.closed, .status-api .panel-heading.closed {
+  border-radius: 3px;
+}
+
+.navbar-toggle {
+  border-radius: 50%;
+  padding: 14px 11px;
+  margin: 4px 10px;
+}
+
+.input-group[class*="col-"] {
+  float: left;
+  padding-left: 15px;
+}
+
+.action-box {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.navbar-fixed-top, .dropdown-menu {
+  z-index: 100000;
+  box-shadow: 0 7px 20px 3px rgba(20, 20, 20, 0.25);
+}
+
+.bootable {
+  opacity: 0;
+}
+
+.booted:not(.boot) {
+  animation: slideOutDown 0.7s;
+}
+
+.boot {
+  display: block;
+  animation: slideInUp 0.7s;
+  opacity: 1;
+}
+
+.navbar .dropdown-menu, .navbar.navbar-default .dropdown-menu {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.dropdown-menu > li > a {
+  font-weight: 300;
+}
+
+.phone-cover, .display {
+  position: absolute;
+  top: 55px;
+  left: 25px;
+  right: 25px;
+  bottom: 25px;
+}
+
+.phone-cover {
+  -webkit-transition: top .8s, left .8s, right .8s, bottom .8s;
+  -moz-transition: top .8s, left .8s, right .8s, bottom .8s;
+  -ms-transition: top .8s, left .8s, right .8s, bottom .8s;
+  -o-transition: top .8s, left .8s, right .8s, bottom .8s;
+  transition: top .8s, left .8s, right .8s, bottom .8s;
+  will-change: top, left, right, bottom;
+}
+
+.nav-tabs > li > a, .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
+  border-radius: 0;
+}
+
+.display {
+  background-color: rgba(50, 50, 50, .05);
+  border: 1px solid rgba(90, 90, 90, .4);
+}
+
+.nav-tabs > li.text-center{
+  padding: 0;
+}
+
+.mouse-cursor {
+  width: 24px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.third {
+  width: 33.33333%;
+}
+
+.half {
+  width: 50%;
+}
+
+.navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+  max-height: 500px;
+}
+
+#direction-hints {
+  position: relative;
+  z-index: 1;
+}
+
+.direction-hint {
+  display: inline-block;
+  position: fixed;
+  max-width: 300px;
+}
+
+.direction-hint.left {
+  top: 30%;
+  transition: .2s left;
+  left: 10%;
+}
+
+.direction-hint.right {
+  top: 30%;
+  transition: .2s right;
+  right: 10%;
+}
+
+#help, #requirements {
+  z-index: 999999;
+}
+
+.navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+  max-height: 600px;
+}
+
+.btn.pull-right {
+  margin-right: 3%;
+}
+
+.radio, .checkbox {
+  text-align: center;
+}
+
+@media screen and (max-width: 767px) {
+  main {
+    padding-top: 70px;
+    padding-bottom: 50px;
+  }
+
+  .navbar .dropdown-menu, .navbar.navbar-default .dropdown-menu {
+    position: static;
+    width: 100%;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .navbar-nav.navbar-left .dropdown-menu > li > a {
+    color: white;
+  }
+
+  .form-horizontal label {
+    text-align: left;
+  }
+
+  .container .well {
+    padding: 15px;
+  }
+
+  .snackbar {
+    width: 100%;
+  }
+
+  .snackbar.snackbar-opened {
+    margin-bottom: 0;
+    border-radius: 0;
+  }
+
+  body .container .well.btn-controller, body .container .well.btn-fake-controller {
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+
+  .btn-controller, .btn-fake-controller {
+    height: 80px;
+  }
+
+  .btn-fake-controller {
+    padding-top: 5px;
+    height: 65px;
+  }
+
+  .btn-controller > .material-icons, .btn-fake-controller > .material-icons {
+    line-height: 2;
+    font-size: 3rem;
+  }
+
+  .btn-fake-controller > .material-icons {
+    line-height: 1.5;
+  }
+
+  .direction-hint.left {
+    left: -55%
+  }
+
+  .direction-hint.left.view {
+    left: 10%;
+  }
+
+  .direction-hint.right {
+    right: -55%;
+  }
+
+  .direction-hint.right.view {
+    right: 10%;
+  }
+}

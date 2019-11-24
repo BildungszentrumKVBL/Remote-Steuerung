@@ -1,0 +1,13 @@
+{% extends app.request.xmlHttpRequest
+? 'ajax-base.html.twig'
+: 'base.html.twig'%}
+
+{% block body %}
+    <div class="container">
+        <div class="well bootable boot-start">
+            <h1>{{ 'remote_control.application'|trans }}</h1>
+            <p>{{ 'main.educational_center_text'|trans }}</p>
+            <p>{{ 'main.we_hope_you_like_it'|trans }}</p>
+        </div>
+    </div>
+{% endblock %}

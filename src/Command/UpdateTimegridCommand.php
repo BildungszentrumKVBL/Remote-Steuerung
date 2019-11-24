@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * This command updates the timegrid that is stored in the database. The timegrid can and will be used to check when
  * the end of certain lessons appear.
  */
-class UpdateTimegridCommand extends ContainerAwareCommand
+class UpdateTimegridCommand extends Command
 {
     /**
      * Configures the command, sets helptext and parameters.

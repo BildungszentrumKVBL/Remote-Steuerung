@@ -1,0 +1,61 @@
+{% extends app.request.xmlHttpRequest
+? 'ajax-base.html.twig'
+: 'base.html.twig'%}
+
+{% block title %}Remote-Steuerung - Login{% endblock %}
+
+{% block predict %}
+    <link rel="preconnect" href="{{ path('login_check') }}">
+{% endblock %}
+
+{% block body %}
+    {# If the loged in HTML Structure still exists. Reload page #}
+    <script>if (document.querySelectorAll('.nav.navbar-nav.navbar-left').length === 1) { window.location.href = '/login'; }</script>
+    <div class="container">
+        <div class="well col-md-8 col-md-offset-2{% if error %} shake{% else %} bootable boot-start{% endif %}">
+            <form class="form-horizontal" action="{{ path('login_check') }}" method="post">
+                <fieldset>
+                    <legend>{{ 'form.login'|trans }}</legend>
+                    {% if error %}
+                        <script>
+                            (function(delay, length) {
+                                delay = delay || 0;
+                                length = length || 500;
+                                if ('vibrate' in navigator) {
+                                    setTimeout(function() {
+                                        navigator.vibrate(length);
+                                    }, delay);
+                                }
+                            })(0, 1000);
+                        </script>
+                        <div class="alert alert-dismissable alert-danger slideDown">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
+                            <span>{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+                        </div>
+                    {% endif %}
+                    <div class="form-group{% if error %} has-error{% endif %} is-focused">
+                        <label for="username" class="col-md-2 control-label">{{ 'form.username'|trans }}</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="username" name="_username" placeholder="{{ 'form.username'|trans }}" required value="{{ last_username }}" autofocus autocorrect="off" autocapitalize="none" list="usernames" spellcheck="false" oninput="app.validation.username(this);">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-md-2 control-label">{{ 'form.password'|trans }}</label>
+                        <div class="col-md-10">
+                            <input type="password" class="form-control" id="password" name="_password" placeholder="{{ 'form.password'|trans }}" required oninput="app.validation.password(this)" />
+                        </div>
+                    </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary form-button pull-right" onclick="app.validation.username(document.getElementById('username'));app.validation.password(document.getElementById('password'));">{{ 'form.send'|trans }}</button>
+                    </div>
+                </fieldset>
+                <datalist id="usernames">
+                    {% for user in users %}
+                    <option>{{ user.username }}</option>
+                    {% endfor %}
+                </datalist>
+            </form>
+        </div>
+    </div>
+{% endblock %}

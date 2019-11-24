@@ -1,0 +1,102 @@
+.modal {
+  justify-content: center;
+
+  .modal-dialog {
+    max-width: 40em;
+
+    .modal-close {
+      position: absolute;
+      top: 0.5em;
+      right: 0.75em;
+      z-index: 10;
+      cursor: pointer;
+      color: #dc3545;
+    }
+  }
+
+  .modal-content {
+    border-radius: 0;
+  }
+
+  .page-title {
+    font-size: 1.25em;
+    display: inline-block;
+  }
+}
+
+.grayout {
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+}
+
+.invisible {
+  opacity: 0;
+}
+
+.submit-panel {
+  margin: 0;
+  padding: 12px 0 0;
+  border-top: 1px solid #e5e5e5;
+}
+
+.prompt-form .col-sm-offset-4 {
+  margin-left: 0;
+}
+
+.prompt-form .message-box {
+  margin-bottom: 15px;
+}
+
+.btn-modal {
+  min-width: 130px;
+  margin-right: 20px;
+  outline: none !important;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.btn-submit {
+  border: none;
+  background: none;
+  height: 40px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+  padding: 0;
+  cursor: pointer;
+
+  span {
+    display: block;
+    line-height: 1em;
+    padding: 13px 10px;
+    font-size: 0.9em;
+    font-weight: 300;
+    position: relative;
+
+    &.submit-primary {
+      background: #337ab7;
+      color: white;
+    }
+
+    &:hover {
+      background: #286090;
+    }
+
+    &.submit-danger {
+      background: #d9534f;
+      color: white;
+    }
+
+    &.submit-success {
+      background: #5cb85c;
+      color: white;
+    }
+
+    &.submit-default {
+      background: rgb(221, 221, 221);
+      color: black;
+    }
+  }
+}

@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Entity\Room;
 use App\Entity\Zulu;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * This command gets the status from a zulu in a specific room. It is primarily used to create sub-processes when
  * fetching a large amount statuses from zulu.
  */
-class GetStatusCommand extends ContainerAwareCommand
+class GetStatusCommand extends Command
 {
     /**
      * Configures the command, sets helptext and parameters.

@@ -5,6 +5,7 @@ namespace App\Command;
 use DateTime;
 use App\Entity\Log;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * This command cleans various tables in the database. This ensures that the storage won't overflow over time and
  * improve database performance.
  */
-class CleanDatabaseCommand extends ContainerAwareCommand
+class CleanDatabaseCommand extends Command
 {
     /**
      * Configures the command, sets helptext and parameters.

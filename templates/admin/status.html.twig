@@ -1,0 +1,40 @@
+{% extends app.request.xmlHttpRequest
+? 'ajax-base.html.twig'
+: 'base.html.twig'%}
+
+{% block body %}
+    <div class="container">
+        <div class="panel panel-primary bootable boot-start status-api">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'choose_building'|trans }}</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" method="post" onsubmit="return false;">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="building_status" class="col-md-2 control-label">{{ 'building'|trans }}</label>
+                            <div class="col-md-10">
+                                <select id="building_status" name="building" class="form-control select" required>
+                                    <option value="all">{{ 'all_buildings'|trans }}</option>
+                                    {% for build in buildings %}
+                                        {% if building is defined and building == build %}
+                                            <option value="{{ build }}" selected>{{ 'building'|trans }} {{ build }}</option>
+                                        {% else %}
+                                            <option value="{{ build }}">{{ 'building'|trans }} {{ build }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button id="status_button" type="submit" name="senden" value="1" class="btn btn-primary form-submit pull-right">{{ 'show'|trans }}</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="status-container">
+
+        </div>
+    </div>
+{% endblock %}

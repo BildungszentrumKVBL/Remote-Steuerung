@@ -18,7 +18,7 @@ use Detection\MobileDetect;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +31,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * This controller is the main controller of this application. It serves general sites, like the typical `index.html`
  * and application-relevant sites.
  */
-class AppController extends Controller
+class AppController extends AbstractController
 {
     /**
      * This route serves the index page.
@@ -42,7 +42,7 @@ class AppController extends Controller
      */
     public function indexAction(): Response
     {
-        return $this->render('AppBundle:app:index.html.twig');
+        return $this->render('app/index.html.twig');
     }
 
     /**
@@ -115,7 +115,7 @@ class AppController extends Controller
         $buildings = array_unique($buildings);
 
         return $this->render(
-            'AppBundle:app:chooseRoom.html.twig', [
+            'app/chooseRoom.html.twig', [
                 'buildings' => $buildings,
                 'rooms'     => $rooms,
                 'roomname'  => $roomname,
@@ -128,7 +128,7 @@ class AppController extends Controller
      * This room gets the zulus, after the building has been selected.
      *
      * @Route("/chooseRoom/{building}", name="get_zulus_route", options={"expose"=true})
-     * @ParamConverter("building", class="AppBundle:Building", options={"mapping": {"building" = "name"}})
+     * @ParamConverter("building", class="App\Entity\Building", options={"mapping": {"building" = "name"}})
      * @Security("has_role('ROLE_TEACHER')")
      * @Method(methods={"GET"})
      *
@@ -161,7 +161,7 @@ class AppController extends Controller
      *
      * @Route("/controller/{view}", name="controller_route", defaults={"view": null}, requirements={"view": "\d+"},
      *                              options={"expose": true})
-     * @ParamConverter("view", class="AppBundle:View")
+     * @ParamConverter("view", class="App\Entity\View")
      * @Security("has_role('ROLE_TEACHER')")
      *
      * @param View $view
@@ -204,7 +204,7 @@ class AppController extends Controller
         }
 
         return $this->render(
-            'AppBundle:app:controller.html.twig', [
+            'app/controller.html.twig', [
                 'status' => $status,
             ]
         );
@@ -242,7 +242,7 @@ class AppController extends Controller
         $views = $em->getRepository(View::class)->findAll();
 
         return $this->render(
-            'AppBundle:app:settings.html.twig', [
+            'app/settings.html.twig', [
                 'views'      => $views,
                 'activeView' => $settings->getView(),
             ]
@@ -302,7 +302,7 @@ class AppController extends Controller
      *  - `data`: Additional data that the `action` needs in order to work.
      *
      * @Route("/command/{command}", name="send_commands_route", options={"expose"=true})
-     * @ParamConverter("command", class="AppBundle:AbstractCommand", options={"mapping":{"command": "name"}})
+     * @ParamConverter("command", class="App\Entity\AbstractCommand", options={"mapping":{"command": "name"}})
      * @Security("has_role('ROLE_TEACHER')")
      * @Method(methods={"post"})
      *
@@ -350,18 +350,6 @@ class AppController extends Controller
     }
 
     /**
-     * @Route("/favicon.ico", name="favicon_route")
-     *
-     * @return Response
-     */
-    public function faviconAction(): Response
-    {
-        $icon = $this->get('kernel')->locateResource('@AppBundle/Resources/public/assets/favicon.ico');
-
-        return new Response(file_get_contents($icon), Response::HTTP_OK, ['content-type' => 'image/x-icon']);
-    }
-
-    /**
      * This route serves the `manifest.json`-file which is needed in order to make an offline website.
      *
      * @Route("/assets/manifest.json", name="app_manifest_route")
@@ -370,33 +358,6 @@ class AppController extends Controller
      */
     public function jsonManifestAction(): Response
     {
-        return $this->render('@App/app/manifest.json.twig');
-    }
-
-    /**
-     * @Route("/firebase-messaging-sw.js", name="service_worker_route", options={"expose": true})
-     *
-     * @return Response
-     */
-    public function serviceWorkerAction(): Response
-    {
-        $asseticManager = $this->get('assetic.asset_manager');
-        $names          = $asseticManager->getNames();
-        $assets         = [];
-
-        foreach ($names as $name) {
-            $output = $asseticManager->getFormula($name)[2]['output'];
-
-            if (substr($output, -3) === '.js' || substr($output, -4) === '.css') {
-                $assets[] = str_replace('_controller', '', $output);
-            }
-        }
-
-        return new Response(
-            $this->renderView(
-                '@App/app/service-worker.js.twig',
-                ['assets' => $assets]
-            ), Response::HTTP_OK, ['content-type' => 'application/javascript']
-        );
+        return $this->render('app/manifest.json.twig');
     }
 }

@@ -1,0 +1,9 @@
+fos_user:
+  db_driver: orm
+  from_email:
+    address: "%application_admin_email%"
+    sender_name: System
+  firewall_name: main
+  user_class: App\Entity\User
+  group:
+    group_class: App\Entity\Group

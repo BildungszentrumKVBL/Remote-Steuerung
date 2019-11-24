@@ -66,7 +66,7 @@ class AdminController extends Controller
      *     name="admin_observe_new_route",
      *     options={"expose": true}
      * )
-     * @ParamConverter("zulu", class="AppBundle:Zulu", options={"id" = "zuluId"})
+     * @ParamConverter("zulu", class="App\Entity\Zulu", options={"id" = "zuluId"})
      *
      * @param Zulu $zulu
      *
@@ -87,8 +87,8 @@ class AdminController extends Controller
      *     options={"expose": true},
      *     requirements={"userId": "\d+", "viewId": "\d+"}
      * )
-     * @ParamConverter("user", class="AppBundle:User", options={"id" = "userId"})
-     * @ParamConverter("view", class="AppBundle:View", options={"id" = "viewId"})
+     * @ParamConverter("user", class="App\Entity\User", options={"id" = "userId"})
+     * @ParamConverter("view", class="App\Entity\View", options={"id" = "viewId"})
      *
      *
      * @param User $user
@@ -180,7 +180,7 @@ class AdminController extends Controller
      *     options={"expose": true}
      * )
      * @Route("/status/all")
-     * @ParamConverter("building", class="AppBundle:Building", isOptional="true",
+     * @ParamConverter("building", class="App\Entity\Building", isOptional="true",
      *     options={"mapping": {"building" = "name"}})
      *
      * @param Request  $request
@@ -258,7 +258,7 @@ class AdminController extends Controller
 
         $date = new DateTime('-5 day');
         $logs = $em->createQuery(
-            'SELECT l FROM AppBundle:Log l WHERE l.dateTime >= :datetime ORDER BY l.dateTime DESC'
+            'SELECT l FROM App\Entity\Log l WHERE l.dateTime >= :datetime ORDER BY l.dateTime DESC'
         )->setMaxResults(100)->setParameter('datetime', $date)->getResult();
 
         return $this->render('@App/admin/logs.html.twig', ['logs' => $logs, 'users' => $users]);

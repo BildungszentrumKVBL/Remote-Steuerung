@@ -9,6 +9,7 @@ use App\Entity\Zulu;
 use App\Entity\ZuluCommand;
 use App\Service\CommandsHandler;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * of day where no one will be using the zulu. When there are also classes on the weekend, you might want to make
  * separate schedules for them.
  */
-class TurnOffDevicesCommand extends ContainerAwareCommand
+class TurnOffDevicesCommand extends Command
 {
     /**
      * Configures the command, sets helptext and parameters.

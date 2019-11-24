@@ -1,0 +1,67 @@
+{% apply spaceless %}
+    {% set observing = (observe is defined and observe == true) %}
+    {% set settings = (user.settings is defined) ? user.settings : app.user.settings %}
+    {% set update = update|default(false) %}
+
+    {% if not observing %}
+        <div id="controller-wrapper" class="container" data-view="{{ app.user.settings.view|json_encode }}">
+        <div id="direction-hints" class="visible-xs">
+            <div class="well direction-hint left">{{ app_twig_helper.previousView(app.user.settings.view) }}</div>
+            <div class="well direction-hint right">{{ app_twig_helper.nextView(app.user.settings.view) }}</div>
+        </div>
+        <script>try{app.actions.updateNavigation({{ app_twig_helper.getRoomForUser(app.user)|json_encode|raw }});} catch (e) {console.log(e.message)}</script>
+    {% endif %}
+
+    {% set buttons = settings.view.buttons %}
+
+    {% set is_end_of_row = true %}
+
+    {% for button in buttons %}
+    {% if is_end_of_row %}
+    <div class="row">
+    {% endif %}
+
+    {# Erstellung der data-Attribut strings, welcher Werte, die für den Befehl gebraucht werden beinhaltet. #}
+    {% set extraDataString = '' %}
+    {% if button.command.dataRequirements is defined and attribute(button.command, 'dataRequirements') %}
+        {% set extraData = button.command.dataRequirements %}
+        {% for value in extraData %}
+            {% set extraDataString = extraDataString ~ ' data-req-variable-' ~ value['variable'] %}
+            {% set extraDataString = extraDataString ~ ' data-req-type-' ~ value['variable'] ~ '=' ~ value['type'] %}
+            {% set extraDataString = extraDataString ~ ' data-req-label-' ~ value['variable'] ~ '=' ~ value['label'] %}
+        {% endfor %}
+    {% endif %}
+
+
+    {# Mark if active #}
+    {% if button.command.commandId is defined and status is defined and status %}
+        {% set active = attribute(status, button.command.commandId) %}
+    {% else %}
+        {% set active = false %}
+    {% endif %}
+
+    {% if button.size is constant('App\\Entity\\Button::SIZE_BIG') %}
+    <div class="{% if not observing %}col-md-8 col-md-offset-2 {% else %}col-md-12 {% endif %}col-sm-12 col-sm-offset-0 col-xs-12">
+        {% set is_end_of_row = true %}
+        {% else %}
+        <div class="{% if not observing %}col-md-4 col-md-offset-{{ is_end_of_row ? '2': '0' }} {% endif %}col-sm-6 col-sm-offset-0 col-xs-6">
+            {% if is_end_of_row %}
+                {% set is_end_of_row = false %}
+            {% else %}
+                {% set is_end_of_row = true %}
+            {% endif %}
+            {% endif %}
+            <div class="well well-sm{% if observing and not update %} boot booted{% else %} bootable boot-start{% endif %} btn btn-primary btn-{{ observing ? 'fake-':'' }}controller{{ (active) ? ' btn-raised' }}" data-button="{{ button.command.name }}"{{ extraDataString }}>
+                <i class="material-icons">{{ button.command.icon }}</i>
+                <br>
+                <span class="description">{{ button.command.label }}</span>
+                <div class="ripple-container"></div>
+            </div>
+        </div>{# .col-md-8.col-md-offset-2.col-sm-12.col-sm-offset-0.col-xs-12 | .col-sm-6.col-sm-offset-0.col-xs-6 #}
+        {% if is_end_of_row %}
+    </div>{# .row #}
+    {% endif %}
+    {% endfor %}
+
+    {% if not observing %}</div>{# #controller-wrapper #}{% endif %}
+{% endapply %}

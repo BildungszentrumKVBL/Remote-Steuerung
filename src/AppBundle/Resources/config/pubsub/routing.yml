@@ -1,4 +1,0 @@
-command_topic:
-    channel: app/command
-    handler:
-        callback: 'app.command.topic'

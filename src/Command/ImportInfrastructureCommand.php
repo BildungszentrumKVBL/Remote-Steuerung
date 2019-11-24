@@ -8,6 +8,7 @@ use App\Entity\Computer;
 use App\Entity\Room;
 use App\Entity\Zulu;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -19,7 +20,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * Class ImportInfrastructureCommand.
  */
-class ImportInfrastructureCommand extends ContainerAwareCommand
+class ImportInfrastructureCommand extends Command
 {
     /**
      * Configures the command.

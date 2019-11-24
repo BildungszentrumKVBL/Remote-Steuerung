@@ -1,0 +1,25 @@
+@import "_variables.scss";
+
+.content {
+  padding-top: 50px;
+  min-height: calc(100vh - 60px);
+}
+
+body {
+  background: white;
+  font-family: $fontFamily
+}
+
+a, a:hover {
+  text-decoration: none;
+}
+
+.btn {
+  font-size: 0.9em;
+}
+
+.external::after {
+  display: none;
+  content: "\f35d";
+  font-family: "Font Awesome 5 Solid";
+}

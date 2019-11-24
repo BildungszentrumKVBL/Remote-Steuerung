@@ -5,6 +5,7 @@ namespace App\Command;
 use Exception;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Question\Question;
@@ -17,12 +18,13 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 /**
  * Class CreateAdminCommand.
  */
-class CreateAdminCommand extends ContainerAwareCommand
+class CreateAdminCommand extends Command
 {
     private $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
+        parent::__construct();
         $this->encoder = $encoder;
     }
 

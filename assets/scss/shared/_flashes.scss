@@ -1,0 +1,30 @@
+.alert {
+  margin-bottom: 0;
+}
+
+.flashes {
+  position: absolute;
+  top: 64px;
+  width: 100%;
+  z-index: 31;
+  margin: 0;
+
+  .alert-icon {
+    position: absolute;
+    padding: 0.75rem 1.25rem;
+    left: 0;
+    top: 0;
+  }
+
+  .flash-text-wrapper {
+    padding-left: 2em;
+    display: block;
+  }
+
+  .fa-fw {
+    margin-right: 10px;
+  }
+}
+.flashes-margin-bottom {
+  margin-bottom: 1em;
+}
