@@ -1,6 +1,7 @@
 gos_web_socket:
   pushers:
     wamp:
+      #enabled: true
       host: 127.0.0.1
       port: "%eventghost_websocket_port%"
   server:

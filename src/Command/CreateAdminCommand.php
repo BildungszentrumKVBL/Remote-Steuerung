@@ -2,18 +2,19 @@
 
 namespace App\Command;
 
-use Exception;
 use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class CreateAdminCommand.
@@ -21,11 +22,19 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class CreateAdminCommand extends Command
 {
     private $encoder;
+    private $em;
+    private $validator;
+    private $userPasswordEncoder;
 
-    public function __construct(UserPasswordEncoderInterface $encoder)
-    {
+    public function __construct(
+        UserPasswordEncoderInterface $encoder,
+        EntityManagerInterface $em,
+        ValidatorInterface $validator
+    ) {
         parent::__construct();
-        $this->encoder = $encoder;
+        $this->encoder   = $encoder;
+        $this->em        = $em;
+        $this->validator = $validator;
     }
 
     /**
@@ -40,9 +49,6 @@ class CreateAdminCommand extends Command
     /**
      * This is the entry-point when running the command from the CLI.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @return int|null
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -50,17 +56,15 @@ class CreateAdminCommand extends Command
         /** @var QuestionHelper $helper */
         $helper = $this->getHelper('question');
         $io     = new SymfonyStyle($input, $output);
-        $em     = $this->getContainer()->get('doctrine.orm.entity_manager');
         /** @var User $admin */
-        $admin   = $em->getRepository(User::class)->findOneBy(['username' => 'admin']);
-        $encoder = $this->getContainer()->get('security.password_encoder');
+        $admin = $this->em->getRepository(User::class)->findOneBy(['username' => 'admin']);
         if ($admin) {
             if ($input->getOption('change-password')) { // Change Password
                 $io->title('Admin Benutzer erstellen');
                 $password = $this->askForPassword($input, $output, $helper);
-                $admin->setPassword($encoder->encodePassword($admin, $password));
-                $em->persist($admin);
-                $em->flush($admin);
+                $admin->setPassword($this->encoder->encodePassword($admin, $password));
+                $this->em->persist($admin);
+                $this->em->flush($admin);
                 $io->writeln('Das Passwort wurde geändert.');
             } else {
                 $io->error('Admin existiert bereits.');
@@ -82,13 +86,13 @@ class CreateAdminCommand extends Command
         $admin->setEmail($email);
         $admin->setEmailCanonical($email);
         $admin->setEnabled(true);
-        $admin->setPassword($encoder->encodePassword($admin, $password));
+        $admin->setPassword($this->encoder->encodePassword($admin, $password));
         $admin->setFirstName('Admin');
         $admin->setLastName('istrator');
         $admin->setRoles(['ROLE_ADMIN']);
 
-        $em->persist($admin);
-        $em->flush();
+        $this->em->persist($admin);
+        $this->em->flush();
 
         $io->writeln('Administrator wurde erstellt');
 
@@ -99,12 +103,11 @@ class CreateAdminCommand extends Command
     {
         $emailQuestion = new Question('Bitte gib eine Email-Adresse an: ');
         $emailQuestion->setValidator(
-            function($answer) {
-                $violations = $this->getContainer()->get('validator')->validate($answer, [new Email()]);
+            function ($answer) {
+                $violations = $this->validator->validate($answer, [new Email()]);
 
-                if (count($violations) === 0) {
-                    $existingEmail = $this->getContainer()->get('doctrine.orm.entity_manager')
-                        ->getRepository(User::class)->findOneBy(['email' => $answer]);
+                if (0 === count($violations)) {
+                    $existingEmail = $this->em->getRepository(User::class)->findOneBy(['email' => $answer]);
                     if (!$existingEmail) {
                         return $answer;
                     } else {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a42a008d65695f5bfccd9917e292d459",
+    "content-hash": "a9c29b43465a785eb04a64f9910fa4ff",
     "packages": [
         {
             "name": "bcc/cron-manager-bundle",

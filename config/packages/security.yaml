@@ -4,7 +4,8 @@ security:
     always_authenticate_before_granting: true
 
     encoders:
-        App\Entity\User\User: bcyrpt
+        #App\Entity\User: bcrypt
+        App\Entity\User: auto
 
 
     providers:

@@ -2,11 +2,12 @@
 
 namespace App\Service;
 
-use Exception;
-use DateTime;
 use App\Entity\Log;
 use App\Entity\Timegrid;
+use DateTime;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 /**
  * Class WebUntisHandler.
@@ -16,63 +17,57 @@ use Doctrine\ORM\EntityManager;
 class WebUntisHandler
 {
     /**
-     * The URL of the WebUntis-API
+     * The URL of the WebUntis-API.
      */
     const API = 'https://erato.webuntis.com/WebUntis/jsonrpc.do';
 
     /**
      * The name of the school.
      *
-     * @var string $school
+     * @var string
      */
     private $school;
 
     /**
      * The username for the API.
      *
-     * @var string $username
+     * @var string
      */
     private $username;
 
     /**
      * The API-client. Name of the application.
      *
-     * @var string $apiClient
+     * @var string
      */
     private $apiClient;
 
     /**
      * The password for the API.
      *
-     * @var string $password
+     * @var string
      */
     private $password;
 
     /**
      * The session id from WebUntis.
      *
-     * @var int $session
+     * @var int
      */
     private $session;
 
     /**
      * The EntityManager for database-interactions.
      *
-     * @var EntityManager $em
+     * @var EntityManager
      */
     private $em;
 
     /**
      * WebUntisHandler constructor.
-     *
-     * @param EntityManager $em
-     * @param string        $school
-     * @param string        $username
-     * @param string        $password
-     * @param string        $apiClient
      */
     public function __construct(
-        EntityManager $em,
+        EntityManagerInterface $em,
         string $school,
         string $username,
         string $password,
@@ -122,14 +117,12 @@ class WebUntisHandler
     /**
      * Returns the base curl for the service.
      *
-     * @param array $data
-     *
      * @return resource
      */
     private function getBaseCurl(array $data)
     {
         $data = json_encode($data);
-        $url  = (empty($this->session)) ? self::API."?school=".$this->school : self::API.';jsessionid='.$this->session;
+        $url  = (empty($this->session)) ? self::API.'?school='.$this->school : self::API.';jsessionid='.$this->session;
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT_MS, 1500);
@@ -137,10 +130,10 @@ class WebUntisHandler
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         curl_setopt(
-            $curl, CURLOPT_HTTPHEADER, array(
+            $curl, CURLOPT_HTTPHEADER, [
                 'Content-Type: application/json',
                 'Content-Length: '.strlen($data),
-            )
+            ]
         );
 
         return $curl;
@@ -148,8 +141,6 @@ class WebUntisHandler
 
     /**
      * Returns the room that the teacher reserved.
-     *
-     * @param string $username
      *
      * @return null
      */
@@ -168,7 +159,7 @@ class WebUntisHandler
             }
         }
         if ($roomId) {
-            $rooms = $this->getRooms();
+            $rooms    = $this->getRooms();
             $roomname = null;
             foreach ($rooms as $room) {
                 if ($room->id === $roomId) {
@@ -185,9 +176,7 @@ class WebUntisHandler
     /**
      * Gets the teacher-object from WebUntis.
      *
-     * @param string $username
-     *
-     * @return null|array
+     * @return array|null
      */
     public function getTeacher(string $username)
     {
@@ -196,11 +185,11 @@ class WebUntisHandler
             return null;
         }
         $teacher = array_filter(
-            $teachers, function($value) use ($username) {
-            return ($value->name === $username && $value->active);
-        }
+            $teachers, function ($value) use ($username) {
+                return $value->name === $username && $value->active;
+            }
         );
-        if (count($teacher) === 1) {
+        if (1 === count($teacher)) {
             return array_values($teacher)[0];
         } else {
             return null;
@@ -210,7 +199,7 @@ class WebUntisHandler
     /**
      * Get all teacher-objects from WebUntis.
      *
-     * @return null|array
+     * @return array|null
      */
     public function getTeachers()
     {
@@ -239,9 +228,7 @@ class WebUntisHandler
     /**
      * Gets the Timetable for the id of the teacher-object.
      *
-     * @param int $id
-     *
-     * @return null|array
+     * @return array|null
      */
     public function getTimetableForTeacher(int $id)
     {
@@ -337,12 +324,12 @@ class WebUntisHandler
         $weekday   = (int) $datetime->format('w') + 1;
         $timeUnits = null;
         $schedule  = array_filter(
-            $this->getSchedules(), function($value) use ($weekday, &$timeUnits) {
-            return ($value->day === $weekday);
-        }
+            $this->getSchedules(), function ($value) use ($weekday, &$timeUnits) {
+                return $value->day === $weekday;
+            }
         );
 
-        if (count($schedule) === 1) {
+        if (1 === count($schedule)) {
             return array_values($schedule)[0]->timeUnits;
         } else {
             return null;
@@ -352,7 +339,7 @@ class WebUntisHandler
     /**
      * Get schedules.
      *
-     * @return null|array
+     * @return array|null
      */
     private function getSchedules()
     {
@@ -379,17 +366,11 @@ class WebUntisHandler
         }
     }
 
-    /**
-     * @return string
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @return string
-     */
     public function getUsername(): string
     {
         return $this->username;
@@ -421,5 +402,4 @@ class WebUntisHandler
         $curl = $this->getBaseCurl($logout);
         curl_exec($curl);
     }
-
 }

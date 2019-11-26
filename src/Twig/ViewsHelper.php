@@ -2,7 +2,7 @@
 
 namespace App\Twig;
 
-
+use App\Entity\Room;
 use App\Entity\User;
 use App\Entity\View;
 use App\Entity\Zulu;
@@ -19,7 +19,7 @@ class ViewsHelper extends AbstractExtension
         $this->em = $em;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('get_views', [$this, 'getViews']),
@@ -30,19 +30,14 @@ class ViewsHelper extends AbstractExtension
     }
 
     /**
-     * @return \App\Entity\View[]|array
+     * @return View[]
      */
-    public function getViews()
+    public function getViews(): array
     {
         return $this->em->getRepository(View::class)->findAll();
     }
 
-    /**
-     * @param View $view
-     *
-     * @return View|mixed
-     */
-    public function getNextView(View $view)
+    public function getNextView(View $view): View
     {
         $views = $this->getViews();
 
@@ -68,11 +63,6 @@ class ViewsHelper extends AbstractExtension
         return $view;
     }
 
-    /**
-     * @param View $view
-     *
-     * @return View|mixed
-     */
     public function getPreviousView(View $view)
     {
         $views = $this->getViews();
@@ -92,15 +82,10 @@ class ViewsHelper extends AbstractExtension
         return $view;
     }
 
-    /**
-     * @param User $user
-     *
-     * @return \App\Entity\Room|null|object
-     */
-    public function getRoomForUser(User $user)
+    public function getRoomForUser(User $user): ?Room
     {
         $zulu = $this->em->getRepository(Zulu::class)->findOneBy(['lockedBy' => $user->getUsername()]);
 
-        return ($zulu) ? $zulu->getRoom() : null;
+        return null !== $zulu ? $zulu->getRoom() : null;
     }
 }

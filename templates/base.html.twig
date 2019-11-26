@@ -18,8 +18,8 @@
         <meta name="mobile-web-app-capable" content="yes">
         <link rel="manifest" href="{{ path('app_manifest_route') }}">
         <link rel="icon" type="image/png" href="/build/images/android-chrome-192x192.png" sizes="192x192">
-        <link rel="icon" type="image/png" href="/build/images/favicon-96x96.png" sizes="96x96">
-        <link rel="icon" type="image/png" href="/build/images/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
 
         <meta name="theme-color" content="{{ themeColor }}">
 
@@ -49,12 +49,7 @@
                 {{ encore_entry_link_tags('theme-default') }}
             {% endif %}
         {% endblock %}
-        <link rel="shortcut icon" href="/build/images/favicon.ico">
-        {% block predict %}
-            {% if not is_granted('ROLE_USER') %}
-                <link rel="prerender" href="{{ path('login_route') }}">
-            {% endif %}
-        {% endblock %}
+        <link rel="shortcut icon" href="/favicon.ico">
     </head>
     <body>
         <nav class="navbar navbar-default navbar-fixed-top">
@@ -96,9 +91,9 @@
                         {% endif %}
                         <li><a onclick="app.help();"><i class="material-icons">help</i><span class="hidden-sm"> {{ 'nav.help'|trans }}</span></a></li>
                         {% if is_granted('ROLE_USER') %}
-                            <li><a href="{{ path('logout_route') }}" class="link"><i class="material-icons">exit_to_app</i><span class="hidden-sm">  {{ 'nav.logout'|trans }}</span></a></li>
+                            <li><a href="{{ path('security_logout') }}" class="link"><i class="material-icons">exit_to_app</i><span class="hidden-sm">  {{ 'nav.logout'|trans }}</span></a></li>
                         {% else %}
-                            <li><a href="{{ path('login_route') }}" class="link"><i class="material-icons">account_circle</i> {{ 'nav.login'|trans }}</a></li>
+                            <li><a href="{{ path('security_login') }}" class="link"><i class="material-icons">account_circle</i> {{ 'nav.login'|trans }}</a></li>
                         {% endif %}
                     </ul>
                 </div>
@@ -153,8 +148,7 @@
             {% if is_granted('ROLE_ADMIN') %}
 
             <script>var _WS_URI = "ws{{ eventghost_websocket_ssl ? 's' : '' }}://" + window.location.hostname + ":{{ eventghost_websocket_ssl ? eventghost_websocket_ssl_port : eventghost_websocket_port }}";</script>
-            {{ ws_client() }}
-
+            {{ encore_entry_script_tags('websocket') }}
 
             {{ encore_entry_script_tags('admin') }}
 
@@ -165,25 +159,7 @@
         {% endblock %}
 
         {% block javascripts %}
-
-        {#{% javascripts
-            'bundles/fosjsrouting/js/router.js' output="js/router.js" %}
-            <script src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-            <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>#}
-
             {{ encore_entry_script_tags('app') }}
-        {#{% javascripts
-            'assets/vendor/jquery/dist/jquery.js'
-            'assets/vendor/snackbarjs/src/snackbar.js'
-            'assets/vendor/bootstrap/dist/js/bootstrap.js'
-            'assets/vendor/bootstrap-material-design/dist/js/material.js'
-            'assets/vendor/bootstrap-material-design/dist/js/ripples.js'
-            '@AppBundle/Resources/public/js/controller.js'
-            '@AppBundle/Resources/public/js/app.js' output="js/app.js" %}
-            <script src="{{ asset_url }}"></script>
-            {% endjavascripts %}#}
-
         {% endblock %}
 
         {% block postJavascript %}

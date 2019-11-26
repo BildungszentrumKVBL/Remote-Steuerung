@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Group;
-use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
@@ -17,7 +17,7 @@ use Doctrine\Common\Persistence\ObjectManager;
  *  - `IT`: Contains the `ROLE_IT`
  *  - `HW`: Contains the `ROLE_HW`
  */
-class LoadGroupData extends AbstractFixture
+class LoadGroupData extends Fixture
 {
     /**
      * Load data fixtures with the passed ObjectManager.

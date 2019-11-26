@@ -6,6 +6,7 @@ Encore
   .setPublicPath('/build')
 
   .addEntry('app', './assets/js/app.js')
+  .addEntry('websocket', './assets/js/websocket.js')
   .addEntry('controller', './assets/js/controller.js')
   .addEntry('admin', './assets/js/admin.js')
   .addEntry('routing', './assets/js/routing.js')

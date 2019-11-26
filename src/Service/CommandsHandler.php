@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use Exception;
 use App\Entity\AbstractCommand;
 use App\Entity\EventGhostCommand;
 use App\Entity\Log;
@@ -12,9 +11,10 @@ use App\Entity\ZuluCommand;
 use App\Entity\ZuluCommandStatus;
 use App\Entity\ZuluStatus;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use SimpleXMLElement;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -27,65 +27,65 @@ class CommandsHandler
     /**
      * The User of the current request.
      *
-     * @var User $user
+     * @var User
      */
     private $user;
 
     /**
      * The EntityManager that handle database-interactions.
      *
-     * @var EntityManager $em
+     * @var EntityManager
      */
     private $em;
 
     /**
      * The Zulu that is the target for `ZuluCommand`s.
      *
-     * @var Zulu $zulu
+     * @var Zulu
      */
     private $zulu;
 
     /**
      * The validator to validate EventGhostCommands.
      *
-     * @var ValidatorInterface $validator
+     * @var ValidatorInterface
      */
     private $validator;
 
     /**
      * The port that EventGhost listens on.
      *
-     * @var string $egPort
+     * @var string
      */
     private $egPort;
 
     /**
      * The username for the authentication for EventGhost.
      *
-     * @var string $egUsername
+     * @var string
      */
     private $egUsername;
 
     /**
      * The password for the authentication for EventGhost.
      *
-     * @var string $egPassword
+     * @var string
      */
     private $egPassword;
 
     /**
      * CommandsHandler constructor.
      *
-     * @param EntityManager      $em
-     * @param TokenStorage       $storage
+     * @param EntityManagerInterface $em
+     * @param TokenStorageInterface $storage
      * @param ValidatorInterface $validator
-     * @param string             $egPort
-     * @param string             $egUsername
-     * @param string             $egPassword
+     * @param string $egPort
+     * @param string $egUsername
+     * @param string $egPassword
      */
     public function __construct(
-        EntityManager $em,
-        TokenStorage $storage,
+        EntityManagerInterface $em,
+        TokenStorageInterface $storage,
         ValidatorInterface $validator,
         string $egPort,
         string $egUsername,
@@ -93,8 +93,7 @@ class CommandsHandler
     ) {
         $this->em = $em;
         $token    = $storage->getToken();
-        if ($token !== null) {
-            /* @var TokenInterface $token */
+        if (null !== $token) {
             $this->user = $token->getUser();
             $this->zulu = $this->em->getRepository(User::class)->getLockedZulu($this->user->getUsername());
         } else {
@@ -111,9 +110,8 @@ class CommandsHandler
     /**
      * Runs the command that is passed.
      *
-     * @param AbstractCommand $command
-     *
      * @return string
+     *
      * @throws \Exception
      */
     public function runCommand(AbstractCommand $command)
@@ -122,8 +120,7 @@ class CommandsHandler
             $ip  = $this->zulu->getIp();
             $uri = $command->getUri();
             $xml = $this->doRequest($ip.$uri);
-            if ($xml === false) {
-
+            if (false === $xml) {
                 return $xml;
             }
             // Request was successful.
@@ -146,8 +143,6 @@ class CommandsHandler
 
     /**
      * Runs a request and returns the output.
-     *
-     * @param string $url
      *
      * @return string
      */
@@ -193,7 +188,7 @@ class CommandsHandler
 
         if ($output) { // Request was successful
             $commandStatuses = $this->statusXmlToZuluCommandStatuses($output);
-            $status = new ZuluStatus();
+            $status          = new ZuluStatus();
             foreach ($commandStatuses as $commandStatus) {
                 $status->addCommandStatus($commandStatus);
             }
@@ -207,10 +202,6 @@ class CommandsHandler
 
     /**
      * Converts ugly-ass api of zulu and converts it into a list of ZuluCommandStatus objects.
-     *
-     * @param string $xml
-     *
-     * @return array
      */
     private function statusXmlToZuluCommandStatuses(string $xml): array
     {
@@ -219,7 +210,7 @@ class CommandsHandler
         $commandStatuses = [];
 
         foreach ($raw_array as $name => $data) {
-            if ($name === 'ChangeId') { // The API sends a ChangeId withing the same scope as the data...
+            if ('ChangeId' === $name) { // The API sends a ChangeId withing the same scope as the data...
                 continue;
             }
             $id = (int) str_replace('Id', '', $name); // We get the id as a key named 'Id1' or 'Id3'...
@@ -243,7 +234,7 @@ class CommandsHandler
      */
     private function convertToStatus($output)
     {
-        if ($output === false) {
+        if (false === $output) {
             return $output;
         }
 
@@ -251,9 +242,9 @@ class CommandsHandler
         $status = [];
         foreach ($values as $value) {
             foreach ($value as $name => $val) {
-                if (substr($name, 0, 2) === 'Id') {
+                if ('Id' === substr($name, 0, 2)) {
                     $id          = (int) str_replace('Id', '', $name);
-                    $status[$id] = ($val[0]->Image == "2");
+                    $status[$id] = ('2' == $val[0]->Image);
                 }
             }
         }
@@ -263,8 +254,6 @@ class CommandsHandler
 
     /**
      * Sets the Zulu when the target Zulu is not the Zulu of the user of the current session.
-     *
-     * @param Zulu $zulu
      *
      * @return $this
      */

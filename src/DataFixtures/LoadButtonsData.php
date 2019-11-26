@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\AbstractCommand;
 use App\Entity\Button;
-use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -16,7 +16,7 @@ use Symfony\Component\Yaml\Yaml;
  *
  * This class loads the fixtures defined in `buttons.yml`.
  */
-class LoadButtonsData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadButtonsData extends Fixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface $container

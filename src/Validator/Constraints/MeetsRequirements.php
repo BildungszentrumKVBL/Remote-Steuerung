@@ -16,17 +16,13 @@ class MeetsRequirements extends Constraint
 {
     /**
      * Answer when the validation is violated.
-     *
-     * @var string $message
      */
-        public $message = 'Die Anforderungen wurden nicht eingehalten.';
+    public $message = 'Die Anforderungen wurden nicht eingehalten.';
 
     /**
      * Returns the validator.
-     *
-     * @return string
      */
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return MeetsRequirementsValidator::class;
     }
@@ -36,7 +32,7 @@ class MeetsRequirements extends Constraint
      *
      * @return string
      */
-    public function getTargets()
+    public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }

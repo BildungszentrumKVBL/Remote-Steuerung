@@ -26,6 +26,15 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+        bind:
+            $egPort: '%eventghost_port%'
+            $egUsername: '%eventghost_username%'
+            $egPassword: '%eventghost_password%'
+            $school: '%webuntis_school%'
+            $username: '%webuntis_username%'
+            $password: '%webuntis_password%'
+            $apiClient: '%webuntis_api_client%'
+
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:

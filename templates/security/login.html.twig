@@ -4,16 +4,12 @@
 
 {% block title %}Remote-Steuerung - Login{% endblock %}
 
-{% block predict %}
-    <link rel="preconnect" href="{{ path('login_check') }}">
-{% endblock %}
-
 {% block body %}
     {# If the loged in HTML Structure still exists. Reload page #}
     <script>if (document.querySelectorAll('.nav.navbar-nav.navbar-left').length === 1) { window.location.href = '/login'; }</script>
     <div class="container">
         <div class="well col-md-8 col-md-offset-2{% if error %} shake{% else %} bootable boot-start{% endif %}">
-            <form class="form-horizontal" action="{{ path('login_check') }}" method="post">
+            <form class="form-horizontal" action="{{ path('security_login') }}" method="post">
                 <fieldset>
                     <legend>{{ 'form.login'|trans }}</legend>
                     {% if error %}

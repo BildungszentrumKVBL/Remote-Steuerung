@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\EventGhostCommand;
 use App\Entity\ZuluCommand;
-use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -18,7 +18,7 @@ use Symfony\Component\Yaml\Yaml;
  *
  * It fills the database with the `ZuluCommands` and the `EventGhostCommands`.
  */
-class LoadCommandsData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadCommandsData extends Fixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface $container

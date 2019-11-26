@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Exception;
 use App\Entity\AbstractCommand;
 use App\Entity\Building;
 use App\Entity\Device;
@@ -14,7 +13,14 @@ use App\Entity\View;
 use App\Entity\Zulu;
 use App\Entity\ZuluCommand;
 use App\EventDispatcher\Event\CommandEvent;
+use App\Service\CommandsHandler;
+use App\Service\WebUntisHandler;
 use Detection\MobileDetect;
+use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
+use Gos\Bundle\WebSocketBundle\Pusher\Wamp\WampPusher;
+use Gos\Component\WebSocketClient\Exception\BadResponseException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -22,7 +28,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Gos\Component\WebSocketClient\Exception\BadResponseException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -37,8 +42,6 @@ class AppController extends AbstractController
      * This route serves the index page.
      *
      * @Route("/", name="homepage")
-     *
-     * @return Response
      */
     public function indexAction(): Response
     {
@@ -53,17 +56,17 @@ class AppController extends AbstractController
      * When the user will be giving a lecture according to WebUntis, the room is pre-selected for him.
      *
      * @Route("/chooseRoom", name="choose_room_route")
-     * @Security("has_role('ROLE_TEACHER')")
+     * @Security("is_granted('ROLE_TEACHER')")
      *
      * @param Request $request
+     * @param WebUntisHandler $webUntisHandler
+     * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function chooseRoomAction(Request $request): Response
+    public function chooseRoomAction(Request $request, WebUntisHandler $webUntisHandler, EntityManagerInterface $em): Response
     {
-        $em = $this->get('doctrine.orm.entity_manager');
-
-        $roomname = $this->get('app.webuntis.handler')->login()->getRoomForTeacher($this->getUser()->getUsername());
+        $roomname = $webUntisHandler->login()->getRoomForTeacher($this->getUser()->getUsername());
         $building = null;
         if ($roomname) {
             /* @var Zulu $zulu */
@@ -77,7 +80,6 @@ class AppController extends AbstractController
 
         $values = $request->request;
         if ($values->get('senden')) {
-
             // Unlocks Zulu that he locked
             $lockedZulu = $repo->findOneBy(['lockedBy' => $this->getUser()->getUsername()]);
             if ($lockedZulu) {
@@ -86,7 +88,7 @@ class AppController extends AbstractController
                 $em->flush();
             }
 
-            $room = $this->get('doctrine.orm.entity_manager')->getRepository(Room::class)->findOneBy(['name' => $values->get('room')]);
+            $room = $em->getRepository(Room::class)->findOneBy(['name' => $values->get('room')]);
             // Locks new Zulu
             /* @var Zulu $zulu */
             $zulu = $repo->findOneBy(['room' => $room]);
@@ -131,10 +133,6 @@ class AppController extends AbstractController
      * @ParamConverter("building", class="App\Entity\Building", options={"mapping": {"building" = "name"}})
      * @Security("has_role('ROLE_TEACHER')")
      * @Method(methods={"GET"})
-     *
-     * @param Building $building
-     *
-     * @return Response
      */
     public function getZulusAction(Building $building): Response
     {
@@ -162,15 +160,16 @@ class AppController extends AbstractController
      * @Route("/controller/{view}", name="controller_route", defaults={"view": null}, requirements={"view": "\d+"},
      *                              options={"expose": true})
      * @ParamConverter("view", class="App\Entity\View")
-     * @Security("has_role('ROLE_TEACHER')")
+     * @Security("is_granted('ROLE_TEACHER')")
      *
      * @param View $view
+     * @param CommandsHandler $commandHandler
+     * @param WampPusher $wampPusher
      *
      * @return Response
      */
-    public function controllerAction($view): Response
+    public function controllerAction($view, CommandsHandler $commandHandler, EntityManagerInterface $em): Response
     {
-        $em   = $this->get('doctrine.orm.entity_manager');
         $user = $this->getUser();
         $zulu = $em->getRepository(Zulu::class)->findOneBy(['lockedBy' => $user->getUsername()]);
         /* @var User $user */
@@ -180,10 +179,10 @@ class AppController extends AbstractController
             return $this->redirectToRoute('choose_room_route');
         }
 
-        $status = $this->get('command_handler')->getStatusOfZulu();
+        $status = $commandHandler->getStatusOfZulu();
 
         if ($view) {
-            /** @var View $view */
+            /* @var View $view */
             $user->getSettings()->setView($view);
         }
 
@@ -214,16 +213,17 @@ class AppController extends AbstractController
      * This route will serve the settings page for the individual user and handles the requested changes.
      *
      * @Route("/settings", name="user_settings_route")
-     * @Security("has_role('ROLE_TEACHER')")
+     *
+     * @Security("is_granted('ROLE_TEACHER')")
      *
      * @param Request $request
+     * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function settingsAction(Request $request): Response
+    public function settingsAction(Request $request, EntityManagerInterface $em): Response
     {
         /* @var User $user */
-        $em       = $this->get('doctrine.orm.entity_manager');
         $user     = $this->getUser();
         $settings = $user->getSettings();
         $values   = $request->request;
@@ -254,12 +254,6 @@ class AppController extends AbstractController
      *                                                  requirements={"state": "[0-1]{1}"})
      * @Security("has_role('ROLE_TEACHER')")
      * @Method(methods={"post"})
-     *
-     * @param Request $request
-     * @param bool    $state
-     * @param string  $token
-     *
-     * @return Response
      */
     public function notificationSettingsAction(Request $request, bool $state, string $token): Response
     {
@@ -305,12 +299,6 @@ class AppController extends AbstractController
      * @ParamConverter("command", class="App\Entity\AbstractCommand", options={"mapping":{"command": "name"}})
      * @Security("has_role('ROLE_TEACHER')")
      * @Method(methods={"post"})
-     *
-     *
-     * @param Request         $request
-     * @param AbstractCommand $command
-     *
-     * @return Response
      */
     public function commandsAction(Request $request, AbstractCommand $command): Response
     {
@@ -332,7 +320,6 @@ class AppController extends AbstractController
         try {
             $commandHandler->runCommand($command);
         } catch (Exception $e) {
-
             return new JsonResponse(['type' => 'error'], Response::HTTP_OK, ['Content-Type' => 'application/json']);
         }
         $response = new JsonResponse(['type' => 'success'], Response::HTTP_OK, ['Content-Type' => 'application/json']);
@@ -353,8 +340,6 @@ class AppController extends AbstractController
      * This route serves the `manifest.json`-file which is needed in order to make an offline website.
      *
      * @Route("/assets/manifest.json", name="app_manifest_route")
-     *
-     * @return Response
      */
     public function jsonManifestAction(): Response
     {

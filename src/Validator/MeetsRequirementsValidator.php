@@ -12,13 +12,7 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class MeetsRequirementsValidator extends ConstraintValidator
 {
-    /**
-     * Validates the constraint.
-     *
-     * @param mixed      $object
-     * @param Constraint $constraint
-     */
-    public function validate($object, Constraint $constraint)
+    public function validate($object, Constraint $constraint): void
     {
         /* @var EventGhostCommand $object */
         if ($requirements = $object->getDataRequirements()) {

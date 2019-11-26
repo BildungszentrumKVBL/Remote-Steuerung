@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Button;
 use App\Entity\View;
-use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -18,10 +18,10 @@ use Symfony\Component\Yaml\Yaml;
  *
  * The view contains the buttons that are present on the view.
  */
-class LoadViewsData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadViewsData extends Fixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
-     * @var ContainerInterface $container
+     * @var ContainerInterface
      */
     private $container;
 
@@ -55,7 +55,7 @@ class LoadViewsData extends AbstractFixture implements OrderedFixtureInterface, 
     /**
      * Get the order when this fixtures should be loaded in relation to the other fixtures.
      *
-     * @return integer
+     * @return int
      */
     public function getOrder()
     {
