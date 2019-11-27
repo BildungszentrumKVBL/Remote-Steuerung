@@ -2,11 +2,11 @@
 
 namespace App\Topic;
 
+use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\Topic\PushableTopicInterface;
 use Gos\Bundle\WebSocketBundle\Topic\TopicInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
-use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Ratchet\Wamp\WampConnection;
 
 /**
@@ -19,10 +19,6 @@ class CommandTopic implements TopicInterface, PushableTopicInterface
     /**
      * This will receive any subscription requests for this topic.
      *
-     * @param ConnectionInterface $connection
-     * @param Topic               $topic
-     * @param WampRequest         $request
-     *
      * @return void
      */
     public function onSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
@@ -33,10 +29,6 @@ class CommandTopic implements TopicInterface, PushableTopicInterface
 
     /**
      * This will receive any unsubscription requests for this topic.
-     *
-     * @param ConnectionInterface $connection
-     * @param Topic               $topic
-     * @param WampRequest         $request
      *
      * @return void
      */
@@ -50,12 +42,7 @@ class CommandTopic implements TopicInterface, PushableTopicInterface
     /**
      * This will receive any publish requests for this topic.
      *
-     * @param ConnectionInterface $connection
-     * @param Topic               $topic
-     * @param WampRequest         $request
-     * @param                     $event
-     * @param array               $exclude
-     * @param array               $eligible
+     * @param $event
      *
      * @return mixed|void
      */
@@ -74,8 +61,6 @@ class CommandTopic implements TopicInterface, PushableTopicInterface
      * RPC-like channel prefix.
      *
      * @see [Remote Precedure Call](http://searchmicroservices.techtarget.com/definition/Remote-Procedure-Call-RPC)
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -85,8 +70,6 @@ class CommandTopic implements TopicInterface, PushableTopicInterface
     /**
      * This function runs when the data will be published.
      *
-     * @param Topic        $topic
-     * @param WampRequest  $request
      * @param array|string $data
      * @param string       $provider The name of pusher who push the data
      */

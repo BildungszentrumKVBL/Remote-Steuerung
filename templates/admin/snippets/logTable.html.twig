@@ -7,7 +7,7 @@
                 <th>{{ 'user'|trans }}</th>
             </tr>
             {% for log in logs %}
-                <tr class="{% if log.level is constant('App\\Entity\\Log::LEVEL_INFO') %}info{% elseif log.level is constant('App\\Entity\\Log::LEVEL_COMMAND') %}success{% elseif log.level is constant('App\\Entity\\Log::LEVEL_SYSTEM') %}{% elseif log.level is constant('AppBundle\\Entity\\Log::LEVEL_ERROR') %}danger{% endif %}">
+                <tr class="{% if log.level is constant('App\\Entity\\Log::LEVEL_INFO') %}info{% elseif log.level is constant('App\\Entity\\Log::LEVEL_COMMAND') %}success{% elseif log.level is constant('App\\Entity\\Log::LEVEL_SYSTEM') %}{% elseif log.level is constant('App\\Entity\\Log::LEVEL_ERROR') %}danger{% endif %}">
                     <td>{{ log.dateTime|date("d. M H:i\\U\\h\\r") }}</td>
                     <td>{{ log.message }}</td>
                     <td>{{ log.user is not null ? log.user.username : '' }}</td>
@@ -15,6 +15,6 @@
             {% endfor %}
         </table>
     {% else %}
-        <h2>{{ 'no_entries_found'|trans }}</h2>
+        <span class="h4">{{ 'no_entries_found'|trans }}</span>
     {% endif %}
 {% endapply %}

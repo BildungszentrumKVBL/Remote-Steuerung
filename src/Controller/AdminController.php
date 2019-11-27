@@ -2,15 +2,19 @@
 
 namespace App\Controller;
 
-use DateTime;
 use App\Entity\Building;
 use App\Entity\Log;
 use App\Entity\Room;
 use App\Entity\User;
 use App\Entity\View;
 use App\Entity\Zulu;
+use App\Service\CommandsHandler;
+use App\Service\SettingsHandler;
+use App\Service\StatusFetcher;
+use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,24 +27,18 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/admin")
  */
-class AdminController extends Controller
+class AdminController extends AbstractController
 {
     /**
      * Serves the observation page for the administrators.
      * It gathers all zulus that are locked and passes them with their status to the `observe.html.twig`.
      *
      * @Route("/observe", name="admin_observe_route", options={"expose": true})
-     *
-     * @param Request $request
-     *
-     * @return Response
      */
-    public function observeAction(Request $request): Response
+    public function observeAction(Request $request, EntityManagerInterface $em, CommandsHandler $handler): Response
     {
-        $em = $this->get('doctrine.orm.entity_manager');
         /** @var Zulu[] $lockedZulus */
         $lockedZulus = $em->getRepository(Zulu::class)->findBy(['locked' => true], ['room' => 'ASC']);
-        $handler     = $this->get('command_handler');
         $activeUsers = [];
         foreach ($lockedZulus as $lockedZulu) {
             $user          = $em->getRepository(User::class)->findOneBy(['username' => $lockedZulu->getLockedBy()]);
@@ -51,10 +49,10 @@ class AdminController extends Controller
             ];
         }
         if ($request->isXmlHttpRequest()) {
-            return $this->render('AppBundle:admin/content:observe.html.twig', ['activeUsers' => $activeUsers]);
+            return $this->render('admin/content/observe.html.twig', ['activeUsers' => $activeUsers]);
         }
 
-        return $this->render('AppBundle:admin:observe.html.twig', ['activeUsers' => $activeUsers]);
+        return $this->render('admin/observe.html.twig', ['activeUsers' => $activeUsers]);
     }
 
     /**
@@ -62,22 +60,16 @@ class AdminController extends Controller
      * this route. It sends the `id` of the zulu that will join the observation-interface.
      *
      * @Route(
-     *     "/observe/{zuluId}",
+     *     "/observe/{id}",
      *     name="admin_observe_new_route",
      *     options={"expose": true}
      * )
-     * @ParamConverter("zulu", class="App\Entity\Zulu", options={"id" = "zuluId"})
-     *
-     * @param Zulu $zulu
-     *
-     * @return Response
      */
-    public function observeNewAction(Zulu $zulu): Response
+    public function observeNewAction(Zulu $zulu, EntityManagerInterface $em): Response
     {
-        $em   = $this->get('doctrine.orm.entity_manager');
         $user = $em->getRepository(User::class)->findOneBy(['username' => $zulu->getLockedBy()]);
 
-        return $this->render('@App/admin/snippets/observation.html.twig', ['user' => $user, 'zulu' => $zulu]);
+        return $this->render('admin/snippets/observation.html.twig', ['user' => $user, 'zulu' => $zulu]);
     }
 
     /**
@@ -89,17 +81,10 @@ class AdminController extends Controller
      * )
      * @ParamConverter("user", class="App\Entity\User", options={"id" = "userId"})
      * @ParamConverter("view", class="App\Entity\View", options={"id" = "viewId"})
-     *
-     *
-     * @param User $user
-     * @param View $view
-     *
-     * @return Response
      */
-    public function updateObservedAction(User $user, View $view): Response
+    public function updateObservedAction(User $user, View $view, EntityManagerInterface $em, CommandsHandler $commandHandler): Response
     {
         $observing = true;
-        $em        = $this->get('doctrine.orm.entity_manager');
         /* @var View $view */
         /* @var User $user */
 
@@ -109,13 +94,12 @@ class AdminController extends Controller
         $status = false;
         /** @var Zulu $zulu */
         if ($zulu = $em->getRepository(Zulu::class)->findOneBy(['lockedBy' => $user->getUsername()])) {
-            $commandHandler = $this->get('command_handler');
             $commandHandler->setZulu($zulu);
             $status = $commandHandler->getStatusOfZulu();
         }
 
         return $this->render(
-            '@App/app/content/controller.html.twig', [
+            'app/content/controller.html.twig', [
                 'user'    => $user,
                 'observe' => $observing,
                 'status'  => $status,
@@ -130,14 +114,9 @@ class AdminController extends Controller
      * LDAP-settings from the other settings.
      *
      * @Route("/settings", name="admin_settings_route")
-     *
-     * @param Request $request
-     *
-     * @return Response
      */
-    public function settingsAction(Request $request): Response
+    public function settingsAction(Request $request, SettingsHandler $settingsHandler): Response
     {
-        $settingsHandler = $this->get('app.settings_handler');
         $settings        = $settingsHandler->getSettings();
 
         if ($request->get('senden')) {
@@ -151,7 +130,7 @@ class AdminController extends Controller
             }
         }
 
-        return $this->render('AppBundle:admin:settings.html.twig', ['settings' => $settings]);
+        return $this->render('admin/settings.html.twig', ['settings' => $settings]);
     }
 
     /**
@@ -159,16 +138,14 @@ class AdminController extends Controller
      * `status.html.twig` templating file.
      *
      * @Route("/status", name="admin_status_route")
-     *
-     * @return Response
      */
-    public function statusAction(): Response
+    public function statusAction(EntityManagerInterface $em): Response
     {
         /** @var Zulu[] $zulus */
-        $buildings = $this->get('doctrine.orm.entity_manager')->getRepository(Building::class)->findAll();
+        $buildings = $em->getRepository(Building::class)->findAll();
 
         // TODO: Track user and set $building to his building.
-        return $this->render('@App/admin/status.html.twig', ['buildings' => $buildings]);
+        return $this->render('admin/status.html.twig', ['buildings' => $buildings]);
     }
 
     /**
@@ -183,19 +160,15 @@ class AdminController extends Controller
      * @ParamConverter("building", class="App\Entity\Building", isOptional="true",
      *     options={"mapping": {"building" = "name"}})
      *
-     * @param Request  $request
      * @param Building $building
-     *
-     * @return Response
      */
-    public function statusApiAction(Request $request, $building = null): Response
+    public function statusApiAction(Request $request, EntityManagerInterface $em, StatusFetcher $statusFetcher, $building = null): Response
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->redirectToRoute('admin_status_route');
         }
 
-        $em = $this->get('doctrine.orm.entity_manager');
-        if ($building === null) {
+        if (null === $building) {
             $zulus = $em->getRepository(Zulu::class)->findAll();
         } else {
             $rooms = $em->getRepository(Room::class)->findBy(['building' => $building]);
@@ -204,9 +177,9 @@ class AdminController extends Controller
                 $zulus[] = $room->getZulu();
             }
         }
-        $statuses = $this->get('app.status.fetcher')->fetch($zulus);
+        $statuses = $statusFetcher->fetch($zulus);
 
-        return $this->render('@App/admin/snippets/statuses.html.twig', ['zulus' => $zulus, 'statuses' => $statuses]);
+        return $this->render('admin/snippets/statuses.html.twig', ['zulus' => $zulus, 'statuses' => $statuses]);
     }
 
     /**
@@ -215,20 +188,15 @@ class AdminController extends Controller
      * level** the log entry is weighted.
      *
      * @Route("/logs", name="admin_filter_logs_route", methods={"POST"}, options={"expose": true})
-     *
-     * @param Request $request
-     *
-     * @return Response
      */
-    public function filterLogsAction(Request $request): Response
+    public function filterLogsAction(Request $request, EntityManagerInterface $em): Response
     {
         $values = $request->request;
-        $em     = $this->get('doctrine.orm.entity_manager');
         if ($values->get('filtern')) {
             $queryBuilder = $em->createQueryBuilder();
             $queryBuilder->select('l')->from(Log::class, 'l')->leftJoin('l.user', 'u')->setMaxResults(100);
 
-            if ($values->get('benutzer') !== '') {
+            if ('' !== $values->get('benutzer')) {
                 $queryBuilder->andWhere('u.username = :username')->setParameter(':username', $values->get('benutzer'));
             }
 
@@ -241,19 +209,16 @@ class AdminController extends Controller
             $logs = $em->getRepository(Log::class)->findAll();
         }
 
-        return $this->render('AppBundle:admin/snippets:logTable.html.twig', ['logs' => $logs]);
+        return $this->render('admin/snippets/logTable.html.twig', ['logs' => $logs]);
     }
 
     /**
      * This route serves the log page. You can search and filter through logentries.
      *
      * @Route("/logs", name="admin_logs_route")
-     *
-     * @return Response
      */
-    public function logsAction(): Response
+    public function logsAction(EntityManagerInterface $em): Response
     {
-        $em    = $this->get('doctrine.orm.entity_manager');
         $users = $em->getRepository(User::class)->findAll();
 
         $date = new DateTime('-5 day');
@@ -261,6 +226,6 @@ class AdminController extends Controller
             'SELECT l FROM App\Entity\Log l WHERE l.dateTime >= :datetime ORDER BY l.dateTime DESC'
         )->setMaxResults(100)->setParameter('datetime', $date)->getResult();
 
-        return $this->render('@App/admin/logs.html.twig', ['logs' => $logs, 'users' => $users]);
+        return $this->render('admin/logs.html.twig', ['logs' => $logs, 'users' => $users]);
     }
 }

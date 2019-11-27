@@ -9,6 +9,7 @@
     "ext-curl": "*",
     "ext-iconv": "*",
     "ext-json": "*",
+    "ext-simplexml": "*",
     "doctrine/doctrine-fixtures-bundle": "^3.2",
     "jms/serializer-bundle": "^3.4",
     "sensio/framework-extra-bundle": "^5.1",

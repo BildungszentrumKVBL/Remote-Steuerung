@@ -59,7 +59,7 @@ class WebUntisHandler
     /**
      * The EntityManager for database-interactions.
      *
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 
@@ -223,6 +223,8 @@ class WebUntisHandler
             $this->em->persist($log);
             $this->em->flush();
         }
+
+        return null;
     }
 
     /**
@@ -255,6 +257,8 @@ class WebUntisHandler
             $this->em->persist($log);
             $this->em->flush();
         }
+
+        return null;
     }
 
     /**
@@ -284,6 +288,8 @@ class WebUntisHandler
             $this->em->persist($log);
             $this->em->flush();
         }
+
+        return null;
     }
 
     /**
@@ -331,9 +337,9 @@ class WebUntisHandler
 
         if (1 === count($schedule)) {
             return array_values($schedule)[0]->timeUnits;
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
@@ -364,6 +370,8 @@ class WebUntisHandler
             $this->em->persist($log);
             $this->em->flush();
         }
+
+        return null;
     }
 
     public function getPassword(): string

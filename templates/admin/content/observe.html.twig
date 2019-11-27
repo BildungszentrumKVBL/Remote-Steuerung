@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             {% for activeUser in activeUsers %}
-                {% include '@App/admin/snippets/observation.html.twig' with {'user': activeUser['user'], 'zulu': activeUser['zulu'], 'status': activeUser['status']} %}
+                {% include 'admin/snippets/observation.html.twig' with {'user': activeUser['user'], 'zulu': activeUser['zulu'], 'status': activeUser['status']} %}
             {% endfor %}
         </div>
     </div>

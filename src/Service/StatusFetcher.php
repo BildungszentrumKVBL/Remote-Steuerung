@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Zulu;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Process\Process;
 
 /**
@@ -16,46 +17,42 @@ class StatusFetcher
     /**
      * The EntityManager for database-interactions.
      *
-     * @var EntityManager $em
+     * @var EntityManager
      */
     private $em;
-
 
     /**
      * The root-dirctory of the applcation.
      *
-     * @var string $rootDir
+     * @var string
      */
     private $rootDir;
 
     /**
      * StatusFetcher constructor.
      *
-     * @param EntityManager   $em
-     * @param string          $kernelRootDir
+     * @param EntityManager $em
      */
-    public function __construct(EntityManager $em, string $kernelRootDir)
+    public function __construct(EntityManagerInterface $em, string $projectDir)
     {
-        $this->em             = $em;
-        $this->rootDir        = $kernelRootDir.'/../';
+        $this->em      = $em;
+        $this->rootDir = $projectDir;
     }
 
     /**
      * Fetches the status of a or multiple Zulus through the CLI.
      *
      * @param null $zulus
-     *
-     * @return array
      */
     public function fetch($zulus = null): array
     {
-        if ($zulus === null) {
+        if (null === $zulus) {
             $zulus = $this->em->getRepository(Zulu::class)->findAll();
         }
         $statuses  = [];
         $processes = [];
         foreach ($zulus as $zulu) {
-            $process     = new Process('php app/console app:status:get '.$zulu->getRoom(), $this->rootDir);
+            $process     = new Process('php bin/console app:status:get '.$zulu->getRoom(), $this->rootDir);
             $processes[] = $process;
         }
 
@@ -68,7 +65,6 @@ class StatusFetcher
             // All processes are finished.
         }
 
-
         return $statuses;
     }
 
@@ -79,8 +75,6 @@ class StatusFetcher
      *
      * @param $processes
      * @param $statuses
-     *
-     * @return bool
      */
     private function fetchLoop(&$processes, &$statuses): bool
     {

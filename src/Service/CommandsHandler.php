@@ -10,7 +10,6 @@ use App\Entity\Zulu;
 use App\Entity\ZuluCommand;
 use App\Entity\ZuluCommandStatus;
 use App\Entity\ZuluStatus;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use SimpleXMLElement;
@@ -34,7 +33,7 @@ class CommandsHandler
     /**
      * The EntityManager that handle database-interactions.
      *
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 
@@ -75,13 +74,6 @@ class CommandsHandler
 
     /**
      * CommandsHandler constructor.
-     *
-     * @param EntityManagerInterface $em
-     * @param TokenStorageInterface $storage
-     * @param ValidatorInterface $validator
-     * @param string $egPort
-     * @param string $egUsername
-     * @param string $egPassword
      */
     public function __construct(
         EntityManagerInterface $em,
@@ -139,6 +131,8 @@ class CommandsHandler
         } else {
             throw new Exception('Nicht existierender Command wurde getätigt.');
         }
+
+        return null;
     }
 
     /**

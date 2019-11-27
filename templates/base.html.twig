@@ -76,7 +76,7 @@
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <li><a href="{{ path('admin_observe_route') }}" class="link"><i class="material-icons">visibility</i> {{ 'nav.admin.observe'|trans }}</a></li>
                                         <li><a href="{{ path('admin_settings_route') }}" class="link"><i class="material-icons">settings_input_component</i> {{ 'nav.admin.settings'|trans }}</a></li>
-                                        <li class="hidden-xs"><a href="{{ path('BCCCronManagerBundle_index') }}"><i class="material-icons">access_time</i> {{ 'nav.admin.cron'|trans }}</a></li>
+                                        <li class="hidden-xs"><a href="{{ path('BCCCronManagerBundle_index') }}" target="_blank"><i class="material-icons">access_time</i> {{ 'nav.admin.cron'|trans }}</a></li>
                                     {% endif %}
                                     <li><a href="{{ path('admin_status_route') }}" class="link"><i class="material-icons">assessment</i> {{ 'nav.admin.status'|trans }}</a></li>
                                     <li><a href="{{ path('admin_logs_route') }}" class="link"><i class="material-icons">assignment</i> {{ 'nav.admin.logs'|trans }}</a></li>
