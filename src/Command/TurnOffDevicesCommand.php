@@ -2,17 +2,17 @@
 
 namespace App\Command;
 
-use Exception;
-use Swift_Message;
 use App\Entity\AbstractCommand;
 use App\Entity\Zulu;
 use App\Entity\ZuluCommand;
 use App\Service\CommandsHandler;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Swift_Message;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Class TurnOffDevicesCommand.
@@ -23,10 +23,30 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class TurnOffDevicesCommand extends Command
 {
+    private $em;
+    private $commandHandler;
+    private $senderMail;
+    private $receiverMail;
+    private $mailer;
+
+    /**
+     * TurnOffDevicesCommand constructor.
+     */
+    public function __construct(EntityManagerInterface $em, CommandsHandler $commandHandler, \Swift_Mailer $mailer, string $senderMail, string $receiverMail)
+    {
+        parent::__construct(null);
+
+        $this->em             = $em;
+        $this->commandHandler = $commandHandler;
+        $this->mailer         = $mailer;
+        $this->senderMail     = $senderMail;
+        $this->receiverMail   = $receiverMail;
+    }
+
     /**
      * Configures the command, sets helptext and parameters.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:zulu:devices:turnoff')->setDescription('Turns all devices off.');
     }
@@ -34,46 +54,44 @@ class TurnOffDevicesCommand extends Command
     /**
      * This is the entry-point when running the command from the CLI.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @return int|null
+     * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $em   = $this->getContainer()->get('doctrine.orm.entity_manager');
         $text = '';
         $io   = new SymfonyStyle($input, $output);
         $io->title('Geräte ausschalten');
         /* @var Zulu[] $zulus */
-        $zulus = $em->getRepository(Zulu::class)->findAll();
+        $zulus = $this->em->getRepository(Zulu::class)->findAll();
         /** @var AbstractCommand $command */
-        $command        = $em->getRepository(ZuluCommand::class)->findOneBy(['name' => 'cmd_shutdownAll']);
-        $commandHandler = $this->getContainer()->get('command_handler');
+        $command        = $this->em->getRepository(ZuluCommand::class)->findOneBy(['name' => 'cmd_shutdownAll']);
         foreach ($zulus as $zulu) {
-            $commandHandler->setZulu($zulu);
+            $this->commandHandler->setZulu($zulu);
             $io->text('Aktueller Status:');
-            $status = $commandHandler->getStatusOfZulu();
+            $status = $this->commandHandler->getStatusOfZulu();
             $io->text(json_encode($status));
             $text .= sprintf("Raum %s\n", $zulu->getRoom());
             // Add this, when an intelligent method of implementing this function has been accepted. CommandsHandler::statusToHumanReadable($status);
             try {
-                if ($status['12'] !== true) {
+                if (true !== $status['12']) {
                     $io->text(sprintf('Geräte im Raum "%s" abstellen.', $zulu->getRoom()));
-                    $commandHandler->runCommand($command);
+                    $this->commandHandler->runCommand($command);
                 }
             } catch (Exception $e) {
                 $io->text(sprintf('Exception: "%s"', $e->getMessage()));
                 $io->text(sprintf('Geräte im Raum "%s" abstellen.', $zulu->getRoom()));
-                $commandHandler->runCommand($command);
+                $this->commandHandler->runCommand($command);
             }
         }
 
-        $from = $this->getContainer()->getParameter('application_sender_email');
-        $to   = $this->getContainer()->getParameter('application_receiver_email');
-
-        $message = Swift_Message::newInstance()->setSubject('Cron message')->setFrom($from)->setTo($to)->setBody($text);
-        $this->getContainer()->get('mailer')->send($message);
+        $message = new Swift_Message();
+        $message
+            ->setSubject('Cron message')
+            ->setFrom($this->senderMail)
+            ->setTo($this->receiverMail)
+            ->setBody($text);
+        $this->mailer->send($message);
 
         return 0;
     }

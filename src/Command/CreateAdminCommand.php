@@ -24,7 +24,6 @@ class CreateAdminCommand extends Command
     private $encoder;
     private $em;
     private $validator;
-    private $userPasswordEncoder;
 
     public function __construct(
         UserPasswordEncoderInterface $encoder,
@@ -32,6 +31,7 @@ class CreateAdminCommand extends Command
         ValidatorInterface $validator
     ) {
         parent::__construct();
+
         $this->encoder   = $encoder;
         $this->em        = $em;
         $this->validator = $validator;
@@ -40,9 +40,10 @@ class CreateAdminCommand extends Command
     /**
      * Configures the command, sets helptext and parameters.
      */
-    protected function configure()
+    protected function configure(): void
     {
-        $this->setName('app:create:admin')->setDescription('Erstellt einen Admin Benutzer.')
+        $this->setName('app:create:admin')
+            ->setDescription('Erstellt einen Admin Benutzer.')
             ->addOption('change-password', null, InputOption::VALUE_NONE, 'Ändert das Passwort des Admin Benutzers.');
     }
 
@@ -51,7 +52,7 @@ class CreateAdminCommand extends Command
      *
      * @return int|null
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /** @var QuestionHelper $helper */
         $helper = $this->getHelper('question');
@@ -99,7 +100,7 @@ class CreateAdminCommand extends Command
         return 0;
     }
 
-    private function askForEmail(InputInterface $input, OutputInterface $output, $helper)
+    private function askForEmail(InputInterface $input, OutputInterface $output, QuestionHelper $helper)
     {
         $emailQuestion = new Question('Bitte gib eine Email-Adresse an: ');
         $emailQuestion->setValidator(
@@ -123,7 +124,7 @@ class CreateAdminCommand extends Command
         return $helper->ask($input, $output, $emailQuestion);
     }
 
-    private function askForPassword(InputInterface $input, OutputInterface $output, $helper)
+    private function askForPassword(InputInterface $input, OutputInterface $output, QuestionHelper $helper)
     {
         $passwordQuestion = new Question('Bitte gib ein Passwort an: ');
         $passwordQuestion->setHidden(true);

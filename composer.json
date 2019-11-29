@@ -38,7 +38,7 @@
     "fr3d/ldap-bundle": "^4.0",
     "friendsofsymfony/user-bundle": "^2.1",
     "friendsofsymfony/jsrouting-bundle": "^2.4",
-    "bcc/cron-manager-bundle": "^4.1",
+    "bcc/cron-manager-bundle": "^4.2",
     "gos/web-socket-bundle": "^1.10",
     "suncat/mobile-detect-bundle": "^1.1",
     "fresh/firebase-cloud-messaging-bundle": "^0.4.0"

@@ -2,19 +2,18 @@
 
 namespace App\Command;
 
-use Exception;
 use App\Entity\Building;
 use App\Entity\Computer;
 use App\Entity\Room;
 use App\Entity\Zulu;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -33,10 +32,8 @@ class ImportInfrastructureCommand extends Command
     }
 
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @return int|null
+     *
      * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -47,7 +44,7 @@ class ImportInfrastructureCommand extends Command
         $filename = $input->getArgument('file');
 
         // Validate file
-        if (substr($filename, 0, 1) !== DIRECTORY_SEPARATOR) {
+        if (DIRECTORY_SEPARATOR !== substr($filename, 0, 1)) {
             $filename = getcwd().DIRECTORY_SEPARATOR.$filename;
         }
 
@@ -58,20 +55,21 @@ class ImportInfrastructureCommand extends Command
         // Check for extension
         $fileType = strtolower(pathinfo($filename)['extension']);
 
-        if ($fileType === 'yml') {
+        if ('yml' === $fileType) {
             $this->askDeleteInfrastructure($input, $output);
             $this->loadYml($filename);
             $io->write('Daten wurden geschrieben.');
-        } elseif ($fileType === 'csv') {
+        } elseif ('csv' === $fileType) {
             $this->askDeleteInfrastructure($input, $output);
             $this->loadCsv($filename);
             $io->write('Daten wurden geschrieben.');
-        } elseif ($fileType === 'xml') {
+        } elseif ('xml' === $fileType) {
             $this->askDeleteInfrastructure($input, $output);
             $this->loadXml($filename);
             $io->write('Daten wurden geschrieben.');
         } else {
             $io->error(sprintf('Filetype: "%s" is not supported', $fileType));
+
             return 1;
         }
 
@@ -80,8 +78,6 @@ class ImportInfrastructureCommand extends Command
 
     /**
      * Loads data by yaml file.
-     *
-     * @param string $filename
      */
     public function loadYml(string $filename)
     {
@@ -109,8 +105,6 @@ class ImportInfrastructureCommand extends Command
     /**
      * Loads data by csv file.
      *
-     * @param string $filename
-     *
      * @throws \Exception
      */
     public function loadCsv(string $filename)
@@ -121,19 +115,19 @@ class ImportInfrastructureCommand extends Command
         $csv          = explode("\n", file_get_contents($filename));
         $label        = null;
         foreach ($csv as $line) {
-            if ($line === '') { // Skip empty lines.
+            if ('' === $line) { // Skip empty lines.
                 continue;
             }
-            if (substr($line, 0, 2) === '{{') {
+            if ('{{' === substr($line, 0, 2)) {
                 $label = $line;
             } else {
-                if ($label === '{{Building}}') {
+                if ('{{Building}}' === $label) {
                     $building = new Building($line);
                     $manager->persist($building);
                     $manager->flush($building);
-                } elseif ($label === '{{Rooms}}') {
+                } elseif ('{{Rooms}}' === $label) {
                     list($buildingName, $roomName) = explode(';', $line);
-                    $room = new Room($roomName);
+                    $room                          = new Room($roomName);
                     /** @var Building $building */
                     $building = $buildingRepo->findOneBy(['name' => $buildingName]);
                     if ($building) {
@@ -143,7 +137,7 @@ class ImportInfrastructureCommand extends Command
                     } else {
                         throw new Exception(sprintf('Building: "%s" was not found. Did you make sure that the buildings are defined above the rooms in your CSV?', $buildingName));
                     }
-                } elseif ($label === '{{PC}}') {
+                } elseif ('{{PC}}' === $label) {
                     list($roomName, $pcName) = explode(';', $line);
                     /** @var Room $room */
                     $room = $roomRepo->findOneBy(['name' => $roomName]);
@@ -155,7 +149,7 @@ class ImportInfrastructureCommand extends Command
                     } else {
                         throw new Exception(sprintf('Room: "%s" was not found. Did you make sure that the rooms are defined above the computers in your CSV?', $roomName));
                     }
-                } elseif ($label === '{{Zulu}}') {
+                } elseif ('{{Zulu}}' === $label) {
                     list($roomName, $zuluIp) = explode(';', $line);
                     /** @var Room $room */
                     $room = $roomRepo->findOneBy(['name' => $roomName]);
@@ -177,14 +171,12 @@ class ImportInfrastructureCommand extends Command
     /**
      * Loads data by xml file.
      *
-     * @param string $filename
-     *
      * @throws \Exception
      */
     public function loadXml(string $filename)
     {
         $manager = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $xml = simplexml_load_string(file_get_contents($filename));
+        $xml     = simplexml_load_string(file_get_contents($filename));
         if (!$xml) {
             throw new Exception('Error: Cannot create object by xml.');
         }
@@ -208,9 +200,6 @@ class ImportInfrastructureCommand extends Command
     }
 
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @throws \Exception
      */
     private function askDeleteInfrastructure(InputInterface $input, OutputInterface $output)
@@ -249,5 +238,4 @@ class ImportInfrastructureCommand extends Command
 
         $em->flush();
     }
-
 }
