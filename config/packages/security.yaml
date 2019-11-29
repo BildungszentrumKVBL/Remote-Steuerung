@@ -34,12 +34,13 @@ security:
         main:
             pattern:   ^/
             anonymous: true
+            provider: chain_provider
             logout:
                 path:  security_logout
             form_login:
                 login_path:           security_login
-                provider:             fos_userbundle
-                #provider:             chain_provider
+                #provider:             fos_userbundle
+                provider:             chain_provider
                 check_path:           security_login
                 csrf_token_generator: security.csrf.token_manager
 

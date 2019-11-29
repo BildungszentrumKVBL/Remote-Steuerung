@@ -14,19 +14,9 @@ use Symfony\Component\Process\Process;
  */
 class StatusFetcher
 {
-    /**
-     * The EntityManager for database-interactions.
-     *
-     * @var EntityManager
-     */
     private $em;
 
-    /**
-     * The root-dirctory of the applcation.
-     *
-     * @var string
-     */
-    private $rootDir;
+    private $projectDir;
 
     /**
      * StatusFetcher constructor.
@@ -35,29 +25,29 @@ class StatusFetcher
      */
     public function __construct(EntityManagerInterface $em, string $projectDir)
     {
-        $this->em      = $em;
-        $this->rootDir = $projectDir;
+        $this->em         = $em;
+        $this->projectDir = $projectDir;
     }
 
     /**
      * Fetches the status of a or multiple Zulus through the CLI.
      *
-     * @param null $zulus
+     * @param Zulu[]|null $zulus
      */
-    public function fetch($zulus = null): array
+    public function fetch(array $zulus = null): array
     {
         if (null === $zulus) {
             $zulus = $this->em->getRepository(Zulu::class)->findAll();
         }
-        $statuses  = [];
+        $statuses = [];
+        /* @var Process[] $processes */
         $processes = [];
         foreach ($zulus as $zulu) {
-            $process     = new Process('php bin/console app:status:get '.$zulu->getRoom(), $this->rootDir);
+            $process     = new Process(['php', 'bin/console', 'app:status:get', $zulu->getRoom()], $this->projectDir);
             $processes[] = $process;
         }
 
         foreach ($processes as $process) {
-            /* @var Process $process */
             $process->start();
         }
 
@@ -75,6 +65,8 @@ class StatusFetcher
      *
      * @param $processes
      * @param $statuses
+     *
+     * @return bool
      */
     private function fetchLoop(&$processes, &$statuses): bool
     {

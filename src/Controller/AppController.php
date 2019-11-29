@@ -66,7 +66,7 @@ class AppController extends AbstractController
         if ($roomname) {
             /* @var Zulu $zulu */
             $zulu = $em->getRepository(Zulu::class)->findOneBy(['room' => $roomname]);
-            if ($zulu) {
+            if (null !== $zulu) {
                 $building = $zulu->getRoom()->getBuilding();
             }
         }
