@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use ReflectionClass;
 use Doctrine\ORM\Mapping as ORM;
+use ReflectionClass;
 
 /**
  * Class Button.
@@ -20,12 +20,12 @@ class Button
     /**
      * Value for a small button. This constant will be extracted into objects in a future-release.
      */
-    const SIZE_SMALL = 'small';
+    public const SIZE_SMALL = 'small';
 
     /**
      * Value for a big button. This constant will be extracted into objects in a future-release.
      */
-    const SIZE_BIG = 'big';
+    public const SIZE_BIG = 'big';
 
     /**
      * This is the id that will be placed in the database after the persisting of this object.
@@ -34,7 +34,7 @@ class Button
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var int $id
+     * @var int
      */
     private $id;
 
@@ -45,7 +45,7 @@ class Button
      *
      * @ORM\Column(name="size", type="string")
      *
-     * @var string $size
+     * @var string
      */
     private $size;
 
@@ -55,7 +55,7 @@ class Button
      * @ORM\ManyToOne(targetEntity="App\Entity\AbstractCommand")
      * @ORM\JoinColumn(name="command_id", referencedColumnName="id")
      *
-     * @var AbstractCommand $command
+     * @var AbstractCommand
      */
     private $command;
 
@@ -66,15 +66,14 @@ class Button
      * @ORM\ManyToOne(targetEntity="App\Entity\View", inversedBy="buttons")
      * @ORM\JoinColumn(name="view_id", referencedColumnName="id")
      *
-     * @var View $view
+     * @var View
      */
     private $view;
 
     /**
      * Button constructor.
      *
-     * @param AbstractCommand $command
-     * @param null            $size
+     * @param null $size
      */
     public function __construct(AbstractCommand $command, $size = null)
     {
@@ -83,23 +82,19 @@ class Button
         $this->setSize($size);
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getSize(): string
     {
         return $this->size;
     }
 
     /**
+     * TODO: Refactor, replace with static array.
+     *
      * This method takes advantage of the `\ReflextionClass`. This allows the method to read how this class is
      * build up.
      *
@@ -110,16 +105,14 @@ class Button
      * no invalid data in the `size`-field in this class.
      *
      * @see [PHP Magic Methods](http://php.net/manual/en/language.oop5.magic.php)
-     *
-     * @param string $size
      */
-    public function setSize(string $size)
+    public function setSize(string $size): void
     {
         $rc        = new ReflectionClass(__CLASS__);
         $constants = $rc->getConstants();
         $sizes     = [];
         foreach ($constants as $name => $constant) {
-            if (substr($name, 0, 5) === 'SIZE_') {
+            if ('SIZE_' === substr($name, 0, 5)) {
                 $sizes[] = $constant;
             }
         }
@@ -131,15 +124,12 @@ class Button
     /**
      * @return AbstractCommand
      */
-    public function getCommand()
+    public function getCommand(): ?AbstractCommand
     {
         return $this->command;
     }
 
-    /**
-     * @param AbstractCommand $command
-     */
-    public function setCommand(AbstractCommand $command)
+    public function setCommand(AbstractCommand $command): void
     {
         $this->command = $command;
     }
@@ -147,15 +137,12 @@ class Button
     /**
      * @return View
      */
-    public function getView()
+    public function getView(): ?View
     {
         return $this->view;
     }
 
-    /**
-     * @param View $view
-     */
-    public function setView(View $view)
+    public function setView(View $view): void
     {
         $this->view = $view;
     }

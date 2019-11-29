@@ -3,9 +3,7 @@
 namespace App\EventListener;
 
 use App\Entity\Log;
-use App\Service\SettingsHandler;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class LogListener.
@@ -19,14 +17,12 @@ class LogListener
     /**
      * The configured minimal level of the logs.
      *
-     * @var int $minLevel
+     * @var int
      */
     private $minLevel;
 
     /**
      * LogListener constructor.
-     *
-     * @param int $minLevel
      */
     public function __construct(int $minLevel)
     {
@@ -35,8 +31,6 @@ class LogListener
 
     /**
      * This is the function that will be triggered and executed when an entity is persisted.
-     *
-     * @param LifecycleEventArgs $args
      */
     public function postPersist(LifecycleEventArgs $args)
     {

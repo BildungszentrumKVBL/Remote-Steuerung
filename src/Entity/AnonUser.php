@@ -20,7 +20,7 @@ class AnonUser extends BaseUser
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var int $id
+     * @var int
      */
     protected $id;
 
@@ -29,7 +29,7 @@ class AnonUser extends BaseUser
      *
      * @ORM\Column(type="string", length=25)
      *
-     * @var string $username
+     * @var string
      */
     protected $username;
 
@@ -38,15 +38,12 @@ class AnonUser extends BaseUser
      *
      * @ORM\Column(type="string", length=32)
      *
-     * @var string $token
+     * @var string
      */
     protected $token;
 
     /**
      * AnonUser constructor.
-     *
-     * @param string $username
-     * @param string $token
      */
     public function __construct(string $username, string $token)
     {
@@ -55,17 +52,11 @@ class AnonUser extends BaseUser
         $this->token    = $token;
     }
 
-    /**
-     * @return string
-     */
     public function getToken(): string
     {
         return $this->token;
     }
 
-    /**
-     * @param string $token
-     */
     public function setToken(string $token)
     {
         $this->token = $token;

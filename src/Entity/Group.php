@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use FOS\UserBundle\Model\Group as BaseGroup;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\Group as BaseGroup;
 
 /**
  * Class Group.
@@ -22,29 +22,26 @@ class Group extends BaseGroup
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var int $id
+     * @var int
      */
     protected $id;
 
     /**
      * The name of the group.
      *
-     * @var string $name
+     * @var string
      */
     protected $name;
 
     /**
      * The roles that are associated to this group.
      *
-     * @var array $roles
+     * @var array
      */
     protected $roles;
 
     /**
      * Group constructor.
-     *
-     * @param string $name
-     * @param array  $roles
      */
     public function __construct(string $name, array $roles = [])
     {

@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use ReflectionClass;
 use Doctrine\ORM\Mapping as ORM;
+use ReflectionClass;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -15,25 +15,25 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Device
 {
-    const TYPE_ANDROID = 'android';
+    public const TYPE_ANDROID = 'android';
 
-    const TYPE_IOS = 'ios';
+    public const TYPE_IOS = 'ios';
 
-    const TYPE_WEB = 'web';
+    public const TYPE_WEB = 'web';
 
     /**
      * @ORM\Id()
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var int $id
+     * @var int
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
      *
-     * @var string $name
+     * @var string
      */
     private $name;
 
@@ -41,30 +41,26 @@ class Device
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="devices")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      *
-     * @var User $user
+     * @var User
      */
     private $user;
 
     /**
      * @ORM\Column(type="string")
      *
-     * @var string $type
+     * @var string
      */
     private $type;
 
     /**
      * @ORM\Column(type="string")
      *
-     * @var string $messagingId
+     * @var string
      */
     private $messagingId;
 
     /**
      * Device constructor.
-     *
-     * @param string $name
-     * @param string $messagingId
-     * @param string $type
      */
     public function __construct(string $name, string $messagingId, string $type)
     {
@@ -73,80 +69,53 @@ class Device
         $this->setType($type);
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return User
-     */
     public function getUser(): User
     {
         return $this->user;
     }
 
-    /**
-     * @param User $user
-     */
-    public function setUser(User $user)
+    public function setUser(User $user): void
     {
         $this->user = $user;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @param string $type
-     */
-    public function setType(string $type)
+    public function setType(string $type): void
     {
         $rc        = new ReflectionClass(__CLASS__);
         $constants = $rc->getConstants();
         foreach ($constants as $name => $value) {
-            if (substr($name, 0, 5) === 'TYPE_') {
+            if ('TYPE_' === substr($name, 0, 5)) {
                 $this->type = $type;
             }
         }
     }
 
-    /**
-     * @return string
-     */
     public function getMessagingId(): string
     {
         return $this->messagingId;
     }
 
-    /**
-     * @param string $messagingId
-     */
-    public function setMessagingId(string $messagingId)
+    public function setMessagingId(string $messagingId): void
     {
         $this->messagingId = $messagingId;
     }

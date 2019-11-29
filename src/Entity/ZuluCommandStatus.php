@@ -21,7 +21,7 @@ class ZuluCommandStatus
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var int $id
+     * @var int
      */
     private $id;
 
@@ -30,7 +30,7 @@ class ZuluCommandStatus
      *
      * @ORM\Column(name="state", type="boolean")
      *
-     * @var bool $on
+     * @var bool
      */
     private $on;
 
@@ -40,7 +40,7 @@ class ZuluCommandStatus
      * @ORM\ManyToOne(targetEntity="App\Entity\ZuluStatus", inversedBy="commandStatuses")
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
      *
-     * @var ZuluStatus $zuluStatus
+     * @var ZuluStatus
      */
     private $zuluStatus;
 
@@ -50,15 +50,12 @@ class ZuluCommandStatus
      * @ORM\ManyToOne(targetEntity="App\Entity\ZuluCommand")
      * @ORM\JoinColumn(name="command_id", referencedColumnName="id")
      *
-     * @var ZuluCommand $command
+     * @var ZuluCommand
      */
     private $command;
 
     /**
      * ZuluCommandStatus constructor.
-     *
-     * @param ZuluCommand $command
-     * @param bool        $on
      */
     public function __construct(ZuluCommand $command, bool $on)
     {
@@ -69,38 +66,26 @@ class ZuluCommandStatus
     /**
      * @return int|null
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return bool
-     */
     public function isOn(): bool
     {
         return $this->on;
     }
 
-    /**
-     * @return ZuluStatus
-     */
     public function getZuluStatus(): ZuluStatus
     {
         return $this->zuluStatus;
     }
 
-    /**
-     * @param ZuluStatus $zuluStatus
-     */
-    public function setZuluStatus(ZuluStatus $zuluStatus)
+    public function setZuluStatus(ZuluStatus $zuluStatus): void
     {
         $this->zuluStatus = $zuluStatus;
     }
 
-    /**
-     * @return ZuluCommand
-     */
     public function getCommand(): ZuluCommand
     {
         return $this->command;

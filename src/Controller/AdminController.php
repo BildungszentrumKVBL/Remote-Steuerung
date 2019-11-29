@@ -85,9 +85,6 @@ class AdminController extends AbstractController
     public function updateObservedAction(User $user, View $view, EntityManagerInterface $em, CommandsHandler $commandHandler): Response
     {
         $observing = true;
-        /* @var View $view */
-        /* @var User $user */
-
         $user->getSettings()->setView($view);
 
         // TODO: Detect if the view has statuses. If not, don't request them. Instead assign status to `false`.

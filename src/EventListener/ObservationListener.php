@@ -2,10 +2,7 @@
 
 namespace App\EventListener;
 
-use App\Entity\Zulu;
 use App\EventDispatcher\Event\CommandEvent;
-use App\Service\CommandsHandler;
-use Doctrine\ORM\EntityManager;
 use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
 
 /**
@@ -18,14 +15,12 @@ class ObservationListener
     /**
      * The pusher that publishes the command to the subscribed user on the observation-page.
      *
-     * @var PusherInterface $pusher
+     * @var PusherInterface
      */
     private $pusher;
 
     /**
      * ObservationListener constructor.
-     *
-     * @param PusherInterface $pusher
      */
     public function __construct(PusherInterface $pusher)
     {
@@ -40,8 +35,6 @@ class ObservationListener
      * The data contain the action that the web-client has to make and the data for this action.
      * The id of the user will be passed as well to differentiate between multiple observed controls.
      * The current status is also being passed to the web-client in order to update the observed controls.
-     *
-     * @param CommandEvent $event
      */
     public function onCommandEvent(CommandEvent $event)
     {

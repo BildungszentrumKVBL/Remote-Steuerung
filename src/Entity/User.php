@@ -4,10 +4,10 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
 use FR3D\LdapBundle\Model\LdapUserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use FOS\UserBundle\Model\User as BaseUser;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class User.
@@ -28,7 +28,7 @@ class User extends BaseUser implements LdapUserInterface
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var int $id
+     * @var int
      */
     protected $id;
 
@@ -39,16 +39,16 @@ class User extends BaseUser implements LdapUserInterface
      *
      * @ORM\Column(name="distinguished_name", type="string", nullable=true)
      *
-     * @var string $dn
+     * @var string
      */
     protected $dn;
 
     /**
      * This property temporarily hold the LDAP-groups that are associated with the user on his first login.
      *
-     * @var array $ldapGroups
+     * @var array
      */
-    protected $ldapGroups = array();
+    protected $ldapGroups = [];
 
     /**
      * These are the groups that this user is in.
@@ -59,7 +59,7 @@ class User extends BaseUser implements LdapUserInterface
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      *
-     * @var Collection $groups
+     * @var Collection
      */
     protected $groups;
 
@@ -70,14 +70,14 @@ class User extends BaseUser implements LdapUserInterface
      *
      * @ORM\Column(name="first_name", nullable=true)
      *
-     * @var string $firstName
+     * @var string
      */
     private $firstName;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Device", mappedBy="user", cascade={"persist", "remove"})
      *
-     * @var Device|ArrayCollection $devices
+     * @var Device|ArrayCollection
      */
     private $devices;
 
@@ -86,7 +86,7 @@ class User extends BaseUser implements LdapUserInterface
      *
      * @ORM\Column(name="last_name", nullable=true)
      *
-     * @var string $lastName
+     * @var string
      */
     private $lastName;
 
@@ -96,7 +96,7 @@ class User extends BaseUser implements LdapUserInterface
      * @ORM\OneToOne(targetEntity="App\Entity\UserSettings", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="settings_id", referencedColumnName="id")
      *
-     * @var UserSettings $settings
+     * @var UserSettings
      */
     private $settings;
 
@@ -114,13 +114,6 @@ class User extends BaseUser implements LdapUserInterface
 
     /**
      * Alternative constructor.
-     *
-     * @param string $username
-     * @param string $email
-     * @param string $firstName
-     * @param string $lastName
-     *
-     * @return User
      */
     public static function createFromProperties(string $username, string $email, string $firstName, string $lastName): User
     {
@@ -133,9 +126,6 @@ class User extends BaseUser implements LdapUserInterface
         return $self;
     }
 
-    /**
-     * @return string
-     */
     public function getFirstName(): string
     {
         return $this->firstName;
@@ -144,20 +134,13 @@ class User extends BaseUser implements LdapUserInterface
     /**
      * Needed from ldap-config.
      *
-     * @param string $firstName
-     *
      * @return $this
      */
-    public function setFirstName(string $firstName)
+    public function setFirstName(string $firstName): void
     {
         $this->firstName = $firstName;
-
-        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getLastName(): string
     {
         return $this->lastName;
@@ -166,15 +149,11 @@ class User extends BaseUser implements LdapUserInterface
     /**
      * Needed from ldap-config.
      *
-     * @param string $lastName
-     *
      * @return $this
      */
-    public function setLastName(string $lastName)
+    public function setLastName(string $lastName): void
     {
         $this->lastName = $lastName;
-
-        return $this;
     }
 
     /**
@@ -186,8 +165,6 @@ class User extends BaseUser implements LdapUserInterface
     }
 
     /**
-     * @param string $dn
-     *
      * @return $this
      */
     public function setDn(string $dn)
@@ -204,48 +181,37 @@ class User extends BaseUser implements LdapUserInterface
      *
      * @return $this
      */
-    public function setLdapGroups(array $ldapGroups)
+    public function setLdapGroups(array $ldapGroups): void
     {
-        $groups = array();
+        $groups = [];
         foreach ($ldapGroups as $group) {
             $r = preg_match('/CN=([\w\s-äÄöÖüÜß]*),/', $group, $results);
-            if ($r === 1) {
+            if (1 === $r) {
                 array_push($groups, $results[1]);
             }
         }
         $this->ldapGroups = $groups;
-
-        return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getLdapGroups(): array
     {
         return $this->ldapGroups;
     }
 
     /**
-     * @return bool return true if this user is an ldap user.
+     * @return bool return true if this user is an ldap user
      */
     public function isLdapUser(): bool
     {
         return (bool) $this->dn;
     }
 
-    /**
-     * @return UserSettings
-     */
     public function getSettings(): UserSettings
     {
         return $this->settings;
     }
 
-    /**
-     * @param UserSettings $settings
-     */
-    public function setSettings(UserSettings $settings)
+    public function setSettings(UserSettings $settings): void
     {
         $this->settings = $settings;
     }
@@ -258,10 +224,7 @@ class User extends BaseUser implements LdapUserInterface
         return $this->devices;
     }
 
-    /**
-     * @param Device $device
-     */
-    public function addDevice(Device $device)
+    public function addDevice(Device $device): void
     {
         if (!$this->devices->contains($device)) {
             $device->setUser($this);
@@ -269,10 +232,7 @@ class User extends BaseUser implements LdapUserInterface
         }
     }
 
-    /**
-     * @param Device $device
-     */
-    public function removeDevice(Device $device)
+    public function removeDevice(Device $device): void
     {
         $this->devices->removeElement($device);
     }

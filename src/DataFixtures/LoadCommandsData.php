@@ -7,8 +7,6 @@ use App\Entity\ZuluCommand;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -18,21 +16,15 @@ use Symfony\Component\Yaml\Yaml;
  *
  * It fills the database with the `ZuluCommands` and the `EventGhostCommands`.
  */
-class LoadCommandsData extends Fixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadCommandsData extends Fixture implements OrderedFixtureInterface
 {
-    /**
-     * @var ContainerInterface $container
-     */
-    private $container;
 
     /**
      * Load data fixtures with the passed ObjectManager.
-     *
-     * @param ObjectManager $manager
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $fixtures = Yaml::parse(file_get_contents(__DIR__.'/commands.yml'));
+        $fixtures           = Yaml::parse(file_get_contents(__DIR__.'/commands.yml'));
         $zuluFixtures       = $fixtures['Zulu'];
         $eventGhostFixtures = $fixtures['EventGhost'];
 
@@ -57,20 +49,10 @@ class LoadCommandsData extends Fixture implements OrderedFixtureInterface, Conta
     /**
      * Get the order when this fixtures should be loaded in relation to the other fixtures.
      *
-     * @return integer
+     * @return int
      */
-    public function getOrder()
+    public function getOrder(): int
     {
         return 1;
-    }
-
-    /**
-     * Sets the container.
-     *
-     * @param ContainerInterface|null $container A ContainerInterface instance or null
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
     }
 }

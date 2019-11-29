@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use JsonSerializable;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * Class Room.
@@ -21,7 +21,7 @@ class Room implements JsonSerializable
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var int $id
+     * @var int
      */
     private $id;
 
@@ -30,7 +30,7 @@ class Room implements JsonSerializable
      *
      * @ORM\Column(name="name", type="string")
      *
-     * @var string $name
+     * @var string
      */
     private $name;
 
@@ -39,7 +39,7 @@ class Room implements JsonSerializable
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Zulu", mappedBy="room", cascade={"persist"})
      *
-     * @var Zulu $zulu
+     * @var Zulu
      */
     private $zulu;
 
@@ -48,7 +48,7 @@ class Room implements JsonSerializable
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Computer", mappedBy="room", cascade={"persist"})
      *
-     * @var Computer $computer
+     * @var Computer
      */
     private $computer;
 
@@ -58,24 +58,24 @@ class Room implements JsonSerializable
      * @ORM\ManyToOne(targetEntity="App\Entity\Building", inversedBy="rooms")
      * @ORM\JoinColumn(name="building_id", referencedColumnName="id")
      *
-     * @var Building $building
+     * @var Building
      */
     private $building;
 
     /**
      * Room constructor.
-     *
-     * @param string $name
      */
     public function __construct(string $name)
     {
         $this->name = $name;
     }
 
-    /**
-     * @param Zulu $zulu
-     */
-    public function setZulu(Zulu $zulu)
+    public function __toString(): string
+    {
+        return $this->name ?? '';
+    }
+
+    public function setZulu(Zulu $zulu): void
     {
         $this->zulu = $zulu;
         $zulu->setRoom($this);
@@ -84,7 +84,7 @@ class Room implements JsonSerializable
     /**
      * @return Zulu
      */
-    public function getZulu()
+    public function getZulu(): ?Zulu
     {
         return $this->zulu;
     }
@@ -92,40 +92,28 @@ class Room implements JsonSerializable
     /**
      * @return Computer
      */
-    public function getComputer()
+    public function getComputer(): ?Computer
     {
         return $this->computer;
     }
 
-    /**
-     * @param Computer $computer
-     */
-    public function setComputer(Computer $computer)
+    public function setComputer(Computer $computer): void
     {
         $this->computer = $computer;
         $computer->setRoom($this);
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param Building $building
-     */
-    public function setBuilding(Building $building)
+    public function setBuilding(Building $building): void
     {
         $this->building = $building;
     }
@@ -133,28 +121,11 @@ class Room implements JsonSerializable
     /**
      * @return Building
      */
-    public function getBuilding()
+    public function getBuilding(): ?Building
     {
         return $this->building;
     }
 
-    /**
-     * This function is a so called `magic function`. Their purpose is very functional.
-     *
-     * This `__toString()`-function will be called if the object will be casted into a string.
-     *
-     * For instance when trying to use `print()` or `echo` on this object.
-     *
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
     public function jsonSerialize(): string
     {
         return $this->name;

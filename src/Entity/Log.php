@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use JsonSerializable;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * Class Log.
@@ -21,22 +21,22 @@ class Log implements JsonSerializable
     /**
      * Basic informational logs.
      */
-    const LEVEL_INFO = 1;
+    public const LEVEL_INFO = 1;
 
     /**
      * Logs that are tied to a command.
      */
-    const LEVEL_COMMAND = 2;
+    public const LEVEL_COMMAND = 2;
 
     /**
      * This level implies that the application logged something about itself.
      */
-    const LEVEL_SYSTEM = 3;
+    public const LEVEL_SYSTEM = 3;
 
     /**
      * General errorlogs.
      */
-    const LEVEL_ERROR = 4;
+    public const LEVEL_ERROR = 4;
 
     /**
      * This is the id that will be placed in the database after the persisting of this object.
@@ -45,7 +45,7 @@ class Log implements JsonSerializable
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="id", type="integer")
      *
-     * @var int $id
+     * @var int
      */
     private $id;
 
@@ -54,7 +54,7 @@ class Log implements JsonSerializable
      *
      * @ORM\Column(name="level", type="integer")
      *
-     * @var int $level
+     * @var int
      */
     private $level;
 
@@ -63,7 +63,7 @@ class Log implements JsonSerializable
      *
      * @ORM\Column(name="message", type="string")
      *
-     * @var string $message
+     * @var string
      */
     private $message;
 
@@ -72,7 +72,7 @@ class Log implements JsonSerializable
      *
      * @ORM\Column(name="date_time", type="datetime")
      *
-     * @var \DateTime $dateTime
+     * @var \DateTime
      */
     private $dateTime;
 
@@ -82,16 +82,14 @@ class Log implements JsonSerializable
      * @ORM\ManyToOne(targetEntity="App\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      *
-     * @var User $user
+     * @var User
      */
     private $user;
 
     /**
      * Log constructor.
      *
-     * @param string $message
-     * @param int    $level
-     * @param User   $user
+     * @param User $user
      */
     public function __construct(string $message, int $level, User $user = null)
     {
@@ -101,64 +99,43 @@ class Log implements JsonSerializable
         $this->dateTime = new DateTime();
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return int
-     */
     public function getLevel(): int
     {
         return $this->level;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage(): string
     {
         return $this->message;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getDateTime(): DateTime
     {
         return $this->dateTime;
     }
 
-    /**
-     * @param \DateTime $dateTime
-     */
-    public function setDateTime(DateTime $dateTime)
+    public function setDateTime(DateTime $dateTime): void
     {
         $this->dateTime = $dateTime;
     }
 
-    /**
-     * @return User
-     */
-    public function getUser()
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    /**
-     * @return array
-     */
     public function jsonSerialize(): array
     {
-        return array(
+        return [
             'id'      => $this->id,
             'level'   => $this->level,
             'message' => $this->message,
-            'user'    => $this->user
-        );
+            'user'    => $this->user,
+        ];
     }
 }

@@ -28,7 +28,7 @@ abstract class AbstractCommand
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var int $id
+     * @var int
      */
     private $id;
 
@@ -37,7 +37,7 @@ abstract class AbstractCommand
      *
      * @ORM\Column(name="name", type="string")
      *
-     * @var string $name
+     * @var string
      */
     private $name;
 
@@ -46,7 +46,7 @@ abstract class AbstractCommand
      *
      * @ORM\Column(name="icon", type="string")
      *
-     * @var string $icon
+     * @var string
      */
     private $icon;
 
@@ -55,16 +55,12 @@ abstract class AbstractCommand
      *
      * @ORM\Column(name="label", type="string")
      *
-     * @var string $label
+     * @var string
      */
     private $label;
 
     /**
      * AbstractCommand constructor.
-     *
-     * @param string $name
-     * @param string $icon
-     * @param string $label
      */
     public function __construct(string $name, string $icon, string $label)
     {
@@ -75,38 +71,24 @@ abstract class AbstractCommand
 
     /**
      * Returns the URI for the given command.
-     *
-     * @return string
      */
     abstract public function getUri(): string;
 
-    /**
-     * @return int|null
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getIcon(): string
     {
         return $this->icon;
     }
 
-    /**
-     * @return string
-     */
     public function getLabel(): string
     {
         return $this->label;

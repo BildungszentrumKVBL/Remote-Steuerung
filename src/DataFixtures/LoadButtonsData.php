@@ -7,8 +7,6 @@ use App\Entity\Button;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -16,22 +14,15 @@ use Symfony\Component\Yaml\Yaml;
  *
  * This class loads the fixtures defined in `buttons.yml`.
  */
-class LoadButtonsData extends Fixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadButtonsData extends Fixture implements OrderedFixtureInterface
 {
     /**
-     * @var ContainerInterface $container
-     */
-    private $container;
-
-    /**
      * Load data fixtures with the passed ObjectManager.
-     *
-     * @param ObjectManager $manager
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $fixtures = Yaml::parse(file_get_contents(__DIR__.'/buttons.yml'));
-        $buttons = $fixtures['buttons'];
+        $buttons  = $fixtures['buttons'];
 
         foreach ($buttons as $button) {
             /** @var AbstractCommand $command */
@@ -44,21 +35,9 @@ class LoadButtonsData extends Fixture implements OrderedFixtureInterface, Contai
 
     /**
      * Get the order when this fixtures should be loaded in relation to the other fixtures.
-     *
-     * @return int
      */
-    public function getOrder()
+    public function getOrder(): int
     {
         return 2;
-    }
-
-    /**
-     * Sets the container.
-     *
-     * @param ContainerInterface|null $container A ContainerInterface instance or null
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
     }
 }

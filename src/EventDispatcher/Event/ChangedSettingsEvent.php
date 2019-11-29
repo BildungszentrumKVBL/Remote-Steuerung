@@ -2,10 +2,9 @@
 
 namespace App\EventDispatcher\Event;
 
-
 use App\Entity\User;
 use App\Entity\View;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class ChangedSettingsEvent.
@@ -15,23 +14,20 @@ use Symfony\Component\EventDispatcher\Event;
 class ChangedSettingsEvent extends Event
 {
     /**
-     * @var View $view
+     * @var View
      */
     private $oldView;
 
     /**
-     * @var View $newView
+     * @var View
      */
     private $newView;
 
     /**
-     * @var User $user
+     * @var User
      */
     private $user;
 
-    /**
-     * @return View
-     */
     public function getOldView(): View
     {
         return $this->oldView;
@@ -39,41 +35,27 @@ class ChangedSettingsEvent extends Event
 
     /**
      * The old view will be clone to remove the reference to the object.
-     *
-     * @param View $oldView
      */
     public function setOldView(View $oldView)
     {
         $this->oldView = clone $oldView;
     }
 
-    /**
-     * @return View
-     */
     public function getNewView(): View
     {
         return $this->newView;
     }
 
-    /**
-     * @param View $newView
-     */
     public function setNewView(View $newView)
     {
         $this->newView = $newView;
     }
 
-    /**
-     * @return User
-     */
     public function getUser(): User
     {
         return $this->user;
     }
 
-    /**
-     * @param User $user
-     */
     public function setUser(User $user)
     {
         $this->user = $user;

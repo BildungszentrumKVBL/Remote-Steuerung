@@ -3,11 +3,11 @@
 namespace App\EventListener;
 
 use App\Entity\Log;
+use App\Entity\User;
 use App\EventDispatcher\Event\CommandEvent;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\AuthenticationEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Security\Core\AuthenticationEvents;
 use Symfony\Component\Security\Core\Event\AuthenticationSuccessEvent;
 
 /**
@@ -29,8 +29,6 @@ class UsageLogger implements EventSubscriberInterface
 
     /**
      * Returns the subscribed Events.
-     *
-     * @return array
      */
     public static function getSubscribedEvents(): array
     {
@@ -47,13 +45,13 @@ class UsageLogger implements EventSubscriberInterface
         $user = $event->getAuthenticationToken()->getUser();
         $log  = new Log(sprintf('%s hat sich eingeloggt.', $user instanceof User ? $user->getUsername() : 'anon'), Log::LEVEL_INFO, $user instanceof User ? $user : null);
         $this->em->persist($log);
-        $this->em->flush($log);
+        $this->em->flush();
     }
 
     /**
      * This method runs when a command is being triggered.
      *
-     * @param CommandEvent $event
+     * TODO: Check usage.
      */
     public function onCommandEvent(CommandEvent $event)
     {
@@ -63,8 +61,7 @@ class UsageLogger implements EventSubscriberInterface
                 $event->getUser()->getFirstName(),
                 $event->getUser()->getLastName(),
                 $event->getCommand()->getName()
-            )
-            , Log::LEVEL_COMMAND, $event->getUser()
+            ), Log::LEVEL_COMMAND, $event->getUser()
         );
         $this->em->persist($log);
         $this->em->flush($log);

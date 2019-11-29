@@ -4,7 +4,7 @@ namespace App\EventDispatcher\Event;
 
 use App\Entity\AbstractCommand;
 use App\Entity\User;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class CommandEvent.
@@ -16,33 +16,31 @@ class CommandEvent extends Event
     /**
      * The user that triggers the command.
      *
-     * @var User $user
+     * @var User
      */
     private $user;
 
     /**
      * The command that is triggered.
      *
-     * @var AbstractCommand $command
+     * @var AbstractCommand
      */
     private $command;
 
     /**
-     * @var array $status
+     * @var array
      */
     private $status;
 
     /**
      * @return AbstractCommand
      */
-    public function getCommand()
+    public function getCommand(): ?AbstractCommand
     {
         return $this->command;
     }
 
     /**
-     * @param AbstractCommand $command
-     *
      * @return $this
      */
     public function setCommand(AbstractCommand $command)
@@ -55,14 +53,12 @@ class CommandEvent extends Event
     /**
      * @return User
      */
-    public function getUser()
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
     /**
-     * @param User $user
-     *
      * @return $this
      */
     public function setUser(User $user)

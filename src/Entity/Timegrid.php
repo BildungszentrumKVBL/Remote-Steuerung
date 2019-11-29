@@ -22,7 +22,7 @@ class Timegrid
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="id", type="integer")
      *
-     * @var int $id
+     * @var int
      */
     protected $id;
 
@@ -31,7 +31,7 @@ class Timegrid
      *
      * @ORM\Column(name="start", type="time")
      *
-     * @var \DateTime $start
+     * @var \DateTime
      */
     private $start;
 
@@ -40,7 +40,7 @@ class Timegrid
      *
      * @ORM\Column(name="end", type="time")
      *
-     * @var \DateTime $end
+     * @var \DateTime
      */
     private $end;
 
@@ -49,15 +49,12 @@ class Timegrid
      *
      * @ORM\Column(name="updated_at", type="datetime")
      *
-     * @var \DateTime $updatedAt
+     * @var \DateTime
      */
     private $updatedAt;
 
     /**
      * Timegrid constructor.
-     *
-     * @param \DateTime $start
-     * @param \DateTime $end
      */
     public function __construct(DateTime $start, DateTime $end)
     {
@@ -66,17 +63,11 @@ class Timegrid
         $this->updatedAt = new DateTime();
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getStart(): DateTime
     {
         return $this->start;
@@ -84,10 +75,6 @@ class Timegrid
 
     /**
      * This is a helper-method, because the WebUntis-API is incapable of supplying a standard format.
-     *
-     * @param int $int
-     *
-     * @return \DateTime
      */
     public static function intToDateTime(int $int): DateTime
     {
@@ -96,17 +83,11 @@ class Timegrid
         return DateTime::createFromFormat('H:i', $string);
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getEnd(): DateTime
     {
         return $this->end;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getUpdatedAt(): DateTime
     {
         return $this->updatedAt;

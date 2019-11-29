@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use ReflectionClass;
 use Doctrine\ORM\Mapping as ORM;
+use ReflectionClass;
 
 /**
  * Class UserSettings.
@@ -20,17 +20,17 @@ class UserSettings
     /**
      * Theme in the colors of the school-logo.
      */
-    const THEME_ORIGINAL = 'original';
+    public const THEME_ORIGINAL = 'original';
 
     /**
      * Theme for visually impaired people.
      */
-    const THEME_DARK = 'dark';
+    public const THEME_DARK = 'dark';
 
     /**
      * Theme with based with the indigo-color.
      */
-    const THEME_INDIGO = 'indigo';
+    public const THEME_INDIGO = 'indigo';
 
     /**
      * This is the id that will be placed in the database after the persisting of this object.
@@ -39,7 +39,7 @@ class UserSettings
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="id", type="integer")
      *
-     * @var int $id
+     * @var int
      */
     private $id;
 
@@ -48,7 +48,7 @@ class UserSettings
      *
      * @ORM\Column(name="theme", type="string")
      *
-     * @var string $theme
+     * @var string
      */
     private $theme;
 
@@ -58,14 +58,14 @@ class UserSettings
      * @ORM\ManyToOne(targetEntity="App\Entity\View")
      * @ORM\JoinColumn(name="view_id", referencedColumnName="id")
      *
-     * @var View $view
+     * @var View
      */
     private $view;
 
     /**
      * @ORM\Column(type="boolean")
      *
-     * @var bool $usePush
+     * @var bool
      */
     private $usePush;
 
@@ -78,53 +78,36 @@ class UserSettings
         $this->setTheme(self::THEME_ORIGINAL);
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getTheme(): string
     {
         return $this->theme;
     }
 
-    /**
-     * @param string $theme
-     *
-     * @return $this
-     */
-    public function setTheme(string $theme)
+    public function setTheme(string $theme): void
     {
         if (in_array($theme, $this->getThemes())) {
             $this->theme = $theme;
         }
-
-        return $this;
     }
 
-    /**
-     * @return View
-     */
-    public function getView()
+    public function getView(): ?View
     {
         return $this->view;
     }
 
-    /**
-     * @param View $view
-     */
-    public function setView(View $view)
+    public function setView(View $view): void
     {
         $this->view = $view;
     }
 
     /**
+     * TODO: Replace with static array.
+     *
      * This method takes advantage of the `\ReflextionClass`. This allows the method to read how this class is
      * build up.
      *
@@ -135,8 +118,6 @@ class UserSettings
      * no invalid data in the `theme`-field in this class.
      *
      * @see [PHP Magic Methods](http://php.net/manual/en/language.oop5.magic.php)
-     *
-     * @return array
      */
     private function getThemes(): array
     {
@@ -144,7 +125,7 @@ class UserSettings
         $constants = $rc->getConstants();
         $themes    = [];
         foreach ($constants as $name => $constant) {
-            if (substr($name, 0, 6) === 'THEME_') {
+            if ('THEME_' === substr($name, 0, 6)) {
                 $themes[] = $constant;
             }
         }
@@ -152,17 +133,11 @@ class UserSettings
         return $themes;
     }
 
-    /**
-     * @return bool
-     */
     public function isUsePush(): bool
     {
         return $this->usePush;
     }
 
-    /**
-     * @param bool $usePush
-     */
     public function setUsePush(bool $usePush)
     {
         $this->usePush = $usePush;

@@ -23,7 +23,7 @@ class ZuluStatus
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var int $id
+     * @var int
      */
     private $id;
 
@@ -32,7 +32,7 @@ class ZuluStatus
      *
      * @ORM\Column(name="created_at", type="datetime")
      *
-     * @var \DateTime $createdAt
+     * @var \DateTime
      */
     private $createdAt;
 
@@ -41,7 +41,7 @@ class ZuluStatus
      *
      * @ORM\OneToMany(targetEntity="App\Entity\ZuluCommandStatus", mappedBy="zuluStatus", cascade={"all"})
      *
-     * @var Collection $commandStatuses
+     * @var Collection
      */
     private $commandStatuses;
 
@@ -51,7 +51,7 @@ class ZuluStatus
      * @ORM\ManyToOne(targetEntity="App\Entity\Zulu", inversedBy="statuses")
      * @ORM\JoinColumn(name="zulu_id", referencedColumnName="id")
      *
-     * @var Zulu $zulu
+     * @var Zulu
      */
     private $zulu;
 
@@ -64,26 +64,17 @@ class ZuluStatus
         $this->commandStatuses = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param ZuluCommandStatus $status
-     */
-    public function addCommandStatus(ZuluCommandStatus $status)
+    public function addCommandStatus(ZuluCommandStatus $status): void
     {
         if (!$this->commandStatuses->contains($status)) {
             $status->setZuluStatus($this);
@@ -91,36 +82,23 @@ class ZuluStatus
         }
     }
 
-    /**
-     * @param ZuluCommandStatus $status
-     */
-    public function removeCommandStatus(ZuluCommandStatus $status)
+    public function removeCommandStatus(ZuluCommandStatus $status): void
     {
         $this->commandStatuses->removeElement($status);
     }
 
-    /**
-     * @return Collection
-     */
     public function getCommandStatuses(): Collection
     {
         return $this->commandStatuses;
     }
 
-    /**
-     * @return Zulu
-     */
-    public function getZulu()
+    public function getZulu(): ?Zulu
     {
         return $this->zulu;
     }
 
-    /**
-     * @param Zulu $zulu
-     */
-    public function setZulu(Zulu $zulu)
+    public function setZulu(Zulu $zulu): void
     {
         $this->zulu = $zulu;
     }
-
 }

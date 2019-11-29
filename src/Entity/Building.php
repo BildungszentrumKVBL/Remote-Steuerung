@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use JsonSerializable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * Class Building.
@@ -25,7 +25,7 @@ class Building implements JsonSerializable
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var int $id
+     * @var int
      */
     private $id;
 
@@ -34,7 +34,7 @@ class Building implements JsonSerializable
      *
      * @ORM\Column(name="name", type="string", length=25)
      *
-     * @var string $name
+     * @var string
      */
     private $name;
 
@@ -43,14 +43,12 @@ class Building implements JsonSerializable
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Room", mappedBy="building", cascade={"persist"})
      *
-     * @var Collection $rooms
+     * @var Collection
      */
     private $rooms;
 
     /**
      * Building constructor.
-     *
-     * @param string $name
      */
     public function __construct(string $name)
     {
@@ -58,70 +56,42 @@ class Building implements JsonSerializable
         $this->rooms = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId()
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param Room $room
-     *
      * @return $this
      */
-    public function addRoom(Room $room)
+    public function addRoom(Room $room): void
     {
         if (!$this->rooms->contains($room)) {
             $this->rooms->add($room);
             $room->setBuilding($this);
         }
-
-        return $this;
     }
 
-    /**
-     * @param Room $room
-     */
-    public function removeRoom(Room $room)
+    public function removeRoom(Room $room): void
     {
         $this->rooms->removeElement($room);
     }
 
-    /**
-     * @return Collection
-     */
     public function getRooms(): Collection
     {
         return $this->rooms;
     }
 
-    /**
-     * This function is a so called `magic function`. Their purpose is very functional.
-     *
-     * This `__toString()`-function will be called if the object will be casted into a string.
-     *
-     * For instance when trying to use `print()` or `echo` on this object.
-     *
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
     public function jsonSerialize(): string
     {
         return $this->name;

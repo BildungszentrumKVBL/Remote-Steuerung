@@ -2,16 +2,17 @@
 
 namespace App\Entity;
 
-use Serializable;
-use JsonSerializable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
+use Serializable;
 
 /**
  * Class View.
  *
  * This entity represents the view of the web-application.
+ *
  * @ORM\Entity()
  */
 class View implements Serializable, JsonSerializable
@@ -23,7 +24,7 @@ class View implements Serializable, JsonSerializable
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var int $id
+     * @var int
      */
     private $id;
 
@@ -32,7 +33,7 @@ class View implements Serializable, JsonSerializable
      *
      * @ORM\Column()
      *
-     * @var string $name
+     * @var string
      */
     private $name;
 
@@ -41,14 +42,12 @@ class View implements Serializable, JsonSerializable
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Button", mappedBy="view")
      *
-     * @var Collection $buttons
+     * @var Collection
      */
     private $buttons;
 
     /**
      * View constructor.
-     *
-     * @param string $name
      */
     public function __construct(string $name)
     {
@@ -56,26 +55,17 @@ class View implements Serializable, JsonSerializable
         $this->buttons = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param Button $button
-     */
-    public function addButton(Button $button)
+    public function addButton(Button $button): void
     {
         if (!$this->buttons->contains($button)) {
             $button->setView($this);
@@ -83,17 +73,11 @@ class View implements Serializable, JsonSerializable
         }
     }
 
-    /**
-     * @param Button $button
-     */
-    public function removeButton(Button $button)
+    public function removeButton(Button $button): void
     {
         $this->buttons->removeElement($button);
     }
 
-    /**
-     * @return Collection
-     */
     public function getButtons(): Collection
     {
         return $this->buttons;
@@ -105,18 +89,13 @@ class View implements Serializable, JsonSerializable
      * This `__toString()`-function will be called if the object will be casted into a string.
      *
      * For instance when trying to use `print()` or `echo` on this object.
-     *
-     * @return string
      */
     public function __toString(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function serialize()
+    public function serialize(): string
     {
         return serialize(
             [
@@ -126,17 +105,14 @@ class View implements Serializable, JsonSerializable
         );
     }
 
-    /**
-     * @param string $serialized
-     */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         $data       = unserialize($serialized);
         $this->id   = $data['id'];
         $this->name = $data['name'];
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'id'   => $this->id,

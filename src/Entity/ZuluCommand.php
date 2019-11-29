@@ -18,16 +18,13 @@ class ZuluCommand extends AbstractCommand
      *
      * @ORM\Column(name="command_id", type="string", type="string")
      *
-     * @var string $commandId
+     * @var string
      */
     private $commandId;
 
     /**
      * ZuluCommand constructor.
      *
-     * @param string $name
-     * @param string $icon
-     * @param string $label
      * @param string $commandId
      */
     public function __construct(string $name, string $icon, string $label, $commandId)
@@ -36,17 +33,11 @@ class ZuluCommand extends AbstractCommand
         $this->commandId = (string) $commandId;
     }
 
-    /**
-     * @return string
-     */
     public function getCommandId(): string
     {
         return $this->commandId;
     }
 
-    /**
-     * @return string
-     */
     public function getUri(): string
     {
         return '/status.xml?KeyDown='.$this->commandId;

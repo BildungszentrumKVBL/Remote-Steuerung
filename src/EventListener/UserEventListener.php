@@ -6,20 +6,17 @@ use App\Entity\Group;
 use App\Entity\User;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Monolog\Logger;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * Class UserEventListener.
  *
  * This EventListener listens to Events from the `User`-entity.
  */
-class UserEventListener
+class UserEventListener implements LoggerAwareInterface
 {
-    /**
-     * The logger of the web-application.
-     *
-     * @var Logger
-     */
-    private $logger;
+    use LoggerAwareTrait;
 
     /**
      * @var
@@ -69,7 +66,9 @@ class UserEventListener
                 foreach ($user->getLdapGroups() as $group) {
                     $message .= $group.', ';
                 }
-                $this->logger->info($message);
+                if ($this->logger) {
+                    $this->logger->info($message);
+                }
                 $repo = $em->getRepository(Group::class);
                 if (in_array($this->groupIt, $user->getLdapGroups())) {
                     $group = $repo->findOneBy(['name' => 'IT']);
@@ -90,15 +89,5 @@ class UserEventListener
                 }
             }
         }
-    }
-
-    /**
-     * This function is used for a setter-DependencyInjection.
-     *
-     * @see [Setter-DependencyInjection](http://symfony.com/doc/current/service_container/injection_types.html#setter-injection)
-     */
-    public function setLogger(Logger $logger = null)
-    {
-        $this->logger = $logger;
     }
 }

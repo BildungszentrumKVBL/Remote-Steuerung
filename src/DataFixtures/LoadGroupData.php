@@ -24,7 +24,7 @@ class LoadGroupData extends Fixture
      *
      * @param ObjectManager $manager
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $group  = new Group('Teacher', ['ROLE_TEACHER']);
         $group1 = new Group('IT-Teacher', ['ROLE_IT_TEACHER']);

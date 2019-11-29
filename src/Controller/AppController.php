@@ -19,7 +19,6 @@ use Detection\MobileDetect;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
-use Gos\Bundle\WebSocketBundle\Pusher\Wamp\WampPusher;
 use Gos\Component\WebSocketClient\Exception\BadResponseException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -29,6 +28,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class AppController.
@@ -57,12 +58,6 @@ class AppController extends AbstractController
      *
      * @Route("/chooseRoom", name="choose_room_route")
      * @Security("is_granted('ROLE_TEACHER')")
-     *
-     * @param Request $request
-     * @param WebUntisHandler $webUntisHandler
-     * @param EntityManagerInterface $em
-     *
-     * @return Response
      */
     public function chooseRoomAction(Request $request, WebUntisHandler $webUntisHandler, EntityManagerInterface $em): Response
     {
@@ -134,11 +129,10 @@ class AppController extends AbstractController
      * @Security("has_role('ROLE_TEACHER')")
      * @Method(methods={"GET"})
      */
-    public function getZulusAction(Building $building): Response
+    public function getZulusAction(Building $building, EntityManagerInterface $em, WebUntisHandler $webUntisHandler): Response
     {
         // Get all rooms that are free and the room booked by WebUntis.
-        $em       = $this->get('doctrine.orm.entity_manager');
-        $roomname = $this->get('app.webuntis.handler')->login()->getRoomForTeacher($this->getUser()->getUsername());
+        $roomname = $webUntisHandler->login()->getRoomForTeacher($this->getUser()->getUsername());
         /* @var Room $room */
         $room  = $em->getRepository(Room::class)->findOneBy(['name' => $roomname]);
         $zulus = $em->createQueryBuilder()->select('z')->from(Zulu::class, 'z')->join('z.room', 'r')->where(
@@ -157,18 +151,11 @@ class AppController extends AbstractController
      * This controller serves the controller page for the user that wants to control the room he reserved.
      * When the user did not choose the room, he will be redirected to the `AppController::chooseRoomAction`.
      *
-     * @Route("/controller/{view}", name="controller_route", defaults={"view": null}, requirements={"view": "\d+"},
-     *                              options={"expose": true})
-     * @ParamConverter("view", class="App\Entity\View")
+     * @Route("/controller/{?view}", name="controller_route", requirements={"view": "\d+"}, options={"expose": true})
+     *
      * @Security("is_granted('ROLE_TEACHER')")
-     *
-     * @param View $view
-     * @param CommandsHandler $commandHandler
-     * @param WampPusher $wampPusher
-     *
-     * @return Response
      */
-    public function controllerAction($view, CommandsHandler $commandHandler, EntityManagerInterface $em): Response
+    public function controllerAction(?View $view, CommandsHandler $commandHandler, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
         $zulu = $em->getRepository(Zulu::class)->findOneBy(['lockedBy' => $user->getUsername()]);
@@ -182,12 +169,14 @@ class AppController extends AbstractController
         $status = $commandHandler->getStatusOfZulu();
 
         if ($view) {
-            /* @var View $view */
             $user->getSettings()->setView($view);
         }
 
+        /* @var PusherInterface $pusher */
+        $pusher = $this->get('gos_web_socket.wamp.pusher');
+
         try {
-            $this->get('gos_web_socket.wamp.pusher')->push(
+            $pusher->push(
                 [
                     'action' => 'updateView',
                     'data'   => [
@@ -215,11 +204,6 @@ class AppController extends AbstractController
      * @Route("/settings", name="user_settings_route")
      *
      * @Security("is_granted('ROLE_TEACHER')")
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     *
-     * @return Response
      */
     public function settingsAction(Request $request, EntityManagerInterface $em): Response
     {
@@ -253,11 +237,9 @@ class AppController extends AbstractController
      * @Route("/settings/notification/{state}/{token}", name="notification_settings_route", options={"expose": true},
      *                                                  requirements={"state": "[0-1]{1}"})
      * @Security("has_role('ROLE_TEACHER')")
-     * @Method(methods={"post"})
      */
-    public function notificationSettingsAction(Request $request, bool $state, string $token): Response
+    public function notificationSettingsAction(Request $request, EntityManagerInterface $em, TranslatorInterface $translator, bool $state, string $token): Response
     {
-        $em = $this->get('doctrine.orm.entity_manager');
         /** @var User $user */
         $user   = $this->getUser();
         $device = $em->getRepository(Device::class)->findOneBy(['messagingId' => $token]);
@@ -278,7 +260,7 @@ class AppController extends AbstractController
         $em->persist($user);
         $em->flush();
 
-        $text = $this->get('translator')->trans($state ? 'deactivate' : 'activate');
+        $text = $translator->trans($state ? 'deactivate' : 'activate');
 
         return new JsonResponse(['state' => $state, 'text' => $text]);
     }
@@ -300,14 +282,12 @@ class AppController extends AbstractController
      * @Security("has_role('ROLE_TEACHER')")
      * @Method(methods={"post"})
      */
-    public function commandsAction(Request $request, AbstractCommand $command): Response
+    public function commandsAction(Request $request, AbstractCommand $command, CommandsHandler $commandHandler, EventDispatcherInterface $dispatcher): Response
     {
-        $commandHandler = $this->get('command_handler');
         if ($command instanceof EventGhostCommand) {
             $additionalData = $request->request->all();
             $command->setAdditionalData($additionalData);
         }
-        $dispatcher = $this->get('event_dispatcher');
         $status     = $commandHandler->getStatusOfZulu();
         $event      = new CommandEvent();
         $event->setStatus($status);
@@ -315,7 +295,7 @@ class AppController extends AbstractController
         $user = $this->getUser();
         $event->setUser($user);
         $event->setCommand($command);
-        $dispatcher->dispatch('app.command_event', $event);
+        $dispatcher->dispatch($event);
 
         try {
             $commandHandler->runCommand($command);

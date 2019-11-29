@@ -21,7 +21,7 @@ class EventGhostCommand extends AbstractCommand
      *
      * @ORM\Column(name="domain", type="string")
      *
-     * @var string $domain
+     * @var string
      */
     private $domain;
 
@@ -30,7 +30,7 @@ class EventGhostCommand extends AbstractCommand
      *
      * @ORM\Column(name="action", type="string")
      *
-     * @var string $action
+     * @var string
      */
     private $action;
 
@@ -40,25 +40,21 @@ class EventGhostCommand extends AbstractCommand
      *
      * @ORM\Column(name="data_requirements", type="json_array", nullable=true)
      *
-     * @var array $dataRequirements
+     * @var array
      */
     private $dataRequirements;
 
     /**
      * Additional data which will be needed for special EventGhost requests that requires parameters.
      *
-     * @var array $additionalData
+     * @var array
      */
     private $additionalData;
 
     /**
      * EventGhostCommand constructor.
      *
-     * @param string      $name
-     * @param string      $icon
-     * @param string      $label
-     * @param null|string $domain
-     * @param string      $action
+     * @param string|null $domain
      */
     public function __construct(string $name, string $icon, string $label, string $domain, string $action)
     {
@@ -67,17 +63,11 @@ class EventGhostCommand extends AbstractCommand
         $this->action = $action;
     }
 
-    /**
-     * @return string
-     */
     public function getUri(): string
     {
         return sprintf('/?%s&%s%s', $this->domain, $this->action, $this->formatAdditionalData());
     }
 
-    /**
-     * @return string
-     */
     public function getDomain(): string
     {
         return $this->domain;
@@ -86,25 +76,20 @@ class EventGhostCommand extends AbstractCommand
     /**
      * @return mixed
      */
-    public function getDataRequirements()
+    public function getDataRequirements(): ?array
     {
         return $this->dataRequirements;
     }
 
-    /**
-     * @param array $dataRequirements
-     */
-    public function setDataRequirements(array $dataRequirements)
+    public function setDataRequirements(array $dataRequirements): void
     {
         $this->dataRequirements = $dataRequirements;
     }
 
     /**
      * Sets the data that is needed for this command.
-     *
-     * @param array $data
      */
-    public function setAdditionalData(array $data)
+    public function setAdditionalData(array $data): void
     {
         $this->additionalData = $data;
     }
@@ -112,15 +97,13 @@ class EventGhostCommand extends AbstractCommand
     /**
      * @return mixed
      */
-    public function getAdditionalData()
+    public function getAdditionalData(): ?array
     {
         return $this->additionalData;
     }
 
     /**
      * Formats and returns the additional data as an URL-ready string.
-     *
-     * @return string
      */
     private function formatAdditionalData(): string
     {

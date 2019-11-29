@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use JsonSerializable;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -31,7 +31,7 @@ class Zulu implements JsonSerializable
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="id", type="integer")
      *
-     * @var int $id
+     * @var int
      */
     private $id;
 
@@ -42,7 +42,7 @@ class Zulu implements JsonSerializable
      *
      * @ORM\Column(name="active", type="boolean")
      *
-     * @var bool $active
+     * @var bool
      */
     private $active;
 
@@ -51,7 +51,7 @@ class Zulu implements JsonSerializable
      *
      * @ORM\Column(name="ip", type="string")
      *
-     * @var string $ip
+     * @var string
      */
     private $ip;
 
@@ -61,7 +61,7 @@ class Zulu implements JsonSerializable
      * @ORM\OneToOne(targetEntity="App\Entity\Room", inversedBy="zulu")
      * @ORM\JoinColumn(name="room_id", referencedColumnName="id")
      *
-     * @var Room $room
+     * @var Room
      */
     private $room;
 
@@ -70,7 +70,7 @@ class Zulu implements JsonSerializable
      *
      * @ORM\Column(name="locked", type="boolean")
      *
-     * @var bool $locked
+     * @var bool
      */
     private $locked;
 
@@ -79,7 +79,7 @@ class Zulu implements JsonSerializable
      *
      * @ORM\OneToMany(targetEntity="App\Entity\ZuluStatus", mappedBy="zulu", cascade={"all"})
      *
-     * @var ArrayCollection $statuses
+     * @var ArrayCollection
      */
     private $statuses;
 
@@ -88,7 +88,7 @@ class Zulu implements JsonSerializable
      *
      * @ORM\Column(name="locked_by", type="string", nullable=true)
      *
-     * @var string $lockedBy
+     * @var string
      */
     private $lockedBy;
 
@@ -97,21 +97,19 @@ class Zulu implements JsonSerializable
      *
      * @ORM\Column(name="locked_since", type="datetime", nullable=true)
      *
-     * @var \DateTime $lockedSince
+     * @var \DateTime
      */
     private $lockedSince;
 
     /**
      * The part of the URL that is needed for the status.
      *
-     * @var string $statusUri
+     * @var string
      */
     private $statusUri = '/elements.xml';
 
     /**
      * Zulu constructor.
-     *
-     * @param string $ip
      */
     public function __construct(string $ip)
     {
@@ -122,49 +120,31 @@ class Zulu implements JsonSerializable
         $this->statuses = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return boolean
-     */
     public function isActive(): bool
     {
         return $this->active;
     }
 
-    /**
-     * @return string
-     */
     public function getIp(): string
     {
         return $this->ip;
     }
 
-    /**
-     * @param Room $room
-     */
-    public function setRoom(Room $room)
+    public function setRoom(Room $room): void
     {
         $this->room = $room;
     }
 
-    /**
-     * @return Room
-     */
-    public function getRoom(): Room
+    public function getRoom(): ?Room
     {
         return $this->room;
     }
 
-    /**
-     * @return boolean
-     */
     public function isLocked(): bool
     {
         return $this->locked;
@@ -173,7 +153,7 @@ class Zulu implements JsonSerializable
     /**
      * @return string
      */
-    public function getLockedBy()
+    public function getLockedBy(): ?string
     {
         return $this->lockedBy;
     }
@@ -181,7 +161,7 @@ class Zulu implements JsonSerializable
     /**
      * @return \DateTime
      */
-    public function getLockedSince()
+    public function getLockedSince(): ?\DateTime
     {
         return $this->lockedSince;
     }
@@ -194,10 +174,7 @@ class Zulu implements JsonSerializable
         return $this->statuses;
     }
 
-    /**
-     * @param ZuluStatus $status
-     */
-    public function addStatus(ZuluStatus $status)
+    public function addStatus(ZuluStatus $status): void
     {
         if (!$this->statuses->contains($status)) {
             $this->statuses->add($status);
@@ -205,20 +182,15 @@ class Zulu implements JsonSerializable
         }
     }
 
-    /**
-     * @param ZuluStatus $status
-     */
-    public function removeStatus(ZuluStatus $status)
+    public function removeStatus(ZuluStatus $status): void
     {
         $this->statuses->removeElement($status);
     }
 
     /**
      * Locks the Zulu to prevent other users from using it.
-     *
-     * @param User $user
      */
-    public function lock(User $user)
+    public function lock(User $user): void
     {
         $this->locked      = true;
         $this->lockedBy    = $user->getUsername();
@@ -228,32 +200,26 @@ class Zulu implements JsonSerializable
     /**
      * Unlocks Zulu for other users.
      */
-    public function unlock()
+    public function unlock(): void
     {
         $this->locked      = false;
         $this->lockedBy    = null;
         $this->lockedSince = null;
     }
 
-    /**
-     * @return string
-     */
     public function getStatusUrl(): string
     {
         return $this->ip.$this->statusUri;
     }
 
-    /**
-     * @return array
-     */
     public function jsonSerialize(): array
     {
-        return array(
+        return [
             'id'       => $this->id,
             'active'   => $this->active,
             'room'     => $this->room->jsonSerialize(),
             'locked'   => $this->locked,
             'building' => $this->room->getBuilding()->jsonSerialize(),
-        );
+        ];
     }
 }
