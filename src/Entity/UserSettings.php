@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Id;
 use Doctrine\ORM\Mapping as ORM;
 use ReflectionClass;
 
@@ -32,16 +33,7 @@ class UserSettings
      */
     public const THEME_INDIGO = 'indigo';
 
-    /**
-     * This is the id that will be placed in the database after the persisting of this object.
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @var int
-     */
-    private $id;
+    use Id;
 
     /**
      * The theme wich is currently active.
@@ -76,11 +68,6 @@ class UserSettings
     {
         $this->usePush = false;
         $this->setTheme(self::THEME_ORIGINAL);
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getTheme(): string

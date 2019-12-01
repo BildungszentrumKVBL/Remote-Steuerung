@@ -16,7 +16,7 @@ class ZuluCommand extends AbstractCommand
     /**
      * The id of the command that is used in the default web-interface of the Zulu.
      *
-     * @ORM\Column(name="command_id", type="string", type="string")
+     * @ORM\Column(name="command_id", type="string")
      *
      * @var string
      */

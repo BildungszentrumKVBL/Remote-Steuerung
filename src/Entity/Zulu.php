@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Id;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,16 +25,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Zulu implements JsonSerializable
 {
-    /**
-     * This is the id that will be placed in the database after the persisting of this object.
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @var int
-     */
-    private $id;
+    use Id;
 
     /**
      * This is the flag that tells if the zulu is active or not.
@@ -118,11 +110,6 @@ class Zulu implements JsonSerializable
         $this->locked   = false;
         $this->lockedBy = null;
         $this->statuses = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function isActive(): bool

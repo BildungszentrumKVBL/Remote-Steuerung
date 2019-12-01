@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Id;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
@@ -14,16 +15,7 @@ use JsonSerializable;
  */
 class Room implements JsonSerializable
 {
-    /**
-     * This is the id that will be placed in the database after the persisting of this object.
-     *
-     * @ORM\Id()
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @var int
-     */
-    private $id;
+    use Id;
 
     /**
      * The name of the room. For example: "EG 1.4", "AU2", "Floor 1: Room 4".
@@ -72,7 +64,7 @@ class Room implements JsonSerializable
 
     public function __toString(): string
     {
-        return $this->name ?? '';
+        return $this->getName();
     }
 
     public function setZulu(Zulu $zulu): void
@@ -101,11 +93,6 @@ class Room implements JsonSerializable
     {
         $this->computer = $computer;
         $computer->setRoom($this);
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getName(): string

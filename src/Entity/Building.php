@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Id;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,16 +19,7 @@ use JsonSerializable;
  */
 class Building implements JsonSerializable
 {
-    /**
-     * This is the id that will be placed in the database after the persisting of this object.
-     *
-     * @ORM\Id()
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @var int
-     */
-    private $id;
+    use Id;
 
     /**
      * The name to identify the building. Such as A, B, C ... or 2C.
@@ -59,11 +51,6 @@ class Building implements JsonSerializable
     public function __toString(): string
     {
         return $this->name;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getName(): string

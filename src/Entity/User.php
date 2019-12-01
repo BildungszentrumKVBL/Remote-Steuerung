@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Id;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,14 +22,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User extends BaseUser implements LdapUserInterface
 {
+    use Id;
+
     /**
-     * This is the id that will be placed in the database after the persisting of this object.
+     * TODO: Has to be added explicitly. Else there is a MappingException probably because of FosUser.
      *
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @var int
      */
     protected $id;
 

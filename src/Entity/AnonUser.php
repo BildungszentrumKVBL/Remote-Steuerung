@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Id;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 
@@ -13,16 +14,7 @@ use FOS\UserBundle\Model\User as BaseUser;
  */
 class AnonUser extends BaseUser
 {
-    /**
-     * This is the id that will be placed in the database after the persisting of this object.
-     *
-     * @ORM\Column(type="integer")
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @var int
-     */
-    protected $id;
+    use Id;
 
     /**
      * The displayed username this anonym user should get.

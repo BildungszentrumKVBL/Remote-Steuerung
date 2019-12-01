@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Id;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -16,21 +17,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="command")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"zulu" = "ZuluCommand", "eventghost" = "EventGhostCommand"})
+ * @ORM\DiscriminatorMap({"zulu" = "ZuluCommand", "eventghost" = "EventGhostCommand", "atlona" = "AtlonaCommand"})
  * @UniqueEntity("name")
  */
 abstract class AbstractCommand
 {
-    /**
-     * This is the id that will be placed in the database after the persisting of this object.
-     *
-     * @ORM\Id()
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @var int
-     */
-    private $id;
+    use Id;
 
     /**
      * This is the unique identifier to distinguish between different commands..
@@ -73,11 +65,6 @@ abstract class AbstractCommand
      * Returns the URI for the given command.
      */
     abstract public function getUri(): string;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getName(): string
     {

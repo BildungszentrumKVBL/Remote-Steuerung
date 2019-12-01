@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Id;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,16 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Timegrid
 {
-    /**
-     * This is the id that will be placed in the database after the persisting of this object.
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @var int
-     */
-    protected $id;
+    use Id;
 
     /**
      * The start of the lesson.
@@ -61,11 +53,6 @@ class Timegrid
         $this->start     = $start;
         $this->end       = $end;
         $this->updatedAt = new DateTime();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getStart(): DateTime

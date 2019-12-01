@@ -88,9 +88,6 @@ class CommandsHandler
         if (null !== $token) {
             $this->user = $token->getUser();
             $this->zulu = $this->em->getRepository(User::class)->getLockedZulu($this->user->getUsername());
-        } else {
-            $this->user = null;
-            $this->zulu = null;
         }
 
         $this->validator  = $validator;

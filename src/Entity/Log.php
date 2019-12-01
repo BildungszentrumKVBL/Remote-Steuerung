@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Id;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
@@ -38,16 +39,7 @@ class Log implements JsonSerializable
      */
     public const LEVEL_ERROR = 4;
 
-    /**
-     * This is the id that will be placed in the database after the persisting of this object.
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @var int
-     */
-    private $id;
+    use Id;
 
     /**
      * The level of the log. This describes the urgency of the logentry.
@@ -88,8 +80,6 @@ class Log implements JsonSerializable
 
     /**
      * Log constructor.
-     *
-     * @param User $user
      */
     public function __construct(string $message, int $level, User $user = null)
     {
@@ -97,11 +87,6 @@ class Log implements JsonSerializable
         $this->level    = $level;
         $this->user     = $user;
         $this->dateTime = new DateTime();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getLevel(): int

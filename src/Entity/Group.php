@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Id;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\Group as BaseGroup;
 
@@ -15,14 +16,14 @@ use FOS\UserBundle\Model\Group as BaseGroup;
  */
 class Group extends BaseGroup
 {
+    use Id;
+
     /**
-     * This is the id that will be placed in the database after the persisting of this object.
+     * TODO: Has to be added explicitly. Else there is a MappingException probably because of FosUser.
      *
-     * @ORM\Id()
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @var int
      */
     protected $id;
 

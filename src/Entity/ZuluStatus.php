@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Id;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,16 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ZuluStatus
 {
-    /**
-     * This is the id that will be placed in the database after the persisting of this object.
-     *
-     * @ORM\Id()
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @var int
-     */
-    private $id;
+    use Id;
 
     /**
      * The time and date of the captures state of the statuses.
@@ -62,11 +54,6 @@ class ZuluStatus
     {
         $this->createdAt       = new DateTime();
         $this->commandStatuses = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getCreatedAt(): DateTime

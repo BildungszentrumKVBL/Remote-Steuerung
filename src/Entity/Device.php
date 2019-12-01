@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Id;
 use Doctrine\ORM\Mapping as ORM;
 use ReflectionClass;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -21,14 +22,7 @@ class Device
 
     public const TYPE_WEB = 'web';
 
-    /**
-     * @ORM\Id()
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @var int
-     */
-    private $id;
+    use Id;
 
     /**
      * @ORM\Column(type="string")
@@ -66,12 +60,9 @@ class Device
     {
         $this->name        = $name;
         $this->messagingId = $messagingId;
-        $this->setType($type);
-    }
 
-    public function getId(): ?int
-    {
-        return $this->id;
+        $this->type = self::TYPE_WEB; // Default
+        $this->setType($type);
     }
 
     public function getName(): string

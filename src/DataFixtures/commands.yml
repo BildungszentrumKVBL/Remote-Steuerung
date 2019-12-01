@@ -232,3 +232,21 @@ EventGhost:
                 label: 'Zeit anzeigen'
             data:
                 action: 'time'
+
+Atlona:
+    cmd_atlona_restart:
+        assets:
+            icon:  'settings_backup_restore'
+            label: 'Neustarten'
+        data:
+            name: 'Platform:Restart'
+            payload: []
+            telnet: false
+    cmd_atlona_shutdown:
+        assets:
+            icon:  'power_settings_new'
+            label: 'Herunterfahren'
+        data:
+            name: 'Platform:Shutdown'
+            payload: []
+            telnet: false

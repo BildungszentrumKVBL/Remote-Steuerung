@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Id;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,16 +18,7 @@ use Serializable;
  */
 class View implements Serializable, JsonSerializable
 {
-    /**
-     * This is the id that will be placed in the database after the persisting of this object.
-     *
-     * @ORM\Id()
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @var int
-     */
-    private $id;
+    use Id;
 
     /**
      * The is the name that helps distinguish the view from others.
@@ -53,11 +45,6 @@ class View implements Serializable, JsonSerializable
     {
         $this->name    = $name;
         $this->buttons = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getName(): string
@@ -92,7 +79,7 @@ class View implements Serializable, JsonSerializable
      */
     public function __toString(): string
     {
-        return $this->name;
+        return $this->getName();
     }
 
     public function serialize(): string
