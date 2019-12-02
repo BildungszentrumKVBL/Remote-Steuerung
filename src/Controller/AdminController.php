@@ -42,10 +42,11 @@ class AdminController extends AbstractController
         $activeUsers = [];
         foreach ($lockedZulus as $lockedZulu) {
             $user          = $em->getRepository(User::class)->findOneBy(['username' => $lockedZulu->getLockedBy()]);
+            $handler->setZulu($lockedZulu);
             $activeUsers[] = [
                 'user'   => $user,
                 'zulu'   => $lockedZulu,
-                'status' => $handler->setZulu($lockedZulu)->getStatusOfZulu(),
+                'status' => $handler->getStatusOfZulu(),
             ];
         }
         if ($request->isXmlHttpRequest()) {

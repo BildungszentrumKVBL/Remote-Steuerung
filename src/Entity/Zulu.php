@@ -21,7 +21,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="zulu")
  * @UniqueEntity("ip")
  * @UniqueEntity("room")
- * @UniqueEntity("lookedBy")
  */
 class Zulu implements JsonSerializable
 {
@@ -41,7 +40,7 @@ class Zulu implements JsonSerializable
     /**
      * The actual IP of the Zulu.
      *
-     * @ORM\Column(name="ip", type="string")
+     * @ORM\Column(name="ip", type="string", unique=true)
      *
      * @var string
      */

@@ -21,8 +21,6 @@ class Room implements JsonSerializable
      * The name of the room. For example: "EG 1.4", "AU2", "Floor 1: Room 4".
      *
      * @ORM\Column(name="name", type="string")
-     *
-     * @var string
      */
     private $name;
 
@@ -30,17 +28,20 @@ class Room implements JsonSerializable
      * The zulu that is inside this room.
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Zulu", mappedBy="room", cascade={"persist"})
-     *
-     * @var Zulu
      */
     private $zulu;
+
+    /**
+     * The atlona that is inside this room.
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\Atlona", mappedBy="room", cascade={"persist"})
+     */
+    private $atlona;
 
     /**
      * The computer inside this room.
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Computer", mappedBy="room", cascade={"persist"})
-     *
-     * @var Computer
      */
     private $computer;
 
@@ -49,8 +50,6 @@ class Room implements JsonSerializable
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Building", inversedBy="rooms")
      * @ORM\JoinColumn(name="building_id", referencedColumnName="id")
-     *
-     * @var Building
      */
     private $building;
 
@@ -73,17 +72,11 @@ class Room implements JsonSerializable
         $zulu->setRoom($this);
     }
 
-    /**
-     * @return Zulu
-     */
     public function getZulu(): ?Zulu
     {
         return $this->zulu;
     }
 
-    /**
-     * @return Computer
-     */
     public function getComputer(): ?Computer
     {
         return $this->computer;
@@ -105,12 +98,19 @@ class Room implements JsonSerializable
         $this->building = $building;
     }
 
-    /**
-     * @return Building
-     */
     public function getBuilding(): ?Building
     {
         return $this->building;
+    }
+
+    public function getAtlona(): ?Atlona
+    {
+        return $this->atlona;
+    }
+
+    public function setAtlona(Atlona $atlona): void
+    {
+        $this->atlona = $atlona;
     }
 
     public function jsonSerialize(): string

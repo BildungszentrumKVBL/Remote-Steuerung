@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Entity\AbstractCommand;
+use App\Entity\Atlona;
+use App\Entity\AtlonaCommand;
 use App\Entity\EventGhostCommand;
 use App\Entity\Log;
 use App\Entity\User;
@@ -12,7 +14,11 @@ use App\Entity\ZuluCommandStatus;
 use App\Entity\ZuluStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use LogicException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use SimpleXMLElement;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -21,8 +27,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  *
  * This service handles all commands for the application.
  */
-class CommandsHandler
+class CommandsHandler implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /**
      * The User of the current request.
      *
@@ -45,30 +53,29 @@ class CommandsHandler
     private $zulu;
 
     /**
-     * The validator to validate EventGhostCommands.
+     * The Atlonas that are target for `AtlonaCommands`.
      *
-     * @var ValidatorInterface
+     * @var Atlona[]
+     */
+    private $atlonas = [];
+
+    /**
+     * The validator to validate EventGhostCommands.
      */
     private $validator;
 
     /**
      * The port that EventGhost listens on.
-     *
-     * @var string
      */
     private $egPort;
 
     /**
      * The username for the authentication for EventGhost.
-     *
-     * @var string
      */
     private $egUsername;
 
     /**
      * The password for the authentication for EventGhost.
-     *
-     * @var string
      */
     private $egPassword;
 
@@ -125,8 +132,48 @@ class CommandsHandler
             $ip  = $this->zulu->getRoom()->getComputer()->getName();
             $uri = $command->getUri();
             $this->doRequest(sprintf('%s:%s@%s:%s%s', $this->egUsername, $this->egPassword, $ip, $this->egPort, $uri));
+        } elseif ($command instanceof AtlonaCommand) {
+            if (0 === count($this->atlonas)) {
+                if ($this->logger) {
+                    $this->logger->warning(
+                        'Tried to run AtlonaCommand, but no Atlonas where set as target.',
+                        [
+                            'AtlonaCommand' => $command,
+                        ]
+                    );
+                }
+                if ($command->isTelnet()) {
+                    $processes = [];
+                    foreach ($this->atlonas as $atlona) {
+                        // TODO: Add after PHP 7.4
+                        //$process = new Process(['telnet', $atlona->getIp(), $command->getCommandName(), ...$command->getCommandPayload()]);
+                        //$process = new Process(['telnet', $atlona->getIp(), $command->getCommandName()]);
+                        // $process = new Process(['echo', '-n', $command->getCommandName(), '|', 'netcat', $atlona->getIp(), 23]);
+                        $process = Process::fromShellCommandline(
+                            'echo -n "$COMMAND" | netcat "$IP" "$PORT"',
+                            null,
+                            [
+                                'COMMAND' => $command->getCommandName(),
+                                'IP'      => $atlona->getIp(),
+                                'PORT'    => 23,
+                            ]
+                        );
+                        $process->start();
+
+                        $processes[] = $process;
+                    }
+
+                    foreach ($processes as $process) {
+                        $process->wait();
+                    }
+
+                    return null;
+                }
+
+                throw new LogicException('HTTP-Commands of Atlona are not implemented.');
+            }
         } else {
-            throw new Exception('Nicht existierender Command wurde getätigt.');
+            throw new LogicException('Nicht existierender Command wurde getätigt.');
         }
 
         return null;
@@ -174,7 +221,11 @@ class CommandsHandler
         $output  = curl_exec($curl);
         $dt2     = microtime(true);
         $latency = round($dt2 - $dt, 3) * 1000;
-        $log     = new Log(sprintf('Latenz: %sms für die Zulu im Zimmer %s', $latency, $this->zulu->getRoom()), Log::LEVEL_INFO, $this->user);
+        $log     = new Log(
+            sprintf('Latenz: %sms für die Zulu im Zimmer %s', $latency, $this->zulu->getRoom()),
+            Log::LEVEL_INFO,
+            $this->user
+        );
         $this->em->persist($log);
 
         if ($output) { // Request was successful
@@ -248,10 +299,20 @@ class CommandsHandler
      *
      * @return $this
      */
-    public function setZulu(Zulu $zulu)
+    public function setZulu(Zulu $zulu): void
     {
         $this->zulu = $zulu;
+    }
 
-        return $this;
+    public function setAtlonas(iterable $atlonas): void
+    {
+        $container = [];
+        foreach ($atlonas as $atlona) {
+            if ($atlona instanceof Atlona) {
+                $container[] = $atlona;
+            }
+        }
+
+        $this->atlonas = $container;
     }
 }
