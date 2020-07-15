@@ -19,7 +19,6 @@ use Detection\MobileDetect;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
-use Gos\Bundle\WebSocketBundle\Pusher\Wamp\WampPusher;
 use Gos\Component\WebSocketClient\Exception\BadResponseException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -156,7 +155,7 @@ class AppController extends AbstractController
      *
      * @Security("is_granted('ROLE_TEACHER')")
      */
-    public function controllerAction(?View $view, WampPusher $pusher, CommandsHandler $commandHandler, EntityManagerInterface $em): Response
+    public function controllerAction(?View $view, CommandsHandler $commandHandler, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
         $zulu = $em->getRepository(Zulu::class)->findOneBy(['lockedBy' => $user->getUsername()]);
@@ -172,6 +171,9 @@ class AppController extends AbstractController
         if ($view) {
             $user->getSettings()->setView($view);
         }
+
+        /* @var PusherInterface $pusher */
+        $pusher = $this->get('public.gos_web_socket.wamp.pusher');
 
         try {
             $pusher->push(
