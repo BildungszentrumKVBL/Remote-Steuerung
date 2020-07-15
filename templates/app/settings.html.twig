@@ -36,14 +36,14 @@
                             </button>
                         </div>
                     </div>
-                    {% if not is_device('iphone') %}
+                    {#{% if not is_device('iphone') %}#}
                     <div class="form-group">
                         <label class="control-label col-md-4 col-sm-4 col-xs-12" for="fullscreenToggle">{{ 'fullscreen'|trans }}</label>
                         <div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2 col-xs-12 col-xs-offset-0">
                             <button class="btn btn-primary btn-block btn-raised" type="button" id="fullscreenToggle">{{ 'toggle'|trans }}</button>
                         </div>
                     </div>
-                    {% endif %}
+                    {#{% endif %}#}
                     <div class="form-group">
                         <button type="submit" name="senden" value="1" class="btn btn-primary pull-right" onclick="app.unboot();">{{ 'save'|trans }}</button>
                     </div>
