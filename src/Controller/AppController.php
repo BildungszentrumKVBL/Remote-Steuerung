@@ -20,6 +20,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
 use Gos\Component\WebSocketClient\Exception\BadResponseException;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -279,7 +280,7 @@ class AppController extends AbstractController
      * @Security("has_role('ROLE_TEACHER')")
      * @Method(methods={"post"})
      */
-    public function commandsAction(Request $request, AbstractCommand $command, CommandsHandler $commandHandler, EventDispatcherInterface $dispatcher): Response
+    public function commandsAction(Request $request, AbstractCommand $command, CommandsHandler $commandHandler, EventDispatcherInterface $dispatcher, LoggerInterface $logger): Response
     {
         if ($command instanceof EventGhostCommand) {
             $additionalData = $request->request->all();
@@ -297,6 +298,8 @@ class AppController extends AbstractController
         try {
             $commandHandler->runCommand($command);
         } catch (Exception $e) {
+            $logger->error($e->getMessage());
+
             return new JsonResponse(['type' => 'error'], Response::HTTP_OK, ['Content-Type' => 'application/json']);
         }
         $response = new JsonResponse(['type' => 'success'], Response::HTTP_OK, ['Content-Type' => 'application/json']);
