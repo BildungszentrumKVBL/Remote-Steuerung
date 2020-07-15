@@ -8,5 +8,6 @@ gos_web_socket:
     port: "%eventghost_websocket_port%"        #The port the socket server will listen on
     host: 127.0.0.1
     router:
-      resources: ~
+      resources:
+        - "./../config/pubsub/pubsub.yml"
         #- "@AppBundle/Resources/config/pubsub/routing.yml"
