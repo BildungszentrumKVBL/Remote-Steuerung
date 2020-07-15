@@ -6,10 +6,10 @@
     {% if not observing %}
         <div id="controller-wrapper" class="container" data-view="{{ app.user.settings.view|json_encode }}">
         <div id="direction-hints" class="visible-xs">
-            <div class="well direction-hint left">{{ app_twig_helper.previousView(app.user.settings.view) }}</div>
-            <div class="well direction-hint right">{{ app_twig_helper.nextView(app.user.settings.view) }}</div>
+            <div class="well direction-hint left">{{ previousView(app.user.settings.view) }}</div>
+            <div class="well direction-hint right">{{ nextView(app.user.settings.view) }}</div>
         </div>
-        <script>try{app.actions.updateNavigation({{ app_twig_helper.getRoomForUser(app.user)|json_encode|raw }});} catch (e) {console.log(e.message)}</script>
+        <script>try{app.actions.updateNavigation({{ getRoomForUser(app.user)|json_encode|raw }});} catch (e) {console.log(e.message)}</script>
     {% endif %}
 
     {% set buttons = settings.view.buttons %}
