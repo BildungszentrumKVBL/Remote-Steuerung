@@ -186,7 +186,7 @@ class User extends BaseUser implements LdapUserInterface
     {
         $groups = [];
         foreach ($ldapGroups as $group) {
-            $r = preg_match('/CN=([\w\s-äÄöÖüÜß]*),/', $group, $results);
+            $r = preg_match('/CN=([\w\s\-äÄöÖüÜß]*),/', $group, $results);
             if (1 === $r) {
                 array_push($groups, $results[1]);
             }
