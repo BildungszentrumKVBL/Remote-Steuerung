@@ -173,7 +173,7 @@ class AppController extends AbstractController
         }
 
         /* @var PusherInterface $pusher */
-        $pusher = $this->get('public.gos_web_socket.wamp.pusher');
+        $pusher = $this->get('gos_web_socket.wamp.pusher');
 
         try {
             $pusher->push(
