@@ -40,6 +40,7 @@ services:
             $apiClient: '%webuntis_api_client%'
             $senderMail: '%application_sender_email%'
             $receiverMail: '%application_receiver_email%'
+            $minLevel: '%application_log_level%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
