@@ -155,7 +155,7 @@ class AppController extends AbstractController
      *
      * @Security("is_granted('ROLE_TEACHER')")
      */
-    public function controllerAction(?View $view, CommandsHandler $commandHandler, EntityManagerInterface $em): Response
+    public function controllerAction(?View $view, PusherInterface $pusher, CommandsHandler $commandHandler, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
         $zulu = $em->getRepository(Zulu::class)->findOneBy(['lockedBy' => $user->getUsername()]);
@@ -171,9 +171,6 @@ class AppController extends AbstractController
         if ($view) {
             $user->getSettings()->setView($view);
         }
-
-        /* @var PusherInterface $pusher */
-        $pusher = $this->get('gos_web_socket.wamp.pusher');
 
         try {
             $pusher->push(
