@@ -152,7 +152,7 @@ class AppController extends AbstractController
      * This controller serves the controller page for the user that wants to control the room he reserved.
      * When the user did not choose the room, he will be redirected to the `AppController::chooseRoomAction`.
      *
-     * @Route("/controller/{?view}", name="controller_route", requirements={"view": "\d+"}, options={"expose": true})
+     * @Route("/controller/{view}", name="controller_route", requirements={"view": "\d+"}, options={"expose": true})
      *
      * @Security("is_granted('ROLE_TEACHER')")
      */
