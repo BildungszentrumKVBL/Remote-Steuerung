@@ -1,0 +1,241 @@
+<?php
+
+namespace App\Command;
+
+use App\Entity\Building;
+use App\Entity\Computer;
+use App\Entity\Room;
+use App\Entity\Zulu;
+use Exception;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Yaml\Yaml;
+
+/**
+ * Class ImportInfrastructureCommand.
+ */
+class ImportInfrastructureCommand extends Command
+{
+    /**
+     * Configures the command.
+     */
+    protected function configure()
+    {
+        $this->setName('app:import:infrastructure')->setDescription('Importer der Infrastruktur')
+            ->addArgument('file', InputArgument::REQUIRED)
+            ->addOption('y', null, null, 'Automatisches Handeln ohne Interaktion.');
+    }
+
+    /**
+     * @return int|null
+     *
+     * @throws \Exception
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $io = new SymfonyStyle($input, $output);
+        $io->title('Infrastruktur Importer');
+
+        $filename = $input->getArgument('file');
+
+        // Validate file
+        if (DIRECTORY_SEPARATOR !== substr($filename, 0, 1)) {
+            $filename = getcwd().DIRECTORY_SEPARATOR.$filename;
+        }
+
+        if (!file_exists($filename)) {
+            throw new Exception(sprintf('File: "%s" does not exist', $filename));
+        }
+
+        // Check for extension
+        $fileType = strtolower(pathinfo($filename)['extension']);
+
+        if ('yml' === $fileType) {
+            $this->askDeleteInfrastructure($input, $output);
+            $this->loadYml($filename);
+            $io->write('Daten wurden geschrieben.');
+        } elseif ('csv' === $fileType) {
+            $this->askDeleteInfrastructure($input, $output);
+            $this->loadCsv($filename);
+            $io->write('Daten wurden geschrieben.');
+        } elseif ('xml' === $fileType) {
+            $this->askDeleteInfrastructure($input, $output);
+            $this->loadXml($filename);
+            $io->write('Daten wurden geschrieben.');
+        } else {
+            $io->error(sprintf('Filetype: "%s" is not supported', $fileType));
+
+            return 1;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Loads data by yaml file.
+     */
+    public function loadYml(string $filename)
+    {
+        $manager  = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $fixtures = Yaml::parse(file_get_contents($filename));
+
+        foreach ($fixtures as $buildingName => $data) {
+            $building = new Building($buildingName);
+            foreach ($data as $roomName => $roomContents) {
+                $room     = new Room($roomName);
+                $zulu     = new Zulu($roomContents['Zulu']);
+                $computer = new Computer($roomContents['PC']['name']);
+                $room->setZulu($zulu);
+                $room->setComputer($computer);
+                $building->addRoom($room);
+                $manager->persist($computer);
+                $manager->persist($room);
+                $manager->persist($zulu);
+            }
+            $manager->persist($building);
+        }
+        $manager->flush();
+    }
+
+    /**
+     * Loads data by csv file.
+     *
+     * @throws \Exception
+     */
+    public function loadCsv(string $filename)
+    {
+        $manager      = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $buildingRepo = $manager->getRepository(Building::class);
+        $roomRepo     = $manager->getRepository(Room::class);
+        $csv          = explode("\n", file_get_contents($filename));
+        $label        = null;
+        foreach ($csv as $line) {
+            if ('' === $line) { // Skip empty lines.
+                continue;
+            }
+            if ('{{' === substr($line, 0, 2)) {
+                $label = $line;
+            } else {
+                if ('{{Building}}' === $label) {
+                    $building = new Building($line);
+                    $manager->persist($building);
+                    $manager->flush($building);
+                } elseif ('{{Rooms}}' === $label) {
+                    list($buildingName, $roomName) = explode(';', $line);
+                    $room                          = new Room($roomName);
+                    /** @var Building $building */
+                    $building = $buildingRepo->findOneBy(['name' => $buildingName]);
+                    if ($building) {
+                        $building->addRoom($room);
+                        $manager->persist($building);
+                        $manager->flush($building);
+                    } else {
+                        throw new Exception(sprintf('Building: "%s" was not found. Did you make sure that the buildings are defined above the rooms in your CSV?', $buildingName));
+                    }
+                } elseif ('{{PC}}' === $label) {
+                    list($roomName, $pcName) = explode(';', $line);
+                    /** @var Room $room */
+                    $room = $roomRepo->findOneBy(['name' => $roomName]);
+                    if ($room) {
+                        $pc = new Computer($pcName);
+                        $room->setComputer($pc);
+                        $manager->persist($room);
+                        $manager->flush($room);
+                    } else {
+                        throw new Exception(sprintf('Room: "%s" was not found. Did you make sure that the rooms are defined above the computers in your CSV?', $roomName));
+                    }
+                } elseif ('{{Zulu}}' === $label) {
+                    list($roomName, $zuluIp) = explode(';', $line);
+                    /** @var Room $room */
+                    $room = $roomRepo->findOneBy(['name' => $roomName]);
+                    if ($room) {
+                        $zulu = new Zulu($zuluIp);
+                        $room->setZulu($zulu);
+                        $manager->persist($room);
+                        $manager->flush($room);
+                    } else {
+                        throw new Exception(sprintf('Room: "%s" was not found. Did you make sure that the rooms are defined above the zulus in your CSV?', $roomName));
+                    }
+                } else {
+                    throw new Exception('No label was set. Please consult the README.');
+                }
+            }
+        }
+    }
+
+    /**
+     * Loads data by xml file.
+     *
+     * @throws \Exception
+     */
+    public function loadXml(string $filename)
+    {
+        $manager = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $xml     = simplexml_load_string(file_get_contents($filename));
+        if (!$xml) {
+            throw new Exception('Error: Cannot create object by xml.');
+        }
+        foreach ($xml as $buildingName => $roomNames) {
+            $building = new Building($buildingName);
+            foreach ($roomNames as $roomName => $data) {
+                $room = new Room($roomName);
+                $building->addRoom($room);
+                if ($data->Zulu) {
+                    $zulu = new Zulu($data->Zulu);
+                    $room->setZulu($zulu);
+                }
+                if ($data->PC) {
+                    $pc = new Computer($data->PC->name);
+                    $room->setComputer($pc);
+                }
+            }
+            $manager->persist($building);
+            $manager->flush($building);
+        }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function askDeleteInfrastructure(InputInterface $input, OutputInterface $output)
+    {
+        if (!$input->getOption('y')) { // y Option skips interaction.
+            /** @var QuestionHelper $helper */
+            $helper   = $this->getHelper('question');
+            $question = new ConfirmationQuestion('Die bestehende Infrastruktur wird gelöscht. Möchten Sie fortfahren? (N/y)', false);
+
+            if (!$helper->ask($input, $output, $question)) {
+                throw new Exception('Import wurde abgebrochen.');
+            }
+        }
+
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+
+        $pcs = $em->getRepository(Computer::class)->findAll();
+        foreach ($pcs as $pc) {
+            $em->remove($pc);
+        }
+
+        $zulus = $em->getRepository(Zulu::class)->findAll();
+        foreach ($zulus as $zulu) {
+            $em->remove($zulu);
+        }
+
+        $rooms = $em->getRepository(Room::class)->findAll();
+        foreach ($rooms as $room) {
+            $em->remove($room);
+        }
+
+        $buildings = $em->getRepository(Building::class)->findAll();
+        foreach ($buildings as $building) {
+            $em->remove($building);
+        }
+
+        $em->flush();
+    }
+}

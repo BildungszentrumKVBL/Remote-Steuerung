@@ -1,0 +1,14 @@
+{
+  "presets": [
+    [ "@babel/preset-env", {
+      "modules": false,
+      "targets": [ "defaults" ],
+      "forceAllTransforms": false,
+      "useBuiltIns": "entry",
+      "corejs": "3"
+    }]
+  ],
+  "plugins": [
+    "@babel/plugin-syntax-dynamic-import"
+  ]
+}

@@ -1,0 +1,252 @@
+Zulu:
+    cmd_streamNotebook:
+        assets:
+            icon:  'laptop_chromebook'
+            label: 'Notebook ON/OFF'
+        data:
+            id: 1
+    cmd_streamExternal:
+        assets:
+            icon:  'laptop_mac'
+            label: 'Ext. Gerät ON/OFF'
+        data:
+            id: 2
+    cmd_freezeProjector:
+        assets:
+            icon:  'panorama'
+            label: 'Freeze Projektor'
+        data:
+            id: 3
+    cmd_blankProjector:
+        assets:
+            icon:  'aspect_ratio'
+            label: 'Blank Projektor'
+        data:
+            id: 4
+    cmd_soundNotebook:
+        assets:
+            icon:  'music_note'
+            label: 'Sound Notebook'
+        data:
+            id: 5
+    cmd_soundExternal:
+        assets:
+            icon:  'speaker'
+            label: 'Sound Ext. Gerät'
+        data:
+            id: 6
+    cmd_quieter:
+        assets:
+            icon:  'volume_down'
+            label: 'Vol -'
+        data:
+            id: 7
+    cmd_louder:
+        assets:
+            icon:  'volume_up'
+            label: 'Vol +'
+        data:
+            id: 8
+    cmd_freezeVisualizer:
+        assets:
+            icon:  'image'
+            label: 'Freeze Visualizer'
+        data:
+            id: 9
+    cmd_blankVisualizer:
+        assets:
+            icon:  'camera'
+            label: 'Blank Visualizer'
+        data:
+            id: 10
+    cmd_shutdownVisualizer:
+        assets:
+            icon:  'scanner'
+            label: 'Visualizer ON/OFF'
+        data:
+            id: 11
+    cmd_shutdownAll:
+        assets:
+            icon:  'power_settings_new'
+            label: 'Alles aus'
+        data:
+            id: 12
+
+EventGhost:
+    PowerPoint:
+        cmd_pp_blank:
+            assets:
+                icon:  'note'
+                label: 'Folie verdecken'
+            data:
+                action: 'blank'
+        cmd_pp_next:
+            assets:
+                icon:  'navigate_next'
+                label: 'Nächste Folie'
+            data:
+                action: 'next'
+        cmd_pp_previous:
+            assets:
+                icon:  'navigate_before'
+                label: 'Vorherige Folie'
+            data:
+                action: 'previous'
+        cmd_pp_media:
+            assets:
+                icon:  'ondemand_video'
+                label: 'Medium abspielen'
+            data:
+                action: 'play'
+        cmd_pp_slide_x:
+            assets:
+                icon:  'view_carousel'
+                label: 'Bestimmte Folie zeigen'
+            data:
+                action: 'slide_x'
+                requirements:
+                    - 'variable': 'slide'
+                      'label':    'Folie'
+                      'type':     'tel'
+                      'regex':    '\d+'
+        cmd_pp_first:
+            assets:
+                icon:  'first_page'
+                label: 'Erste Folie'
+            data:
+                action: 'first'
+        cmd_pp_last:
+            assets:
+                icon:  'last_page'
+                label: 'Letzte Folie'
+            data:
+                action: 'last'
+        cmd_pp_start:
+            assets:
+                icon:  'present_to_all'
+                label: 'PP Starten/Beenden'
+            data:
+                action: 'start'
+    WMP:
+        cmd_wmp_start:
+            assets:
+                icon:  'play_circle_outline'
+                label: 'WMP starten'
+            data:
+                action: 'start'
+        cmd_wmp_play:
+            assets:
+                icon:  'play_arrow / pause'
+                label: 'Start/Pause'
+            data:
+                action: 'play'
+        cmd_wmp_previous:
+            assets:
+                icon:  'navigate_before'
+                label: 'Vorheriges Medium'
+            data:
+                action: 'previous'
+        cmd_wmp_next:
+            assets:
+                icon:  'navigate_next'
+                label: 'Nächstes Medium'
+            data:
+                action: 'next'
+        cmd_wmp_rewind:
+            assets:
+                icon:  'fast_rewind'
+                label: 'Zurückspulen'
+            data:
+                action: 'rewind'
+        cmd_wmp_forward:
+            assets:
+                icon:  'fast_forward'
+                label: 'Vorspulen'
+            data:
+                action: 'forward'
+        cmd_wmp_mute:
+            assets:
+                icon:  'volume_off'
+                label: 'Stumm ein/aus'
+            data:
+                action: 'mute'
+        cmd_wmp_fullscreen:
+            assets:
+                icon:  'fullscreen'
+                label: 'Vollbild ein/aus'
+            data:
+                action: 'fullscreen'
+
+    VLC:
+        cmd_vlc_start:
+            assets:
+                icon:  'play_circle_outline'
+                label: 'VLC starten'
+            data:
+                action: 'start'
+        cmd_vlc_play:
+            assets:
+                icon:  'play_arrow / pause'
+                label: 'Start/Pause'
+            data:
+                action: 'play'
+        cmd_vlc_previous:
+            assets:
+                icon:  'navigate_before'
+                label: 'Vorheriges Medium'
+            data:
+                action: 'previous'
+        cmd_vlc_next:
+            assets:
+                icon:  'navigate_next'
+                label: 'Nächstes Medium'
+            data:
+                action: 'next'
+        cmd_vlc_rewind:
+            assets:
+                icon:  'fast_rewind'
+                label: 'Zurückspulen'
+            data:
+                action: 'rewind'
+        cmd_vlc_forward:
+            assets:
+                icon:  'fast_forward'
+                label: 'Vorspulen'
+            data:
+                action: 'forward'
+        cmd_vlc_mute:
+            assets:
+                icon:  'volume_off'
+                label: 'Stumm ein/aus'
+            data:
+                action: 'mute'
+        cmd_vlc_fullscreen:
+            assets:
+                icon:  'fullscreen'
+                label: 'Vollbild ein/aus'
+            data:
+                action: 'fullscreen'
+        cmd_vlc_time:
+            assets:
+                icon:  'access_time'
+                label: 'Zeit anzeigen'
+            data:
+                action: 'time'
+
+Atlona:
+    cmd_atlona_restart:
+        assets:
+            icon:  'settings_backup_restore'
+            label: 'Neustarten'
+        data:
+            name: 'Platform:Restart'
+            payload: []
+            telnet: false
+    cmd_atlona_shutdown:
+        assets:
+            icon:  'power_settings_new'
+            label: 'Herunterfahren'
+        data:
+            name: 'Platform:Shutdown'
+            payload: []
+            telnet: false

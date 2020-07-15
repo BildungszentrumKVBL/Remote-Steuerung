@@ -1,0 +1,52 @@
+{% extends app.request.xmlHttpRequest
+? 'ajax-base.html.twig'
+: 'base.html.twig'%}
+
+{% block body %}
+    <div class="container">
+        <div class="panel panel-primary bootable boot-start filters">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'filter'|trans }}</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" method="post" onsubmit="return false;">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="benutzer" class="col-md-2 control-label">{{ 'user'|trans }}</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="benutzer" id="benutzer" autocorrect="off" autocapitalize="none" list="usernames" placeholder="{{ 'all_users'|trans }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="level" class="col-md-2 control-label">{{ 'level'|trans }}</label>
+                            <div class="col-md-10">
+                                <select class="form-control select" name="level" id="level">
+                                    <option value="">{{ 'all_logs_levels'|trans }}</option>
+                                    <option value="{{ constant('App\\Entity\\Log::LEVEL_INFO') }}">{{ 'log_level_info'|trans }}</option>
+                                    <option value="{{ constant('App\\Entity\\Log::LEVEL_COMMAND') }}">{{ 'log_level_command'|trans }}</option>
+                                    <option value="{{ constant('App\\Entity\\Log::LEVEL_SYSTEM') }}">{{ 'log_level_system'|trans }}</option>
+                                    <option value="{{ constant('App\\Entity\\Log::LEVEL_ERROR') }}">{{ 'log_level_error'|trans }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" name="filtern" value="1">
+                        <div class="form-group">
+                            <button type="submit" name="senden" value="1" class="btn btn-primary pull-right">{{ 'to_filter'|trans }}</button>
+                        </div>
+                    </fieldset>
+                    <datalist id="usernames">
+                        {% for user in users %}
+                            <option>{{ user.username }}</option>
+                        {% endfor %}
+                    </datalist>
+                </form>
+            </div>
+        </div>
+        <div class="well bootable boot-start">
+            <h1>{{ 'logs'|trans }}</h1>
+            <div class="log-container">
+                {% include 'admin/snippets/logTable.html.twig' with {'logs': logs} %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+// Colors
+$secondary: #D9D9D9;
+
+$colorGray: #2D2D2D;
+$colorLightGray: lighten($colorGray, 70%);
+$colorLight: rgba(0, 0, 0, 0.1);
+$passive: rgba(100, 100, 100, .2);
+$commentAccentColor: rgba(150, 150, 150, .5);
+/* Shadow covers */
+$scrollShadow: linear-gradient(white 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%, /* Shadows */
+radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
+
+// Body
+$bg-light: rgb(239, 239, 243);
+
+// Grid
+$grid-columns: 24;
+$grid-gutter-width: 20px;
+
+// Components
+$btn-padding-y: 12px;
+$btn-padding-x: 8px;
+$btn-line-height: 1em;
+$btn-font-weight: 300;
+$btn-border-radius: 0px;
+$border-radius: 0px;
+
+// Typography
+$fontFamily: 'Lato', 'Helvetica Neue', 'Arial', sans-serif;
+
+// Misc
+$transitionSpeed: 200ms;

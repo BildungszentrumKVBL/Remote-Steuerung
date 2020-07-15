@@ -1,0 +1,23 @@
+.base: &base
+  #hostname: CHANGE_ME.ch.inn.host.ch
+  hostname: skeleton.ch.inn.host.ch
+  port: 2121
+  #user: CHANGE_ME
+  user: jkwebli
+  #http_user: CHANGE_ME
+  http_user: jkwebli
+  password: ~
+  #deploy_path: ~/httpdocs/{{stage}}
+  deploy_path: ~/skeleton.jkweb.li/{{stage}}
+  sshOptions:
+    StrictHostKeyChecking: no
+
+dev:
+  <<: *base
+  stage: dev
+  branch: dev
+
+production:
+  <<: *base
+  stage: production
+  branch: master

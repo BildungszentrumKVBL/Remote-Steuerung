@@ -1,0 +1,22 @@
+{
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.28.0",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.3.1"
+  },
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev-server": "encore dev-server",
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "bootstrap-material-design": "^0.5.10",
+    "bootstrap-sass": "^3.3.7",
+    "snackbarjs": "^1.1.0",
+    "jquery": "^3.4"
+  }
+}

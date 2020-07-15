@@ -1,0 +1,26 @@
+{% apply spaceless %}
+    <div class="row">
+    {% set counter = 0 %}
+        {% for key, zulu in zulus %}
+            {% if statuses[key] is not null and statuses[key] != false %}
+                {% set counter = counter + 1 %}
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="bootable boot-start panel panel-primary zulu">
+                    <div class="panel-heading">
+                        <span>{{ zulu.room }}{{ (zulu.lockedBy) ? ' - ' ~ zulu.lockedBy : '' }}</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="phone-screen">
+                            {% include 'app/content/controller.html.twig' with {'observe': true, 'status': statuses[key]} %}
+                        </div>
+                        <div class="display"></div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+        {% if counter == 0 %}
+            <h1 style="text-align: center;">{{ 'no_devices_found'|trans }} <i class="material-icons">sentiment_dissatisfied</i></h1>
+        {% endif %}
+    </div>
+{% endapply %}

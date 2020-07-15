@@ -1,0 +1,36 @@
+@import "_variables.scss";
+
+.page-tree {
+  font-size: 1.1em;
+  > ul {
+    padding: 0 !important;
+  }
+  ul {
+    list-style: none;
+    padding-left: 2.5em;
+    margin-bottom: 0;
+  }
+
+  .page-node {
+    border-bottom: 1px solid $colorLightGray;
+    padding: 0.5em 1em;
+    .page-actions {
+      float: right;
+      opacity: 0;
+      padding-top: 0em;
+      svg {
+        color: $colorGray;
+        font-size: 0.75em;
+      }
+    }
+    a {
+      color: black;
+    }
+    &:hover {
+      background: $colorLightGray;
+      .page-actions {
+        opacity: 1;
+      }
+    }
+  }
+}

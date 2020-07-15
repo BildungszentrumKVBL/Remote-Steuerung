@@ -1,0 +1,3 @@
+fresh_firebase_cloud_messaging:
+  sender_id: "%firebase_server_id%"
+  server_key: "%firebase_server_key%"

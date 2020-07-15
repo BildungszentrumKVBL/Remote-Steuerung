@@ -1,0 +1,30 @@
+@import '_variables';
+
+.form-control-label.required:after, .col-form-label.required:after {
+  color: #e32;
+  content: "*";
+  display: inline;
+}
+
+.awesomplete {
+  display: block;
+}
+
+//noinspection CssOverwrittenProperties
+.scrollable-choice {
+  max-height: 200px;
+  overflow-y: scroll;
+  border: 1px #ccc solid;
+  padding: 1em;
+
+  background: $scrollShadow;
+  background-repeat: no-repeat;
+  background-color: white;
+  background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+  /* Opera doesn't support this in the shorthand */
+  background-attachment: local, local, scroll, scroll;
+}
+
+.flatpickr.form-control[readonly] {
+  background-color: initial;
+}

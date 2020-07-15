@@ -1,0 +1,18 @@
+user:
+  password:
+    too_short:               'Dein Passwort ist zu kurz. Es sollte mindestens 8 Zeichen beinhalten.'
+    too_long:                'Dein Passwort ist zu lang. Wir schränken die Länge auf 4096 Zeichen ein um Rechenzeit einzusparen.'
+    username_in_password:    'Dein Benutzername darf nicht im Passwort vorkommen.'
+    given_name_in_password:  'Dein Vorname darf nicht im Passwort vorkommen.'
+    family_name_in_password: 'Dein Nachname darf nicht im Passwort vorkommen.'
+    no_numbers:              'Das Passwort muss mindestens 1 Zahl beinhalten.'
+    no_lower_case_letters:   'Das Passwort muss mindestens 1 Kleinbuchstaben beinhalten.'
+    no_upper_case_letters:   'Das Passwort muss mindestens 1 Großbuchstaben beinhalten.'
+    not_the_same:            'Die beiden Passwörter stimmen nicht überein.'
+  username:
+    not_unique: 'Dieser Benutzername wird bereits verwendet.'
+  email:
+    not_unique: 'Diese E-Mail Adresse wird bereits verwendet.'
+
+resetting:
+  email_not_found: 'Diese E-Mail ist nicht bei uns registriert.'

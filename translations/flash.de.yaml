@@ -1,0 +1,18 @@
+error:
+  password:
+    requested:
+      too_long_ago: 'Das Passwort wurde vor mehr als 2 Tagen beantragt. Beantrage es erneut, dies verlangen wir aus Sicherheitsgründen.'
+  admin:
+    reset_email_not_sent: 'Die E-Mail an %email% konnte nicht gesendet werden.'
+    could_not_delete_entity: >
+      <p>Dieser Datensatz konnte nicht gelöscht werden. Entweder wird dieser noch benötigt oder kann nicht gelöscht werden.</p>
+
+      <p>Sie können mit dieser Fehlermeldung beim Support nachfragen:</p>
+      <pre>%error%</pre>
+
+info:
+  user:
+    reset_password:     'Dein Passwort wurde erfolgreich zurückgesetzt.'
+    password_requested: 'Wir haben Ihnen eine Mail gesendet. Falls Sie keine Mail bekommen haben, kann es sein dass Sie die falsche E-Mail Adresse angegeben haben, oder Ihr Passwort in den letzten 60 Minuten bereits einmal angefordert haben.'
+  password:
+    admin_reset_password: 'Dein Passwort wurde zurückgesetzt. Bitte %start_link%änderere Dein Passwort%end_link% selber um deine Privatsphäre und Sicherheit zu schützen.'

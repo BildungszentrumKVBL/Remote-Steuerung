@@ -1,0 +1,19 @@
+page:
+  templates:
+    root:
+      name: 'Startseite'
+      parts:
+        - {name: text, type: text, options: {type: editor}}
+        - {name: logo, type: image}
+    info_pages:
+      name: 'Infoseiten'
+      children:
+        - simple_text_page
+    simple_text_page:
+      name: 'Einfache Textseite'
+      parts:
+        - {name: text, type: text, options:{type: editor}}
+  collections:
+  #example_collection:
+  #    - {name: image, type: image}
+  #    - {name: title, type: text, options: {type: single}}

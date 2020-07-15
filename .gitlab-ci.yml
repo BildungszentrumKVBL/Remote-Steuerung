@@ -1,0 +1,51 @@
+stages:
+  - test
+
+# Select what we should cache
+cache:
+  paths:
+    - ./vendor
+    - ./node_modules
+    - ./.php_cs.cache
+
+
+# ESLinter, CS-Fixer and PHPUnit runner.
+eslinter_csfixer_phpunit:
+  # Select image from https://hub.docker.com/_/php/
+  image: "registry.gitlab.com/jkwebgmbh/symfony4-skeleton/fullstack"
+  stage: test
+  services:
+    - mysql:5.7
+  variables:
+    # Configure mysql service (https://hub.docker.com/_/mysql/)
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_USER:          db_user
+    MYSQL_PASSWORD:      db_pass
+    MYSQL_DATABASE:      test_db
+
+    APP_ENV: test
+    DATABASE_URL: mysql://db_user:db_pass@mysql/test_db
+  before_script:
+    # Install git
+    #- apt-get update -yqq
+    - apt-get install git -yqq
+
+    # Build webpack
+    - yarn
+    - yarn run encore dev
+
+    # Install all project dependencies
+    - composer config --global discard-changes true
+    - composer global require hirak/prestissimo
+    - composer install --dev
+
+    # Install & Enable Xdebug
+    - pecl install xdebug
+    - docker-php-ext-enable xdebug
+  script:
+    - ./node_modules/.bin/eslint assets/js/
+    - vendor/bin/php-cs-fixer fix -vvv --dry-run --stop-on-violation
+    - if [ $? != 0 ]; then exit 1 ; fi
+    - bin/phpunit --configuration phpunit-ci.xml --coverage-text
+    # Minimal
+    # - bin/phpunit --configuration phpunit-ci.xml --group minimal

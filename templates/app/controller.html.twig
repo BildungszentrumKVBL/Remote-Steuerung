@@ -1,0 +1,18 @@
+{% extends app.request.xmlHttpRequest
+? 'ajax-base.html.twig'
+: 'base.html.twig'%}
+
+{% block body %}
+    {% include 'app/content/controller.html.twig' %}
+{% endblock %}
+
+{% block postJavascript %}
+    <script>
+        app.environment.firebaseSenderID = "{{ firebase_server_id }}";
+        if (app.environment.firebaseSenderID !== '') {
+            firebase.initializeApp({messagingSenderId: app.environment.firebaseSenderID});
+            app.messaging = firebase.messaging();
+        }
+    </script>
+    <script>app.init(); controller.views = {{ get_views()|json_encode|raw }}; app.actions.updateNavigation({{ get_room_for_user(app.user)|json_encode|raw }});</script>
+{% endblock %}

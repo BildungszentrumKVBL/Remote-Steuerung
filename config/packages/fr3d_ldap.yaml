@@ -1,0 +1,20 @@
+fr3d_ldap:
+  driver:
+    host: "%ldap_host%"
+    username: "%ldap_username%"
+    password: "%ldap_password%"
+    useSsl: "%ldap_use_ssl%"
+    allowEmptyPassword: "%ldap_allow_empty_password%"
+    useStartTls: false
+    accountDomainName: "%ldap_account_domain_name%"
+    accountDomainNameShort: "%ldap_account_domain_name_short%"
+  user:
+    baseDn: "%ldap_base_dn%"
+    filter: "%ldap_filter%"
+    usernameAttribute: samaccountname
+    attributes:
+      - { ldap_attr: samaccountname, user_method: setUsername }
+      - { ldap_attr: mail, user_method: setEmail }
+      - { ldap_attr: memberof, user_method: setLdapGroups }
+      - { ldap_attr: givenname, user_method: setFirstName }
+      - { ldap_attr: sn, user_method: setLastName }

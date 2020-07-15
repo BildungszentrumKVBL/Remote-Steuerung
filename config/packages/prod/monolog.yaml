@@ -1,0 +1,29 @@
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: warning
+            handler:      grouped
+            excluded_http_codes: [404, 405]
+        grouped:
+            type:    group
+            members: [stdout, stderr, deduplicated]
+        stdout:
+            type: stream
+            path: 'php://stdout'
+        stderr:
+            type: stream
+            path: 'php://stderr'
+            level: error
+        deduplicated:
+            type:    deduplication
+            time:    360 # Six minutes
+            handler: swift
+        swift:
+            type:         swift_mailer
+            from_email:   'skeleton@jkweb.ch'
+            to_email:     ['change_me@jkweb.ch']
+            subject:      'Error: %%message%%'
+            level:        error
+            formatter:    monolog.formatter.html
+            content_type: text/html

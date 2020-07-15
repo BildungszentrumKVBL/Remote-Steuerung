@@ -1,0 +1,4 @@
+security:
+    encoders:
+        # to make tests much faster, BCrypt cost is changed to its minimum allowed value (4)
+        App\Entity\User\User: { algorithm: bcrypt, cost: 4 }

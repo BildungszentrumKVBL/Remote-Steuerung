@@ -1,0 +1,60 @@
+{% extends app.request.xmlHttpRequest
+? 'ajax-base.html.twig'
+: 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="panel panel-primary bootable boot-start">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'choose_room'|trans }}</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" action="{{ path('choose_room_route') }}" method="post"
+                      onsubmit="app.actions.updateNavigation(document.getElementById('room').value)">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="building" class="col-md-2 control-label">{{ 'building'|trans }}</label>
+                            <div class="col-md-10">
+                                <select id="building" name="building" class="form-control select" required>
+                                    {% set setBuilding = false %}
+                                    <option>{{ 'choose'|trans }}</option>
+                                    {% for build in buildings %}
+                                        {% if building is defined and building == build %}
+                                            <option value="{{ build }}" selected>{{ 'building'|trans }} {{ build }}</option>
+                                            {% set setBuilding = true %}
+                                        {% else %}
+                                            <option value="{{ build }}">{{ 'building'|trans }} {{ build }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group"{{ setBuilding ? '':' style="display: none"' }}>
+                            <label for="room" class="col-md-2 control-label">{{ 'room'|trans }}</label>
+                            <div class="col-md-10">
+                                <select id="room" name="room" class="form-control select"
+                                        required {{ setBuilding ? '':'disabled' }}>
+                                    {% set setRoom = false %}
+                                    <option>{{ 'choose'|trans }}</option>
+                                    {% if setBuilding %}
+                                        {% for room in rooms %}
+                                            {% if roomname is defined and roomname == room %}
+                                                <option selected>{{ room }}</option>
+                                                {% set setRoom = true %}
+                                            {% else %}
+                                                <option>{{ room }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" name="senden" value="1" class="btn btn-primary form-submit pull-right" onclick="app.unboot();" {{ setRoom ? '':'disabled' }}>{{ 'control'|trans }}</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

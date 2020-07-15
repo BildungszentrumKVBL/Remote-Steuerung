@@ -1,0 +1,58 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locales:
+        de: 'Deutsch'
+        en: 'Englisch'
+    locale: 'de'
+
+    app.notifications.email_sender: 'info@jkweb.ch'  # Update me
+
+    # Add when needed.
+    # router.request_context.host: 'example.org'
+    # router.request_context.base_url: 'my/path'
+    # asset.request_context.base_path: '%router.request_context.base_url%'
+
+    # Force HTTPS on generated URLs.
+    # router.request_context.scheme: 'https'
+    # asset.request_context.secure: true
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+        bind:
+            $projectDir: '%kernel.project_dir%'
+            $egPort: '%eventghost_port%'
+            $egUsername: '%eventghost_username%'
+            $egPassword: '%eventghost_password%'
+            $school: '%webuntis_school%'
+            $username: '%webuntis_username%'
+            $password: '%webuntis_password%'
+            $apiClient: '%webuntis_api_client%'
+            $senderMail: '%application_sender_email%'
+            $receiverMail: '%application_receiver_email%'
+            $minLevel: '%application_log_level%'
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Form/Listener,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    Gos\Bundle\WebSocketBundle\Pusher\PusherInterface:
+        alias: 'gos_web_socket.wamp.pusher'

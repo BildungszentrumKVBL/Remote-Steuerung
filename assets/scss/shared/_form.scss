@@ -1,0 +1,5 @@
+.form-control-label.required:after,.form-check-label.required:after {
+  color: #e32;
+  content: "*";
+  display: inline;
+}
