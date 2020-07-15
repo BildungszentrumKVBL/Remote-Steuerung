@@ -14,5 +14,5 @@
             app.messaging = firebase.messaging();
         }
     </script>
-    <script>app.init(); controller.views = {{ app_twig_helper.getViews()|json_encode|raw }}; app.actions.updateNavigation({{ app_twig_helper.getRoomForUser(app.user)|json_encode|raw }});</script>
+    <script>app.init(); controller.views = {{ get_views()|json_encode|raw }}; app.actions.updateNavigation({{ get_room_for_user(app.user)|json_encode|raw }});</script>
 {% endblock %}
